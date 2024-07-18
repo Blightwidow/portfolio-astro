@@ -1,4 +1,4 @@
-import { defineCollection, z } from "astro:content"
+import { defineCollection, z } from "astro:content";
 
 const blog = defineCollection({
   type: "content",
@@ -7,9 +7,9 @@ const blog = defineCollection({
     subtitle: z.string(),
     date: z.date(),
   }),
-})
+});
 
 // Export the blog collection, using an external schema from 'my-blog-theme'
 export const collections = {
   blog,
-}
+};

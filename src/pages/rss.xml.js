@@ -1,9 +1,9 @@
-import rss from "@astrojs/rss"
+import rss from "@astrojs/rss";
 
-import { getAllPostByDate } from "../utils/blog"
+import { getAllPostByDate } from "../utils/blog";
 
 export async function GET(context) {
-  const posts = await getAllPostByDate("asc")
+  const posts = await getAllPostByDate("asc");
 
   return rss({
     title: "Blog posts | RSS Feed",
@@ -15,5 +15,5 @@ export async function GET(context) {
       description: post.data.subtitle,
       link: `/blog/${post.slug}`,
     })),
-  })
+  });
 }

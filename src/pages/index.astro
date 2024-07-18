@@ -1,25 +1,33 @@
 ---
-import Spacer from "../components/Spacer.astro"
-import Layout from "../layouts/Layout.astro"
-import { getAllPostByDate } from "../utils/blog"
+import Spacer from "../components/Spacer.astro";
+import Layout from "../layouts/Layout.astro";
+import { getAllPostByDate } from "../utils/blog";
 
-const posts = await getAllPostByDate("desc")
+const posts = await getAllPostByDate("desc");
 
 const PROJECTS = [
-  { name: "Alan", link: "https://alan.com", description: "Landing pages for the digital French health insurer — Senior Frontend Engineer" },
-  { name: "TheFork", link: "https://thefork.com", description: "A restaurant booking and discovery app — Senior Frontend Engineer" },
+  {
+    name: "Alan",
+    link: "https://alan.com",
+    description: "Landing pages for the digital French health insurer — Senior Frontend Engineer",
+  },
+  {
+    name: "TheFork",
+    link: "https://thefork.com",
+    description: "A restaurant booking and discovery app — Senior Frontend Engineer",
+  },
   {
     name: "Oxide",
     link: "https://github.com/Blightwidow/oxide-chess-bot",
     description: "A buggy and pretty bad chess engine under development written in Rust",
   },
-]
+];
 ---
 
 <Layout title="Theo Dammaretz">
   <p>
-    Hey there, I&apos;m Theo Dammaretz, and for the most part I am a Frontend Engineer. I&apos;ve started in 2016 and have been passionate
-    about it ever since. I also have a knack for writing down random thoughts in my blog.
+    Hey there, I&apos;m Theo Dammaretz, and for the most part I am a Frontend Engineer. I&apos;ve started in 2016 and
+    have been passionate about it ever since. I also have a knack for writing down random thoughts in my blog.
   </p>
   <Spacer units={1} />
   <h2>Projects</h2>

@@ -1,9 +1,9 @@
 ---
-import Spacer from "../../components/Spacer.astro"
-import Layout from "../../layouts/Layout.astro"
-import { getAllPostByDate } from "../../utils/blog"
+import Spacer from "../../components/Spacer.astro";
+import Layout from "../../layouts/Layout.astro";
+import { getAllPostByDate } from "../../utils/blog";
 
-const posts = await getAllPostByDate("desc")
+const posts = await getAllPostByDate("desc");
 ---
 
 <Layout title="Blog - Theo Dammaretz">

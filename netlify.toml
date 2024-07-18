@@ -1,24 +1,24 @@
 [build]
-  publish = "dist/"
-  command = "yarn run build"
+publish = "dist/"
+command = "yarn run build"
 
 [build.environment]
-  YARN_ENABLE_GLOBAL_CACHE = "true"
-  YARN_CACHE_FOLDER = "/opt/buildhome/.yarn_cache"
-  NETLIFY_USE_YARN = "true"
-  YARN_VERSION = "1.22.5"
+YARN_ENABLE_GLOBAL_CACHE = "true"
+YARN_CACHE_FOLDER = "/opt/buildhome/.yarn_cache"
+NETLIFY_USE_YARN = "true"
+YARN_VERSION = "1.22.5"
 
 [[redirects]]
-  from = "https://dammaretz.netlify.app/*"
-  to = "/:splat"
-  status = 301
+from = "https://dammaretz.netlify.app/*"
+to = "/:splat"
+status = 301
 
 [[headers]]
-  for = "/*"
-  [headers.values]
-    Strict-Transport-Security = "max-age=63072000; includeSubDomains; preload"
-    X-DNS-Prefetch-Control = "on"
-    X-XSS-Protection = "1; mode=block"
-    X-Frame-Options = "SAMEORIGIN"
-    X-Content-Type-Options = "nosniff"
-    Content-Security-Policy = "child-src 'self' app.netlify.com; script-src 'self' app.netlify.com netlify-cdp-loader.netlify.app static.cloudflareinsights.com;"
+for = "/*"
+[headers.values]
+Strict-Transport-Security = "max-age=63072000; includeSubDomains; preload"
+X-DNS-Prefetch-Control = "on"
+X-XSS-Protection = "1; mode=block"
+X-Frame-Options = "SAMEORIGIN"
+X-Content-Type-Options = "nosniff"
+Content-Security-Policy = "child-src 'self' app.netlify.com; script-src 'self' app.netlify.com netlify-cdp-loader.netlify.app static.cloudflareinsights.com;"

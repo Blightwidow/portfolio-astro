@@ -1,6 +1,6 @@
 ---
-title: Making a difference in order to save your mental health 
-subtitle: Working for an NGO saved my sanity 
+title: Making a difference in order to save your mental health
+subtitle: Working for an NGO saved my sanity
 date: 2022-05-30
 ---
 
@@ -14,7 +14,7 @@ Having family, friends, and bounds in both Ukraine and Russia, I closely followe
 Ukrainian border throughout the end of 2021. Deep down, I knew that such a buildup could not just be for show, but I
 still refused to believe it.
 
-__I was wrong.__
+**I was wrong.**
 
 ![Photo by Damir Samatkulov on Unsplash](https://images.unsplash.com/photo-1611264199717-4f4eee6ad33b?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1740&q=80)
 
@@ -44,8 +44,8 @@ At the end of my time off, I still wanted to continue contributing to the variou
 ready to take some unpaid leave from my work to dedicate time to these projects, but my company stepped forward. I
 currently work for a French Health company named [Alan](https://alan.com/). Everyone there felt affected by the horrors
 unfurling in Ukraine. We quickly gave free access to our mental health app, [Alan Mind](https://mind.alan.com/), to
-Ukrainians, both in and outside Ukraine. __While this was a great first step, my company also agreed to donate 6 days of
-my work to UGT without any pay cut.__
+Ukrainians, both in and outside Ukraine. **While this was a great first step, my company also agreed to donate 6 days of
+my work to UGT without any pay cut.**
 
 I cannot understate the impact this had: It allowed me to work full time on the project. And I became one of the most
 active engineers at the time, without having to worry about providing for my family. Because of this, we greatly sped up
@@ -53,15 +53,15 @@ multiple projects and provided tools for NGOs and Ukrainians faster. While a sma
 allowed UGT to ramp up its digital development a lot and shaved several days off the release of potentially life-saving
 tools.
 
-__Allowing employees to help NGOs by donating work time is a clear and efficient way for companies to get involved with
-the relief effort.__ I greatly encourage every company that can afford to do so to follow this path. Not only do you
+**Allowing employees to help NGOs by donating work time is a clear and efficient way for companies to get involved with
+the relief effort.** I greatly encourage every company that can afford to do so to follow this path. Not only do you
 help people in need, but also help your employees feel valuable, listened to, and cherished.
 
 Now, did my time spent at UGT help Ukrainians in need? It’s hard to say. For all I know, my impact might be minimal, as
 this is hard to judge and quantify in the current situation. On the other hand, the positive impact it had on myself was
 really clear: It gave me a sense of purpose and was an important drive in my recovery.
 
-__If you feel downed by the current situation, political or health-wise, try volunteering.__ It might sound selfish to
+**If you feel downed by the current situation, political or health-wise, try volunteering.** It might sound selfish to
 put it this way, but while helping others, you will also help yourself. I think it’s clearly a win-win that a lot more
 people should give a try to. Any skills are welcome, even just reposting messages asking for help is already a big
 contribution.
