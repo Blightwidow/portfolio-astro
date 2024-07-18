@@ -6,5 +6,5 @@ import sitemap from "@astrojs/sitemap";
 export default defineConfig({
   site: "https://dammaretz.fr",
   output: "static",
-  integrations: [sitemap()]
+  integrations: [sitemap()],
 });
