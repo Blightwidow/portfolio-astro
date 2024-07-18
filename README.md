@@ -1,7 +1,6 @@
 # Personal Webpage of Theo Dammaretz
 
-[![License](https://img.shields.io/github/license/mashape/apistatus.svg)](https://opensource.org/licenses/MIT) 
-[![styled with prettier](https://img.shields.io/badge/styled_with-prettier-ff69b4.svg)](https://github.com/prettier/prettier) 
+[![License](https://img.shields.io/github/license/mashape/apistatus.svg)](https://opensource.org/licenses/MIT)
 [![deploys by netlify](https://img.shields.io/badge/deploys%20by-netlify-00c7b7.svg)](https://www.netlify.com)
 [![Netlify Status](https://api.netlify.com/api/v1/badges/bc1b59ab-a029-4391-afbd-ed5977a4bb5c/deploy-status)](https://app.netlify.com/sites/dammaretz/deploys)
 
@@ -30,9 +29,9 @@ The setup is currently hosted and deployed through [Netlify](https://www.netlify
 
 ## Built With
 
-* [React](https://reactjs.org/) - The web framework used
-* [Astro](https://astro.build/) - Static HTML rendering of React content
-* [Typescript](https://www.typescriptlang.org/) - Javascript compiling language with strong typings
+- [React](https://reactjs.org/) - The web framework used
+- [Astro](https://astro.build/) - Static HTML rendering of React content
+- [Typescript](https://www.typescriptlang.org/) - Javascript compiling language with strong typings
 
 ## Contributing
 
@@ -40,8 +39,8 @@ Please read feel free to through me PR if you see necessary change!
 
 ## Authors
 
-* **Theo Dammaretz** - *Initial work* - [Blightwidow](https://github.com/Bligthwidow)
-* **Kevin Lovato** - *Proofreading* - [@alprema](https://github.com/alprema)
+- **Theo Dammaretz** - _Initial work_ - [Blightwidow](https://github.com/Bligthwidow)
+- **Kevin Lovato** - _Proofreading_ - [@alprema](https://github.com/alprema)
 
 ## License
 

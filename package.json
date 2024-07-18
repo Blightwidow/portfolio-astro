@@ -15,7 +15,9 @@
     "@astrojs/rss": "^4.0.7",
     "@astrojs/sitemap": "^3.1.6",
     "@fontsource/metropolis": "5.0.11",
+    "@playform/compress": "^0.0.13",
     "astro": "^4.11.6",
+    "deepmerge-ts": "^7.0.3",
     "typescript": "^5.5.3"
   },
   "packageManager": "yarn@4.3.1"
