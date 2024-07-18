@@ -1,0 +1,42 @@
+---
+const asPath = Astro.url.pathname
+const parent = asPath.split("/").slice(0, -2).join("/") || "/"
+---
+
+<header id="header" role="banner">
+  <nav role="navigation">
+    {asPath === "/" ? <h1>theo dammaretz</h1> : <a href={parent}>← back</a>}
+    <ul>
+      <li>
+        <a href="/blog" style={{ textDecoration: "none" }}> blog </a>
+      </li>
+    </ul>
+  </nav>
+</header>
+
+<style>
+  nav {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  ul {
+    display: flex;
+    flex-direction: row;
+    list-style: none;
+    opacity: 0.7;
+    margin: 0;
+  }
+
+  li {
+    margin: 0;
+  }
+
+  h1 {
+    font-size: 1rem;
+    font-weight: normal;
+    margin: 0;
+  }
+</style>

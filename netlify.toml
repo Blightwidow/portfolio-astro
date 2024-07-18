@@ -1,9 +1,8 @@
 [build]
-  publish = "out/"
+  publish = "dist/"
   command = "yarn run build"
 
 [build.environment]
-  NETLIFY_NEXT_PLUGIN_SKIP = "true"
   YARN_ENABLE_GLOBAL_CACHE = "true"
   YARN_CACHE_FOLDER = "/opt/buildhome/.yarn_cache"
   NETLIFY_USE_YARN = "true"
@@ -12,16 +11,6 @@
 [[redirects]]
   from = "https://dammaretz.netlify.app/*"
   to = "/:splat"
-  status = 301
-
-[[redirects]]
-  from = "/about"
-  to = "/resume"
-  status = 301
-
-[[redirects]]
-  from = "/projects/*"
-  to = "/work"
   status = 301
 
 [[headers]]

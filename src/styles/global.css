@@ -1,0 +1,153 @@
+/* Variables
+–––––––––––––––––––––––––––––––––––––––––––––––––– */
+:root {
+  --main-font-family: "Metropolis", sans-serif;
+  --foreground-rgb: 68, 68, 68;
+  --background-rgb: 252, 252, 248;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --foreground-rgb: 242, 242, 238;
+    --background-rgb: 28, 28, 28;
+  }
+
+  html {
+    color-scheme: dark;
+  }
+}
+
+/* Base
+–––––––––––––––––––––––––––––––––––––––––––––––––– */
+html,
+body {
+  margin: 0;
+}
+
+body {
+  font-family: var(--main-font-family);
+  letter-spacing: 0.03em;
+  -webkit-font-smoothing: antialiased;
+  color: rgb(var(--foreground-rgb));
+  fill: rgb(var(--foreground-rgb));
+  background: rgb(var(--background-rgb));
+  padding: 1rem 1rem;
+  line-height: 1.6;
+}
+
+@media (min-width: 550px) {
+  body {
+    padding: 2rem 1rem;
+  }
+}
+
+h1,
+h2,
+h3 {
+  line-height: 1.2;
+}
+
+main,
+header,
+footer {
+  max-width: 44rem;
+  margin: 0 auto;
+}
+
+header {
+  margin-bottom: 3rem;
+}
+
+footer {
+  margin-top: 6rem;
+}
+
+a {
+  color: inherit;
+  text-decoration-color: rgba(var(--foreground-rgb), 0.3);
+  text-underline-offset: 0.2rem;
+  transition: all 0.3s ease-in-out;
+}
+
+a:hover,
+a:focus,
+a.inactive {
+  text-decoration-color: rgba(var(--foreground-rgb), 0.8);
+}
+
+svg {
+  fill: inherit;
+  color: inherit;
+}
+
+/* Blog
+–––––––––––––––––––––––––––––––––––––––––––––––––– */
+article img {
+  display: block;
+  max-width: 100%;
+  margin: 1rem auto;
+  aspect-ratio: 1.777;
+  background: rgba(var(--foreground-rgb), 0.1);
+}
+
+article h3 {
+  margin-block-start: 1.5em;
+}
+
+@media (min-width: 550px) {
+  article img {
+    margin: 3rem auto;
+  }
+}
+
+/* Lists
+–––––––––––––––––––––––––––––––––––––––––––––––––– */
+ul {
+  list-style: circle inside;
+}
+
+ol {
+  list-style: decimal inside;
+}
+
+ol,
+ul {
+  padding-left: 0;
+  margin-top: 0;
+}
+
+ul ul,
+ul ol,
+ol ol,
+ol ul {
+  margin: 1.5rem 0 1.5rem 3rem;
+  font-size: 90%;
+}
+
+li {
+  margin-bottom: 1rem;
+}
+
+/* Code
+–––––––––––––––––––––––––––––––––––––––––––––––––– */
+code {
+  padding: 0.2rem 0.6rem;
+  margin: 0 0.2rem;
+  font-size: 90%;
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 4px;
+  font-family: monospace;
+}
+
+pre > code {
+  display: block;
+  padding: 1rem 1.5rem;
+  white-space: pre;
+}
+
+/* Misc
+–––––––––––––––––––––––––––––––––––––––––––––––––– */
+hr {
+  opacity: 0.3;
+}
+
