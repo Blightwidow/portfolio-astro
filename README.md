@@ -44,4 +44,4 @@ Please read feel free to through me PR if you see necessary change!
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
+This project is licensed under the CC-BY License - see the [LICENSE.md](LICENSE.md) file for details
