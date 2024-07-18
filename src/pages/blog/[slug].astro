@@ -1,0 +1,23 @@
+---
+import { getAllPostByDate } from "../../utils/blog"
+import Layout from "../../layouts/Layout.astro"
+
+export async function getStaticPaths() {
+  const posts = await getAllPostByDate("desc")
+
+
+  return posts.map((post) => ({
+    params: { slug: post.slug },
+    props: {
+      post,
+    },
+  }))
+}
+
+const { post } = Astro.props
+const { Content } = await post.render();
+---
+
+<Layout title={`${post.data.title} - Theo Dammaretz`}>
+  <article><Content /></article>
+</Layout>

@@ -1,0 +1,21 @@
+/* TEAM */
+  ________                  ____                                            __     
+ /_  __/ /_  ___  ____     / __ \____ _____ ___  ____ ___  ____ _________  / /_____
+  / / / __ \/ _ \/ __ \   / / / / __ `/ __ `__ \/ __ `__ \/ __ `/ ___/ _ \/ __/_  /
+ / / / / / /  __/ /_/ /  / /_/ / /_/ / / / / / / / / / / / /_/ / /  /  __/ /_  / /_
+/_/ /_/ /_/\___/\____/  /_____/\__,_/_/ /_/ /_/_/ /_/ /_/\__,_/_/   \___/\__/ /___/
+
+Name: Theo Dammaretz
+Title: Senior Frontend Engineer
+Site: dammaretz.fr                 
+Location: Paris, France
+
+
+/* THANKS */
+
+Name: http://netlify.com for the free hosting
+                            
+/* SITE */
+
+Standards: HTML5, CSS3, WCAG
+Components: React, Astro, Typescript

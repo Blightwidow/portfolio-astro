@@ -1,0 +1,29 @@
+---
+import Spacer from "../../components/Spacer.astro"
+import Layout from "../../layouts/Layout.astro"
+import { getAllPostByDate } from "../../utils/blog"
+
+const posts = await getAllPostByDate("desc")
+---
+
+<Layout title="Blog - Theo Dammaretz">
+  <h1>Blog</h1>
+  {
+    posts.map((post) => (
+      <div>
+        <h3>
+          <a href={`/blog/${post.slug}`}>{post.data.title}</a>
+        </h3>
+        {Boolean(post.data.subtitle) && <p>{post.data.subtitle}</p>}
+        <time>{post.data.date}</time>
+        <Spacer units={2} />
+      </div>
+    ))
+  }
+</Layout>
+
+<style>
+  time {
+    opacity: 0.6;
+  }
+</style>

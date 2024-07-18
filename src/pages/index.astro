@@ -1,0 +1,76 @@
+---
+import Spacer from "../components/Spacer.astro"
+import Layout from "../layouts/Layout.astro"
+import { getAllPostByDate } from "../utils/blog"
+
+const posts = await getAllPostByDate("desc")
+
+const PROJECTS = [
+  { name: "Alan", link: "https://alan.com", description: "Landing pages for the digital French health insurer — Senior Frontend Engineer" },
+  { name: "TheFork", link: "https://thefork.com", description: "A restaurant booking and discovery app — Senior Frontend Engineer" },
+  {
+    name: "Oxide",
+    link: "https://github.com/Blightwidow/oxide-chess-bot",
+    description: "A buggy and pretty bad chess engine under development written in Rust",
+  },
+]
+---
+
+<Layout title="Theo Dammaretz">
+  <p>
+    Hey there, I&apos;m Theo Dammaretz, and for the most part I am a Frontend Engineer. I&apos;ve started in 2016 and have been passionate
+    about it ever since. I also have a knack for writing down random thoughts in my blog.
+  </p>
+  <Spacer units={1} />
+  <h2>Projects</h2>
+  <div class="projects">
+    {
+      PROJECTS.map((project) => (
+        <div>
+          <a href={project.link} rel="noopener noreferrer">
+            {project.name}
+          </a>
+          <p>{project.description}</p>
+        </div>
+      ))
+    }
+  </div>
+  <Spacer units={1} />
+  <h2>Blog</h2>
+  <ul>
+    {
+      posts.slice(0, 3).map((post) => (
+        <li>
+          <a href={`/blog/${post.slug}`}>{post.data.title}</a>
+          <time>{post.data.date}</time>
+        </li>
+      ))
+    }
+    <li>
+      <a href="/blog">All posts →</a>
+    </li>
+  </ul>
+</Layout>
+
+<style>
+  li {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .projects {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: 1fr;
+    grid-column-gap: 0.5rem;
+    grid-row-gap: 1rem;
+  }
+  @media (min-width: 550px) {
+    .projects {
+      grid-template-columns: repeat(3, 1fr);
+      grid-column-gap: 1rem;
+      grid-row-gap: 1rem;
+    }
+  }
+</style>
