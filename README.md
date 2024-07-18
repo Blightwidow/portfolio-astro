@@ -1,54 +1,48 @@
-# Astro Starter Kit: Basics
+# Personal Webpage of Theo Dammaretz
 
-```sh
-npm create astro@latest -- --template basics
-```
+[![License](https://img.shields.io/github/license/mashape/apistatus.svg)](https://opensource.org/licenses/MIT) 
+[![styled with prettier](https://img.shields.io/badge/styled_with-prettier-ff69b4.svg)](https://github.com/prettier/prettier) 
+[![deploys by netlify](https://img.shields.io/badge/deploys%20by-netlify-00c7b7.svg)](https://www.netlify.com)
+[![Netlify Status](https://api.netlify.com/api/v1/badges/bc1b59ab-a029-4391-afbd-ed5977a4bb5c/deploy-status)](https://app.netlify.com/sites/dammaretz/deploys)
 
-[![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/withastro/astro/tree/latest/examples/basics)
-[![Open with CodeSandbox](https://assets.codesandbox.io/github/button-edit-lime.svg)](https://codesandbox.io/p/sandbox/github/withastro/astro/tree/latest/examples/basics)
-[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/withastro/astro?devcontainer_path=.devcontainer/basics/devcontainer.json)
+This is the code that my [personnal website](https://dammaretz.fr) is running on.
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+## Getting Started
 
-![just-the-basics](https://github.com/withastro/astro/assets/2244813/a0a5533c-a856-4198-8470-2d67b1d7c554)
+1. `git clone` to get the repo
+2. install dependencies with `yarn`
+3. Launch development with `yarn start`
 
-## 🚀 Project Structure
+You can also deploy this website directly to netlify by clicking the button below.
 
-Inside of your Astro project, you'll see the following folders and files:
+[![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/Blightwidow/profolio-next)
 
-```text
-/
-├── public/
-│   └── favicon.svg
-├── src/
-│   ├── components/
-│   │   └── Card.astro
-│   ├── layouts/
-│   │   └── Layout.astro
-│   └── pages/
-│       └── index.astro
-└── package.json
-```
+### Prerequisites
 
-Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
+What things you need to install the software and how to install them
 
-There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
+- node
+- yarn
 
-Any static assets, like images, can be placed in the `public/` directory.
+## Deployment
 
-## 🧞 Commands
+The setup is currently hosted and deployed through [Netlify](https://www.netlify.com/)
 
-All commands are run from the root of the project, from a terminal:
+## Built With
 
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
+* [React](https://reactjs.org/) - The web framework used
+* [Astro](https://astro.build/) - Static HTML rendering of React content
+* [Typescript](https://www.typescriptlang.org/) - Javascript compiling language with strong typings
 
-## 👀 Want to learn more?
+## Contributing
 
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+Please read feel free to through me PR if you see necessary change!
+
+## Authors
+
+* **Theo Dammaretz** - *Initial work* - [Blightwidow](https://github.com/Bligthwidow)
+* **Kevin Lovato** - *Proofreading* - [@alprema](https://github.com/alprema)
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
