@@ -26,7 +26,6 @@ body {
 
 body {
   font-family: var(--main-font-family);
-  font-display: optional;
   letter-spacing: 0.03em;
   -webkit-font-smoothing: antialiased;
   color: rgb(var(--foreground-rgb));
