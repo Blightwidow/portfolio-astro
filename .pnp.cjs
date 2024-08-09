@@ -215,7 +215,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "../../.yarn/berry/cache/@astrojs-rss-npm-4.0.7-118107b2ec-10c0.zip/node_modules/@astrojs/rss/",\
         "packageDependencies": [\
           ["@astrojs/rss", "npm:4.0.7"],\
-          ["fast-xml-parser", "npm:4.4.0"],\
+          ["fast-xml-parser", "npm:4.4.1"],\
           ["kleur", "npm:4.1.5"]\
         ],\
         "linkType": "HARD"\
@@ -3228,10 +3228,10 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["fast-xml-parser", [\
-      ["npm:4.4.0", {\
-        "packageLocation": "../../.yarn/berry/cache/fast-xml-parser-npm-4.4.0-5d120445d5-10c0.zip/node_modules/fast-xml-parser/",\
+      ["npm:4.4.1", {\
+        "packageLocation": "../../.yarn/berry/cache/fast-xml-parser-npm-4.4.1-b48f31eba7-10c0.zip/node_modules/fast-xml-parser/",\
         "packageDependencies": [\
-          ["fast-xml-parser", "npm:4.4.0"],\
+          ["fast-xml-parser", "npm:4.4.1"],\
           ["strnum", "npm:1.0.5"]\
         ],\
         "linkType": "HARD"\
