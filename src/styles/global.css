@@ -82,14 +82,6 @@ svg {
 
 /* Blog
 –––––––––––––––––––––––––––––––––––––––––––––––––– */
-/* article img {
-  display: block;
-  max-width: 100%;
-  margin: 1rem auto;
-  aspect-ratio: 1.777;
-  background: rgba(var(--foreground-rgb), 0.1);
-} */
-
 article h3 {
   margin-block-start: 1.5em;
 }
