@@ -8,7 +8,12 @@ export default defineConfig({
   site: "https://dammaretz.fr",
   trailingSlash: "never",
   output: "static",
-  integrations: [sitemap(), playformCompress()],
+  integrations: [
+    sitemap(),
+    playformCompress({
+      Image: false,
+    }),
+  ],
   prefetch: {
     prefetchAll: true,
     defaultStrategy: "viewport",
@@ -23,7 +28,6 @@ export default defineConfig({
       fallbackService: "sharp",
       placeholder: "blurhash",
       layout: "constrained",
-      formats: ["webp", "avif"],
     }),
   },
 });

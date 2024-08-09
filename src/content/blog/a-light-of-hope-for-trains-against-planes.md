@@ -12,7 +12,7 @@ Yes, you heard me right. Night trains are making a bit of a comeback, trying to 
 
 Enter Nightjet, the European company that seems to have borrowed a page from Japan's playbook. They've rolled out a ["Mini cabin"](https://www.nightjet.com/komfortkategorien/liegewagen#minicabin) class that's like a capsule hotel on rails. These little pods of privacy offer a bunch of perks: your own space without a bunk bed buddy, secure luggage storage, and enough room to stretch without bonking your head. They've even thought about the lovebirds among us, with pods that have small connecting doors.
 
-![The mini cabin class](../../images/train-cabin.png)
+![The mini cabin class](../../images/train-cabin.webp)
 
 At 120 euros per person, it's not dirt cheap, but it's also not going to break the bank. And there's more: if you've got an international EU train pass like Eurail, you can snag an 80-euro discount on these cabins. Suddenly, you have a competitive, cozy way to travel around europe that will fit into a larger journey.
 

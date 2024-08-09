@@ -10,7 +10,7 @@ Recently, I’ve been flooded with queries about how I manage my travel, so I th
 
 **I am a firm believer in travelling without a suitcase.** I restrict myself to a backpack that's carry-on sized, or even smaller. After some trial and error, I've come to find that a [35L backpack](https://fr.heimplanet.com/products/taschen-transit_line-travel-pack-34-castlerock) hits the sweet spot. It allows me to travel for an unlimited period within a particular season, regardless of whether I'm on a train or a plane.
 
-![Photo by Josiah Weiss on Unsplash](../../images/backpack.png)
+![Photo by Josiah Weiss on Unsplash](../../images/backpack.webp)
 
 You may be wondering, why such a small backpack? Isn't it restrictive? To answer that: yes, it is, but in a beneficial way. It prompts you to focus on necessities, leaving behind the non-essentials that tend to weigh you down. When you confine your belongings to fit inside a 35L backpack, you're forced to really consider what you need. This minimalist approach brings a new degree of simplicity and clarity to your travels.
 

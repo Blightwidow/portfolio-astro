@@ -16,7 +16,7 @@ still refused to believe it.
 
 **I was wrong.**
 
-![Photo by Damir Samatkulov on Unsplash](../../images/soviet-window.png)
+![Photo by Damir Samatkulov on Unsplash](../../images/soviet-window.webp)
 
 On the morning of Monday the 28th, I nearly collapsed crying in front of my computer while trying to get some work done.
 After struggling to sleep and coping with the weight of all this stress, I just could not continue.
@@ -32,7 +32,7 @@ building tech products. It was not even an NGO, and was just a group of 150 peop
 message to the founder on LinkedIn, I was ready to help them by offering my only useful skill for this situation: my
 developer experience.
 
-![Ukraine Global Taskforce main statement and mission](../../images/ukraine-taskforce.png)
+![Ukraine Global Taskforce main statement and mission](../../images/ukraine-taskforce.webp)
 
 [Ukraine Global Taskforce](https://ukraineglobaltaskforce.com/) is now an official NGO, uniting more than a thousand
 volunteers from around the world. Instead of directly contributing to the relief effort, it leverages its member skills
