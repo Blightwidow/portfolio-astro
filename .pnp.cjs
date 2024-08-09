@@ -32,9 +32,12 @@ const RAW_RUNTIME_STATE =
           ["@astrojs/sitemap", "npm:3.1.6"],\
           ["@fontsource/metropolis", "npm:5.0.11"],\
           ["@playform/compress", "npm:0.0.13"],\
+          ["@unpic/astro", "virtual:4a3ca9346910697dbca1226a57f5a16e456634a8b127b2f7e43c739cd6f1039db00aef0a2ea0f9c6b1592b1cb87eca109f8331b4d61050d3085219bdc08a8c5b#npm:0.0.46"],\
           ["astro", "npm:4.11.6"],\
           ["deepmerge-ts", "npm:7.0.3"],\
-          ["typescript", "patch:typescript@npm%3A5.5.3#optional!builtin<compat/typescript>::version=5.5.3&hash=379a07"]\
+          ["sharp", "npm:0.33.4"],\
+          ["typescript", "patch:typescript@npm%3A5.5.3#optional!builtin<compat/typescript>::version=5.5.3&hash=379a07"],\
+          ["unpic", "npm:3.18.0"]\
         ],\
         "linkType": "SOFT"\
       }]\
@@ -1559,6 +1562,64 @@ const RAW_RUNTIME_STATE =
         "linkType": "HARD"\
       }]\
     ]],\
+    ["@unpic/astro", [\
+      ["npm:0.0.46", {\
+        "packageLocation": "../../.yarn/berry/cache/@unpic-astro-npm-0.0.46-d199e8e2be-10c0.zip/node_modules/@unpic/astro/",\
+        "packageDependencies": [\
+          ["@unpic/astro", "npm:0.0.46"]\
+        ],\
+        "linkType": "SOFT"\
+      }],\
+      ["virtual:4a3ca9346910697dbca1226a57f5a16e456634a8b127b2f7e43c739cd6f1039db00aef0a2ea0f9c6b1592b1cb87eca109f8331b4d61050d3085219bdc08a8c5b#npm:0.0.46", {\
+        "packageLocation": "./.yarn/__virtual__/@unpic-astro-virtual-4a79b9b8df/3/.yarn/berry/cache/@unpic-astro-npm-0.0.46-d199e8e2be-10c0.zip/node_modules/@unpic/astro/",\
+        "packageDependencies": [\
+          ["@unpic/astro", "virtual:4a3ca9346910697dbca1226a57f5a16e456634a8b127b2f7e43c739cd6f1039db00aef0a2ea0f9c6b1592b1cb87eca109f8331b4d61050d3085219bdc08a8c5b#npm:0.0.46"],\
+          ["@types/astro", null],\
+          ["@unpic/core", "npm:0.0.49"],\
+          ["@unpic/pixels", "npm:1.2.2"],\
+          ["@unpic/placeholder", "npm:0.1.2"],\
+          ["astro", "npm:4.11.6"],\
+          ["blurhash", "npm:2.0.5"]\
+        ],\
+        "packagePeers": [\
+          "@types/astro",\
+          "astro"\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
+    ["@unpic/core", [\
+      ["npm:0.0.49", {\
+        "packageLocation": "../../.yarn/berry/cache/@unpic-core-npm-0.0.49-a4a76a97f0-10c0.zip/node_modules/@unpic/core/",\
+        "packageDependencies": [\
+          ["@unpic/core", "npm:0.0.49"],\
+          ["unpic", "npm:3.18.0"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
+    ["@unpic/pixels", [\
+      ["npm:1.2.2", {\
+        "packageLocation": "../../.yarn/berry/cache/@unpic-pixels-npm-1.2.2-f308e06253-10c0.zip/node_modules/@unpic/pixels/",\
+        "packageDependencies": [\
+          ["@unpic/pixels", "npm:1.2.2"],\
+          ["jpeg-js", "npm:0.4.4"],\
+          ["ofetch", "npm:1.3.3"],\
+          ["pngjs", "npm:7.0.0"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
+    ["@unpic/placeholder", [\
+      ["npm:0.1.2", {\
+        "packageLocation": "../../.yarn/berry/cache/@unpic-placeholder-npm-0.1.2-b3651861e6-10c0.zip/node_modules/@unpic/placeholder/",\
+        "packageDependencies": [\
+          ["@unpic/placeholder", "npm:0.1.2"],\
+          ["blurhash", "npm:2.0.5"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
     ["@volar/kit", [\
       ["npm:2.4.0-alpha.16", {\
         "packageLocation": "../../.yarn/berry/cache/@volar-kit-npm-2.4.0-alpha.16-a75bfb7856-10c0.zip/node_modules/@volar/kit/",\
@@ -1942,6 +2003,15 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "../../.yarn/berry/cache/binary-extensions-npm-2.3.0-bd3f20d865-10c0.zip/node_modules/binary-extensions/",\
         "packageDependencies": [\
           ["binary-extensions", "npm:2.3.0"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
+    ["blurhash", [\
+      ["npm:2.0.5", {\
+        "packageLocation": "../../.yarn/berry/cache/blurhash-npm-2.0.5-7648719b71-10c0.zip/node_modules/blurhash/",\
+        "packageDependencies": [\
+          ["blurhash", "npm:2.0.5"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -2458,6 +2528,15 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "../../.yarn/berry/cache/dequal-npm-2.0.3-53a630c60e-10c0.zip/node_modules/dequal/",\
         "packageDependencies": [\
           ["dequal", "npm:2.0.3"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
+    ["destr", [\
+      ["npm:2.0.3", {\
+        "packageLocation": "../../.yarn/berry/cache/destr-npm-2.0.3-8221047ac7-10c0.zip/node_modules/destr/",\
+        "packageDependencies": [\
+          ["destr", "npm:2.0.3"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -3489,6 +3568,15 @@ const RAW_RUNTIME_STATE =
           ["jackspeak", "npm:3.4.3"],\
           ["@isaacs/cliui", "npm:8.0.2"],\
           ["@pkgjs/parseargs", "npm:0.11.0"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
+    ["jpeg-js", [\
+      ["npm:0.4.4", {\
+        "packageLocation": "../../.yarn/berry/cache/jpeg-js-npm-0.4.4-4dd87659c3-10c0.zip/node_modules/jpeg-js/",\
+        "packageDependencies": [\
+          ["jpeg-js", "npm:0.4.4"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -4572,6 +4660,15 @@ const RAW_RUNTIME_STATE =
         "linkType": "HARD"\
       }]\
     ]],\
+    ["node-fetch-native", [\
+      ["npm:1.6.4", {\
+        "packageLocation": "../../.yarn/berry/cache/node-fetch-native-npm-1.6.4-074aca088e-10c0.zip/node_modules/node-fetch-native/",\
+        "packageDependencies": [\
+          ["node-fetch-native", "npm:1.6.4"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
     ["node-gyp", [\
       ["npm:10.2.0", {\
         "packageLocation": "./.yarn/unplugged/node-gyp-npm-10.2.0-cad1109948/node_modules/node-gyp/",\
@@ -4635,6 +4732,18 @@ const RAW_RUNTIME_STATE =
         "packageDependencies": [\
           ["nth-check", "npm:2.1.1"],\
           ["boolbase", "npm:1.0.0"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
+    ["ofetch", [\
+      ["npm:1.3.3", {\
+        "packageLocation": "../../.yarn/berry/cache/ofetch-npm-1.3.3-33a6268eea-10c0.zip/node_modules/ofetch/",\
+        "packageDependencies": [\
+          ["ofetch", "npm:1.3.3"],\
+          ["destr", "npm:2.0.3"],\
+          ["node-fetch-native", "npm:1.6.4"],\
+          ["ufo", "npm:1.5.4"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -4889,6 +4998,15 @@ const RAW_RUNTIME_STATE =
         "linkType": "HARD"\
       }]\
     ]],\
+    ["pngjs", [\
+      ["npm:7.0.0", {\
+        "packageLocation": "../../.yarn/berry/cache/pngjs-npm-7.0.0-788de6ba02-10c0.zip/node_modules/pngjs/",\
+        "packageDependencies": [\
+          ["pngjs", "npm:7.0.0"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
     ["portfolio-astro", [\
       ["workspace:.", {\
         "packageLocation": "./",\
@@ -4899,9 +5017,12 @@ const RAW_RUNTIME_STATE =
           ["@astrojs/sitemap", "npm:3.1.6"],\
           ["@fontsource/metropolis", "npm:5.0.11"],\
           ["@playform/compress", "npm:0.0.13"],\
+          ["@unpic/astro", "virtual:4a3ca9346910697dbca1226a57f5a16e456634a8b127b2f7e43c739cd6f1039db00aef0a2ea0f9c6b1592b1cb87eca109f8331b4d61050d3085219bdc08a8c5b#npm:0.0.46"],\
           ["astro", "npm:4.11.6"],\
           ["deepmerge-ts", "npm:7.0.3"],\
-          ["typescript", "patch:typescript@npm%3A5.5.3#optional!builtin<compat/typescript>::version=5.5.3&hash=379a07"]\
+          ["sharp", "npm:0.33.4"],\
+          ["typescript", "patch:typescript@npm%3A5.5.3#optional!builtin<compat/typescript>::version=5.5.3&hash=379a07"],\
+          ["unpic", "npm:3.18.0"]\
         ],\
         "linkType": "SOFT"\
       }]\
@@ -5791,6 +5912,15 @@ const RAW_RUNTIME_STATE =
         "linkType": "HARD"\
       }]\
     ]],\
+    ["ufo", [\
+      ["npm:1.5.4", {\
+        "packageLocation": "../../.yarn/berry/cache/ufo-npm-1.5.4-42a56e96d8-10c0.zip/node_modules/ufo/",\
+        "packageDependencies": [\
+          ["ufo", "npm:1.5.4"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
     ["undici-types", [\
       ["npm:5.26.5", {\
         "packageLocation": "../../.yarn/berry/cache/undici-types-npm-5.26.5-de4f7c7bb9-10c0.zip/node_modules/undici-types/",\
@@ -5928,6 +6058,15 @@ const RAW_RUNTIME_STATE =
           ["unist-util-visit-parents", "npm:6.0.1"],\
           ["@types/unist", "npm:3.0.2"],\
           ["unist-util-is", "npm:6.0.0"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
+    ["unpic", [\
+      ["npm:3.18.0", {\
+        "packageLocation": "../../.yarn/berry/cache/unpic-npm-3.18.0-128bbf2f8d-10c0.zip/node_modules/unpic/",\
+        "packageDependencies": [\
+          ["unpic", "npm:3.18.0"]\
         ],\
         "linkType": "HARD"\
       }]\

@@ -12,7 +12,7 @@ When I [calculated my carbon footprint](https://nosgestesclimat.fr/en), excludin
 
 I'm a travel enthusiast. It brings me immense joy, and it's been a defining part of my life — I even met my wife as an exchange student abroad. While I don't want to cut back on it, I wanted to gauge its impact on my emissions. The result was clear: **my trips doubled my carbon footprint**. Digging deeper, the majority of these emissions stemmed from air travel. Just a few flights over the last three years accounted for roughly 50% of my total emissions.
 
-![Photo by Tomas Anton Escobar on Unsplash](https://images.unsplash.com/photo-1515165562839-978bbcf18277?q=80&w=2670&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)
+![Photo by Tomas Anton Escobar on Unsplash](../../images/train.png)
 
 The solution for an EU citizen seems straightforward: "Cut down on flights and embrace the extensive high-speed train network of the EU". Well, it's not that simple. A round-trip from Paris to Glasgow, for example, would set you back around 400 euros via high-speed trains (as per [Raileurope](https://www.raileurope.com/)). Compare that to an average fare of 150 euros when booked three to four months in advance (as per [Kayak](https://www.kayak.fr/)), and the issue becomes apparent. The problem exacerbates when booking for the next week — train prices tend to rise while flight prices drop (450€ VS 120€). This trend repeats with other routes like Paris/Berlin or Paris/Madrid.
 

@@ -11,14 +11,19 @@
     "astro": "astro"
   },
   "dependencies": {
-    "@astrojs/check": "^0.8.2",
-    "@astrojs/rss": "^4.0.7",
-    "@astrojs/sitemap": "^3.1.6",
+    "@astrojs/check": "0.8.2",
+    "@astrojs/rss": "4.0.7",
+    "@astrojs/sitemap": "3.1.6",
     "@fontsource/metropolis": "5.0.11",
-    "@playform/compress": "^0.0.13",
-    "astro": "^4.11.6",
-    "deepmerge-ts": "^7.0.3",
-    "typescript": "^5.5.3"
+    "@playform/compress": "0.0.13",
+    "@unpic/astro": "0.0.46",
+    "astro": "4.11.6",
+    "deepmerge-ts": "7.0.3",
+    "typescript": "5.5.3",
+    "unpic": "3.18.0"
   },
-  "packageManager": "yarn@4.3.1"
+  "packageManager": "yarn@4.3.1",
+  "devDependencies": {
+    "sharp": "0.33.4"
+  }
 }

@@ -1,6 +1,7 @@
-import { defineConfig } from "astro/config";
 import sitemap from "@astrojs/sitemap";
+import { defineConfig } from "astro/config";
 import playformCompress from "@playform/compress";
+import { imageService } from "@unpic/astro/service";
 
 // https://astro.build/config
 export default defineConfig({
@@ -16,5 +17,13 @@ export default defineConfig({
     directRenderScript: true,
     contentCollectionCache: true,
     clientPrerender: true,
+  },
+  image: {
+    service: imageService({
+      fallbackService: "sharp",
+      placeholder: "blurhash",
+      layout: "constrained",
+      formats: ["webp", "avif"],
+    }),
   },
 });
