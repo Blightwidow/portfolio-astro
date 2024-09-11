@@ -241,7 +241,7 @@ const RAW_RUNTIME_STATE =
           ["ci-info", "npm:4.0.0"],\
           ["debug", "virtual:ddf83a29ef667ff70930bb2532e0f0943a8a39f9e9a6fd424601e629bc797129f8a3af1697368da69640ebe56f8bc231d6833fb632ec36ef002a424eca53865f#npm:4.3.5"],\
           ["dlv", "npm:1.1.3"],\
-          ["dset", "npm:3.1.3"],\
+          ["dset", "npm:3.1.4"],\
           ["is-docker", "npm:3.0.0"],\
           ["is-wsl", "npm:3.1.0"],\
           ["which-pm-runs", "npm:1.1.0"]\
@@ -2120,7 +2120,7 @@ const RAW_RUNTIME_STATE =
           ["devalue", "npm:5.0.0"],\
           ["diff", "npm:5.2.0"],\
           ["dlv", "npm:1.1.3"],\
-          ["dset", "npm:3.1.3"],\
+          ["dset", "npm:3.1.4"],\
           ["es-module-lexer", "npm:1.5.4"],\
           ["esbuild", "npm:0.21.5"],\
           ["estree-walker", "npm:3.0.3"],\
@@ -2189,7 +2189,7 @@ const RAW_RUNTIME_STATE =
           ["devalue", "npm:5.0.0"],\
           ["diff", "npm:5.2.0"],\
           ["dlv", "npm:1.1.3"],\
-          ["dset", "npm:3.1.3"],\
+          ["dset", "npm:3.1.4"],\
           ["es-module-lexer", "npm:1.5.4"],\
           ["esbuild", "npm:0.21.5"],\
           ["estree-walker", "npm:3.0.3"],\
@@ -2976,10 +2976,10 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["dset", [\
-      ["npm:3.1.3", {\
-        "packageLocation": "../../.yarn/berry/cache/dset-npm-3.1.3-ee788aa7b2-10c0.zip/node_modules/dset/",\
+      ["npm:3.1.4", {\
+        "packageLocation": "../../.yarn/berry/cache/dset-npm-3.1.4-f4959c71f7-10c0.zip/node_modules/dset/",\
         "packageDependencies": [\
-          ["dset", "npm:3.1.3"]\
+          ["dset", "npm:3.1.4"]\
         ],\
         "linkType": "HARD"\
       }]\
