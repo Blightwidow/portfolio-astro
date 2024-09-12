@@ -2138,7 +2138,7 @@ const RAW_RUNTIME_STATE =
           ["ora", "npm:8.0.1"],\
           ["p-limit", "npm:6.1.0"],\
           ["p-queue", "npm:8.0.1"],\
-          ["path-to-regexp", "npm:6.2.2"],\
+          ["path-to-regexp", "npm:6.3.0"],\
           ["preferred-pm", "npm:4.0.0"],\
           ["prompts", "npm:2.4.2"],\
           ["rehype", "npm:13.0.1"],\
@@ -2207,7 +2207,7 @@ const RAW_RUNTIME_STATE =
           ["ora", "npm:8.0.1"],\
           ["p-limit", "npm:6.1.0"],\
           ["p-queue", "npm:8.0.1"],\
-          ["path-to-regexp", "npm:6.2.2"],\
+          ["path-to-regexp", "npm:6.3.0"],\
           ["preferred-pm", "npm:4.0.0"],\
           ["prompts", "npm:2.4.2"],\
           ["rehype", "npm:13.0.1"],\
@@ -5278,10 +5278,10 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["path-to-regexp", [\
-      ["npm:6.2.2", {\
-        "packageLocation": "../../.yarn/berry/cache/path-to-regexp-npm-6.2.2-0bf7f6805c-10c0.zip/node_modules/path-to-regexp/",\
+      ["npm:6.3.0", {\
+        "packageLocation": "../../.yarn/berry/cache/path-to-regexp-npm-6.3.0-ee2cdde576-10c0.zip/node_modules/path-to-regexp/",\
         "packageDependencies": [\
-          ["path-to-regexp", "npm:6.2.2"]\
+          ["path-to-regexp", "npm:6.3.0"]\
         ],\
         "linkType": "HARD"\
       }]\
