@@ -1,6 +1,6 @@
 ---
-import { getAllPostByDate } from "../../utils/blog";
 import Layout from "../../layouts/Layout.astro";
+import { getAllPostByDate } from "../../utils/blog";
 
 export async function getStaticPaths() {
   const posts = await getAllPostByDate("desc");

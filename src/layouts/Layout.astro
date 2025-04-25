@@ -24,3 +24,48 @@ const { title } = Astro.props;
     <Footer />
   </body>
 </html>
+
+<style>
+  /* Variables
+–––––––––––––––––––––––––––––––––––––––––––––––––– */
+  :root {
+    --main-font-family: "Metropolis", sans-serif;
+    --foreground-rgb: 68, 68, 68;
+    --background-rgb: 252, 252, 248;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --foreground-rgb: 242, 242, 238;
+      --background-rgb: 28, 28, 28;
+    }
+
+    html {
+      color-scheme: dark;
+    }
+  }
+
+  /* Base
+–––––––––––––––––––––––––––––––––––––––––––––––––– */
+  html,
+  body {
+    margin: 0;
+  }
+
+  body {
+    font-family: var(--main-font-family);
+    letter-spacing: 0.03em;
+    -webkit-font-smoothing: antialiased;
+    color: rgb(var(--foreground-rgb));
+    fill: rgb(var(--foreground-rgb));
+    background: rgb(var(--background-rgb));
+    padding: 1rem 1rem;
+    line-height: 1.6;
+  }
+
+  @media (min-width: 550px) {
+    body {
+      padding: 2rem 1rem;
+    }
+  }
+</style>

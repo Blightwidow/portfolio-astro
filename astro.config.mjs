@@ -18,10 +18,8 @@ export default defineConfig({
     prefetchAll: true,
     defaultStrategy: "viewport",
   },
-  experimental: {
-    directRenderScript: true,
-    contentCollectionCache: true,
-    clientPrerender: true,
+  experimetal: {
+    responsiveImage: true,
   },
   image: {
     service: imageService({
