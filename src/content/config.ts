@@ -9,7 +9,19 @@ const blog = defineCollection({
   }),
 });
 
-// Export the blog collection, using an external schema from 'my-blog-theme'
+const photography = defineCollection({
+  type: "data",
+  schema: ({ image }) =>
+    z.object({
+      alt: z.string(),
+      description: z.string().optional(),
+      date: z.date(),
+      image: image(),
+      tags: z.array(z.string()).optional(),
+    }),
+});
+
 export const collections = {
   blog,
+  photography,
 };

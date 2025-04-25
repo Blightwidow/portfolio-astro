@@ -1,6 +1,12 @@
 ---
+interface Props {
+  backLink?: string;
+}
+
+const { backLink } = Astro.props;
+
 const asPath = Astro.url.pathname;
-const parent = asPath.split("/").slice(0, -1).join("/") || "/";
+const parent = backLink || asPath.split("/").slice(0, -1).join("/") || "/";
 ---
 
 <header id="header" role="banner">
@@ -8,13 +14,25 @@ const parent = asPath.split("/").slice(0, -1).join("/") || "/";
     {asPath === "/" ? <h1>theo dammaretz</h1> : <a href={parent}>← back</a>}
     <ul>
       <li>
-        <a href="/blog" style={{ textDecoration: "none" }}> blog </a>
+        <a href="/photography" style={{ textDecoration: "none" }}>photography</a>
+      </li>
+      <li>
+        <a href="/blog" style={{ textDecoration: "none" }}>blog</a>
       </li>
     </ul>
   </nav>
 </header>
 
 <style>
+  header {
+    max-width: 44rem;
+    margin: 0 auto 3rem;
+  }
+
+  header {
+    margin-bottom: 3rem;
+  }
+
   nav {
     display: flex;
     flex-direction: row;
@@ -31,7 +49,7 @@ const parent = asPath.split("/").slice(0, -1).join("/") || "/";
   }
 
   li {
-    margin: 0;
+    margin: 0 0.5rem;
   }
 
   h1 {

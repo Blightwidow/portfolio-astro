@@ -1,0 +1,12 @@
+---
+import PhotoMasonry from "../../components/PhotoMasonry.astro";
+import Layout from "../../layouts/Layout.astro";
+import { getAllPostsByDate } from "../../utils/photography";
+
+const photos = await getAllPostsByDate("desc");
+---
+
+<Layout title="Photography - Theo Dammaretz">
+  <h1>Photography</h1>
+  <PhotoMasonry photos={photos} />
+</Layout>
