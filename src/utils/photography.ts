@@ -29,7 +29,7 @@ export async function getAllTags() {
   const posts = await getCollection("photography");
   const tags = new Set<string>();
   posts.forEach((post) => {
-    post.data.tags?.forEach((tag) => {
+    post.data.tags?.forEach((tag: string) => {
       tags.add(tag);
     });
   });

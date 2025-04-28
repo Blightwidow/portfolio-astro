@@ -46,7 +46,7 @@ const { photo } = Astro.props;
   <div class="wrapper">
     <time>{photo.data.date}</time>
     {photo.data.description && <p>{photo.data.description}</p>}
-    <div class="flex">{photo.data.tags.map((tag) => <a href={`/photography/${tag}`}>#{tag}</a>)}</div>
+    <div class="flex">{photo.data.tags.map((tag: string) => <a href={`/photography/${tag}`}>#{tag}</a>)}</div>
   </div>
 </Layout>
 

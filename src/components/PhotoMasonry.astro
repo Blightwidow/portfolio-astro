@@ -1,19 +1,20 @@
 ---
 import { Picture } from "astro:assets";
 
-interface Props {
-  photos?: Array<{
-    id: string;
-    data: {
-      image: {
-        src: string;
-      };
-      alt: string;
-      date: string;
-      description?: string;
-      tags: string[];
+interface Photo {
+  id: string;
+  data: {
+    image: {
+      src: string;
     };
-  }>;
+    alt: string;
+    date: string;
+    description?: string;
+    tags: Array<string>;
+  };
+}
+interface Props {
+  photos?: Array<Photo>;
 }
 
 const { photos } = Astro.props;
@@ -21,9 +22,10 @@ const { photos } = Astro.props;
 
 <div>
   {
-    photos.map((photo) => (
+    photos.map((photo: Photo) => (
       <a href={`/photography/photo/${photo.id}`}>
-        <Picture src={photo.data.image.src} formats={["avif, webp"]} alt={photo.data.alt} />
+        {/* @ts-expect-error */}
+        <Picture src={photo.data.image.src} formats={["avif", "webp"]} alt={photo.data.alt} />
       </a>
     ))
   }
