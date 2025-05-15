@@ -7,6 +7,7 @@
     "dev": "astro dev",
     "start": "astro dev",
     "build": "astro check && astro build",
+    "preview": "serve dist/",
     "astro": "astro"
   },
   "dependencies": {
@@ -15,6 +16,7 @@
     "@astrojs/rss": "4.0.11",
     "@astrojs/sitemap": "3.3.1",
     "@fontsource/metropolis": "5.2.5",
+    "@netlify/blobs": "^9.1.1",
     "@playform/compress": "0.1.9",
     "@unpic/astro": "1.0.0",
     "astro": "5.7.5",

@@ -32,6 +32,7 @@ const RAW_RUNTIME_STATE =
           ["@astrojs/rss", "npm:4.0.11"],\
           ["@astrojs/sitemap", "npm:3.3.1"],\
           ["@fontsource/metropolis", "npm:5.2.5"],\
+          ["@netlify/blobs", "npm:9.1.1"],\
           ["@playform/compress", "npm:0.1.9"],\
           ["@unpic/astro", "virtual:4a3ca9346910697dbca1226a57f5a16e456634a8b127b2f7e43c739cd6f1039db00aef0a2ea0f9c6b1592b1cb87eca109f8331b4d61050d3085219bdc08a8c5b#npm:1.0.0"],\
           ["astro", "npm:5.7.5"],\
@@ -8863,6 +8864,7 @@ const RAW_RUNTIME_STATE =
           ["@astrojs/rss", "npm:4.0.11"],\
           ["@astrojs/sitemap", "npm:3.3.1"],\
           ["@fontsource/metropolis", "npm:5.2.5"],\
+          ["@netlify/blobs", "npm:9.1.1"],\
           ["@playform/compress", "npm:0.1.9"],\
           ["@unpic/astro", "virtual:4a3ca9346910697dbca1226a57f5a16e456634a8b127b2f7e43c739cd6f1039db00aef0a2ea0f9c6b1592b1cb87eca109f8331b4d61050d3085219bdc08a8c5b#npm:1.0.0"],\
           ["astro", "npm:5.7.5"],\
