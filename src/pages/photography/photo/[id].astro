@@ -2,6 +2,7 @@
 import { Image, Picture } from "astro:assets";
 import Layout from "../../../layouts/PhotoLayout.astro";
 import { getAllPostsByDate } from "../../../utils/photography";
+import Modal from "../../../components/Modal.astro";
 
 export async function getStaticPaths() {
   const photos = await getAllPostsByDate("desc");
@@ -44,7 +45,34 @@ const { photo } = Astro.props;
     <Image src={photo.data.image.src} alt={photo.data.alt} />
   </div>
   <div class="wrapper">
-    <time>{photo.data.date}</time>
+    <Modal id="modal">
+      <h3 slot="header">Picture withdrawal form</h3>
+      <main slot="content">
+        <form name="contact" method="POST" data-netlify="true" netlify-honeypot="honey">
+          <div class="form-field">
+            <label for="name">Your Name: </label>
+            <input type="text" name="name" required />
+          </div>
+          <div class="form-field">
+            <label for="email">Your Email:</label>
+            <input type="email" name="email" required />
+          </div>
+          <label for="reason">Request reason:</label><br />
+          <textarea name="reason" required></textarea>
+          <div class="form-field hidden">
+            <label for="honey">Don't fill this out if you're human:</label>
+            <input name="honey" type="text" />
+          </div>
+          <p>
+            <button type="submit">Send</button>
+          </p>
+        </form>
+      </main>
+    </Modal>
+    <div class="flex spaced">
+      <time>{photo.data.date}</time>
+      <button aria-label="Open modal">Want this picture removed?</button>
+    </div>
     {photo.data.description && <p>{photo.data.description}</p>}
     <div class="flex">{photo.data.tags.map((tag: string) => <a href={`/photography/${tag}`}>#{tag}</a>)}</div>
   </div>
@@ -65,6 +93,11 @@ const { photo } = Astro.props;
     toggle.addEventListener("click", () => {
       toggleFullscreen();
     });
+  });
+
+  const button = document.querySelector("button[aria-label='Open modal']");
+  button.addEventListener("click", () => {
+    (document.getElementById("modal") as HTMLDialogElement | undefined)?.showModal();
   });
 </script>
 
@@ -119,10 +152,36 @@ const { photo } = Astro.props;
     padding: 1rem;
   }
 
-  div.flex {
+  .flex {
     display: flex;
     flex-direction: row;
     align-items: center;
     gap: 0.5rem;
+  }
+
+  .hidden {
+    display: none !important;
+  }
+
+  .spaced {
+    justify-content: space-between;
+  }
+
+  .form-field {
+    width: 100%;
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    margin-bottom: 1rem;
+    align-items: center;
+  }
+
+  form input {
+    flex-grow: 1;
+  }
+
+  form textarea {
+    width: 20rem;
+    height: 8rem;
   }
 </style>

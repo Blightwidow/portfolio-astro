@@ -1,0 +1,49 @@
+---
+interface Props {
+  id: string;
+}
+
+const { id } = Astro.props;
+---
+
+<div>
+  <dialog class="modal" id={id} role="dialog" aria-modal="true">
+    <div class="header">
+      <div>
+        <slot name="header" />
+      </div>
+      <form method="dialog">
+        <button autofocus>&times;</button>
+      </form>
+    </div>
+    <slot name="content" />
+  </dialog>
+</div>
+
+<script>
+  const modal = document.getElementById("{id}");
+  const overlay = document.querySelector(".overlay");
+
+  if (modal) {
+    overlay?.addEventListener("click", (e) => {
+      console.log("Overlay clicked");
+      if (e.target === modal || e.target === overlay) {
+        console.log("Overlay clicked");
+        modal.setAttribute("aria-hidden", "true");
+      }
+    });
+  }
+</script>
+
+<style>
+  .modal {
+    border-radius: 0.5rem;
+  }
+
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 0 1rem;
+  }
+</style>
