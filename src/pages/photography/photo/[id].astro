@@ -1,0 +1,202 @@
+---
+import { Image, Picture } from "astro:assets";
+import Layout from "../../../layouts/PhotoLayout.astro";
+import { getAllPostsByDate } from "../../../utils/photography";
+import Modal from "../../../components/Modal.astro";
+
+export async function getStaticPaths() {
+  const photos = await getAllPostsByDate("desc");
+
+  return photos.map((photo) => ({
+    params: { id: photo.id },
+    props: {
+      photo,
+    },
+  }));
+}
+
+const { photo } = Astro.props;
+---
+
+<Layout title={`${photo.data.alt} - Theo Dammaretz`}>
+  <Picture
+    id="fullscreen-img"
+    src={photo.data.image}
+    formats={["webp"]}
+    alt={photo.data.alt}
+    aria-label="Toggle fullscreen"
+  />
+  <div aria-label="Toggle fullscreen" class="relative">
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="30px"
+      height="30px"
+      viewBox="0 0 24 24"
+      fill="none"
+      class="fullscreen-icon"
+    >
+      <path
+        d="M21.7092 2.29502C21.8041 2.3904 21.8757 2.50014 21.9241 2.61722C21.9727 2.73425 21.9996 2.8625 22 2.997L22 3V9C22 9.55228 21.5523 10 21 10C20.4477 10 20 9.55228 20 9V5.41421L14.7071 10.7071C14.3166 11.0976 13.6834 11.0976 13.2929 10.7071C12.9024 10.3166 12.9024 9.68342 13.2929 9.29289L18.5858 4H15C14.4477 4 14 3.55228 14 3C14 2.44772 14.4477 2 15 2H20.9998C21.2749 2 21.5242 2.11106 21.705 2.29078L21.7092 2.29502Z"
+      ></path>
+      <path
+        d="M10.7071 14.7071L5.41421 20H9C9.55228 20 10 20.4477 10 21C10 21.5523 9.55228 22 9 22H3.00069L2.997 22C2.74301 21.9992 2.48924 21.9023 2.29502 21.7092L2.29078 21.705C2.19595 21.6096 2.12432 21.4999 2.07588 21.3828C2.02699 21.2649 2 21.1356 2 21V15C2 14.4477 2.44772 14 3 14C3.55228 14 4 14.4477 4 15V18.5858L9.29289 13.2929C9.68342 12.9024 10.3166 12.9024 10.7071 13.2929C11.0976 13.6834 11.0976 14.3166 10.7071 14.7071Z"
+      ></path>
+    </svg>
+    <Image class="image" src={photo.data.image} alt={photo.data.alt} />
+  </div>
+  <div class="wrapper">
+    <Modal id="modal">
+      <h3 slot="header">Picture withdrawal form</h3>
+      <main slot="content">
+        <form name="contact" method="POST" data-netlify="true" netlify-honeypot="honey">
+          <div class="form-field">
+            <label for="name">Your Name: </label>
+            <input type="text" name="name" required />
+          </div>
+          <div class="form-field">
+            <label for="email">Your Email:</label>
+            <input type="email" name="email" required />
+          </div>
+          <label for="reason">Request reason:</label><br />
+          <textarea name="reason" required></textarea>
+          <div class="form-field hidden">
+            <label for="honey">Don't fill this out if you're human:</label>
+            <input name="honey" type="text" />
+          </div>
+          <p>
+            <button type="submit">Send</button>
+          </p>
+        </form>
+      </main>
+    </Modal>
+    <div class="flex spaced">
+      <time>{photo.data.date}</time>
+      <button aria-label="Open modal">Want this picture removed?</button>
+    </div>
+    {photo.data.description && <p>{photo.data.description}</p>}
+    <div class="flex">{photo.data.tags.map((tag: string) => <a href={`/photography/${tag}`}>#{tag}</a>)}</div>
+  </div>
+</Layout>
+
+<script>
+  const toggleFullscreen = () => {
+    const img = document.getElementById("fullscreen-img");
+    if (img.classList.contains("fullscreen")) {
+      img.classList.remove("fullscreen");
+    } else {
+      img.classList.add("fullscreen");
+    }
+  };
+  const toggles = document.querySelectorAll("[aria-label='Toggle fullscreen']");
+
+  toggles.forEach((toggle) => {
+    toggle.addEventListener("click", () => {
+      toggleFullscreen();
+    });
+  });
+
+  const button = document.querySelector("button[aria-label='Open modal']");
+  button.addEventListener("click", () => {
+    (document.getElementById("modal") as HTMLDialogElement | undefined)?.showModal();
+  });
+</script>
+
+<style>
+  time {
+    opacity: 0.6;
+  }
+
+  .image {
+    width: 100%;
+    height: auto;
+  }
+
+  #fullscreen-img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: auto;
+    cursor: zoom-out;
+    opacity: 0;
+    display: none;
+    transition: opacity 0.2s ease-in-out;
+    z-index: 10;
+  }
+
+  #fullscreen-img.fullscreen {
+    display: block;
+    opacity: 1;
+  }
+
+  div.relative {
+    position: relative;
+    min-width: min(100%, 404px);
+    max-width: calc(-130px + 70vh);
+    margin: auto;
+    cursor: zoom-in;
+  }
+
+  .fullscreen-icon {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    opacity: 0;
+    background-color: rgba(0, 0, 0, 0.2);
+    color: white;
+    padding: 0.5rem;
+    transition: opacity 0.2s ease-in-out;
+  }
+
+  div.relative:hover .fullscreen-icon {
+    opacity: 1;
+  }
+
+  div.wrapper {
+    max-width: 44rem;
+    margin: 0 auto;
+    padding: 1rem;
+  }
+
+  .flex {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .hidden {
+    display: none !important;
+  }
+
+  .spaced {
+    justify-content: space-between;
+  }
+
+  .form-field {
+    width: 100%;
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    margin-bottom: 1rem;
+    align-items: center;
+  }
+
+  form input {
+    flex-grow: 1;
+  }
+
+  form textarea {
+    width: 20rem;
+    height: 8rem;
+  }
+
+  button {
+    background-color: transparent;
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+    border: solid 1px rgba(var(--foreground-rgb), 0.3);
+    cursor: pointer;
+    text-transform: underline;
+  }
+</style>

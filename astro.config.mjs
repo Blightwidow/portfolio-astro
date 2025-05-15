@@ -1,7 +1,7 @@
 import sitemap from "@astrojs/sitemap";
 import { defineConfig } from "astro/config";
 import playformCompress from "@playform/compress";
-import { imageService } from "@unpic/astro/service";
+import netlify from '@astrojs/netlify';
 
 // https://astro.build/config
 export default defineConfig({
@@ -21,11 +21,5 @@ export default defineConfig({
   experimetal: {
     responsiveImage: true,
   },
-  image: {
-    service: imageService({
-      fallbackService: "sharp",
-      placeholder: "blurhash",
-      layout: "constrained",
-    }),
-  },
+  adapter: netlify(),
 });

@@ -1,0 +1,70 @@
+---
+import { Picture } from "astro:assets";
+
+interface Photo {
+  id: string;
+  data: {
+    image: {
+      src: string;
+    };
+    alt: string;
+    date: string;
+    description?: string;
+    tags: Array<string>;
+  };
+}
+interface Props {
+  photos?: Array<Photo>;
+}
+
+const { photos } = Astro.props;
+---
+
+<div>
+  {
+    photos.map((photo: Photo) => (
+      <a href={`/photography/photo/${photo.id}`}>
+        {/* @ts-expect-error */}
+        <Picture src={photo.data.image} formats={["webp"]} alt={photo.data.alt} />
+      </a>
+    ))
+  }
+</div>
+
+<style>
+  div {
+    display: block;
+    columns: 14rem;
+    gap: 1rem;
+  }
+
+  img {
+    margin-bottom: 1rem;
+    break-inside: avoid;
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: 0.5rem;
+  }
+
+  a {
+    position: relative;
+  }
+
+  a::after {
+    content: "";
+    position: absolute;
+    display: block;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.5));
+    opacity: 0;
+    transition: opacity 0.2s ease-in-out;
+  }
+
+  a:hover::after {
+    opacity: 1;
+  }
+</style>

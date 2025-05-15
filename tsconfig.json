@@ -3,6 +3,8 @@
   "include": [".astro/types.d.ts", "**/*"],
   "exclude": ["dist"],
   "compilerOptions": {
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "lib": ["es2015"]
   }
 }
+

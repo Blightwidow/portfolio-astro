@@ -1,0 +1,25 @@
+---
+import PhotoMasonry from "../../components/PhotoMasonry.astro";
+import Layout from "../../layouts/Layout.astro";
+import { getAllPostsByDate, getAllTags } from "../../utils/photography";
+
+export async function getStaticPaths() {
+  const photos = await getAllPostsByDate("desc");
+  const tags = await getAllTags();
+
+  return tags.map((tag) => ({
+    params: { tag },
+    props: {
+      tag,
+      photos: photos.filter((photo) => photo.data.tags.includes(tag)),
+    },
+  }));
+}
+
+const { tag, photos } = Astro.props;
+---
+
+<Layout title="Photography - Theo Dammaretz">
+  <h1>#{tag}</h1>
+  <PhotoMasonry photos={photos} />
+</Layout>
