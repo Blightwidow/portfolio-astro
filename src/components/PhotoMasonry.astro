@@ -25,7 +25,7 @@ const { photos } = Astro.props;
     photos.map((photo: Photo) => (
       <a href={`/photography/photo/${photo.id}`}>
         {/* @ts-expect-error */}
-        <Picture src={photo.data.image.src} formats={["webp"]} alt={photo.data.alt} />
+        <Picture src={photo.data.image} formats={["webp"]} alt={photo.data.alt} />
       </a>
     ))
   }
@@ -42,6 +42,7 @@ const { photos } = Astro.props;
     margin-bottom: 1rem;
     break-inside: avoid;
     width: 100%;
+    height: auto;
     display: block;
     border-radius: 0.5rem;
   }

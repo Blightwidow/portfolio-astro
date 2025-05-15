@@ -51,6 +51,7 @@ article h3 {
 
 article img {
   width: 100%;
+  height: auto;
 }
 
 @media (min-width: 550px) {

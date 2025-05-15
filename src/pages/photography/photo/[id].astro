@@ -21,7 +21,7 @@ const { photo } = Astro.props;
 <Layout title={`${photo.data.alt} - Theo Dammaretz`}>
   <Picture
     id="fullscreen-img"
-    src={photo.data.image.src}
+    src={photo.data.image}
     formats={["webp"]}
     alt={photo.data.alt}
     aria-label="Toggle fullscreen"
@@ -42,7 +42,7 @@ const { photo } = Astro.props;
         d="M10.7071 14.7071L5.41421 20H9C9.55228 20 10 20.4477 10 21C10 21.5523 9.55228 22 9 22H3.00069L2.997 22C2.74301 21.9992 2.48924 21.9023 2.29502 21.7092L2.29078 21.705C2.19595 21.6096 2.12432 21.4999 2.07588 21.3828C2.02699 21.2649 2 21.1356 2 21V15C2 14.4477 2.44772 14 3 14C3.55228 14 4 14.4477 4 15V18.5858L9.29289 13.2929C9.68342 12.9024 10.3166 12.9024 10.7071 13.2929C11.0976 13.6834 11.0976 14.3166 10.7071 14.7071Z"
       ></path>
     </svg>
-    <Image src={photo.data.image.src} alt={photo.data.alt} />
+    <Image class="image" src={photo.data.image} alt={photo.data.alt} />
   </div>
   <div class="wrapper">
     <Modal id="modal">
@@ -106,11 +106,17 @@ const { photo } = Astro.props;
     opacity: 0.6;
   }
 
+  .image {
+    width: 100%;
+    height: auto;
+  }
+
   #fullscreen-img {
     position: absolute;
     top: 0;
     left: 0;
-    right: 0;
+    width: 100vw;
+    height: auto;
     cursor: zoom-out;
     opacity: 0;
     display: none;
