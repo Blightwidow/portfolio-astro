@@ -6,7 +6,7 @@
   --background-rgb: 252, 252, 248;
 }
 
-@media (prefers-color-scheme: dark) {
+/* @media (prefers-color-scheme: dark) {
   :root {
     --foreground-rgb: 242, 242, 238;
     --background-rgb: 28, 28, 28;
@@ -15,7 +15,7 @@
   html {
     color-scheme: dark;
   }
-}
+} */
 
 /* Base
 –––––––––––––––––––––––––––––––––––––––––––––––––– */
