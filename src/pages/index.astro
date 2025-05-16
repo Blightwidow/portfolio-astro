@@ -2,6 +2,7 @@
 import Spacer from "../components/Spacer.astro";
 import Layout from "../layouts/Layout.astro";
 import { getAllPostByDate } from "../utils/blog";
+import { formatDate } from "../utils/date";
 
 const posts = await getAllPostByDate("desc");
 
@@ -50,7 +51,7 @@ const PROJECTS = [
       posts.slice(0, 3).map((post) => (
         <li>
           <a href={`/blog/${post.slug}`}>{post.data.title}</a>
-          <time>{post.data.date}</time>
+          <time>{formatDate(post.data.date, true)}</time>
         </li>
       ))
     }
@@ -73,6 +74,10 @@ const PROJECTS = [
     grid-template-rows: 1fr;
     grid-column-gap: 0.5rem;
     grid-row-gap: 1rem;
+  }
+
+  time {
+    white-space: nowrap;
   }
   @media (min-width: 550px) {
     .projects {

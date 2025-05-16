@@ -90,9 +90,11 @@ const { photo } = Astro.props;
   const toggles = document.querySelectorAll("[aria-label='Toggle fullscreen']");
 
   toggles.forEach((toggle) => {
-    toggle.addEventListener("click", () => {
-      toggleFullscreen();
-    });
+    if (window.matchMedia("(min-width: 550px)").matches) {
+      toggle.addEventListener("click", () => {
+        toggleFullscreen();
+      });
+    }
   });
 
   const button = document.querySelector("button[aria-label='Open modal']");
@@ -148,8 +150,10 @@ const { photo } = Astro.props;
     transition: opacity 0.2s ease-in-out;
   }
 
-  div.relative:hover .fullscreen-icon {
-    opacity: 1;
+  @media (min-width: 550px) {
+    div.relative:hover .fullscreen-icon {
+      opacity: 1;
+    }
   }
 
   div.wrapper {
@@ -163,6 +167,7 @@ const { photo } = Astro.props;
     flex-direction: row;
     align-items: center;
     gap: 0.5rem;
+    flex-wrap: wrap;
   }
 
   .hidden {

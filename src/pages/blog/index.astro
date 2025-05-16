@@ -2,6 +2,7 @@
 import Spacer from "../../components/Spacer.astro";
 import Layout from "../../layouts/Layout.astro";
 import { getAllPostByDate } from "../../utils/blog";
+import { formatDate } from "../../utils/date";
 
 const posts = await getAllPostByDate("desc");
 ---
@@ -15,7 +16,7 @@ const posts = await getAllPostByDate("desc");
           <a href={`/blog/${post.slug}`}>{post.data.title}</a>
         </h3>
         {Boolean(post.data.subtitle) && <p>{post.data.subtitle}</p>}
-        <time>{post.data.date}</time>
+        <time>{formatDate(post.data.date)}</time>
         <Spacer units={2} />
       </div>
     ))

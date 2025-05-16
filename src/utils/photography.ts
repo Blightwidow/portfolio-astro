@@ -11,17 +11,7 @@ export async function getAllPostsByDate(order: "asc" | "desc") {
     })
     .map((post) => ({
       ...post,
-      width: 1,
-      height: 1,
       src: post.data.image.src,
-      data: {
-        ...post.data,
-        date: post.data.date.toLocaleDateString(undefined, {
-          day: "2-digit",
-          month: "short",
-          year: "numeric",
-        }),
-      },
     }));
 }
 
