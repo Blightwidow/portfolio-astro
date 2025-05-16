@@ -3,6 +3,7 @@ import { Image, Picture } from "astro:assets";
 import Layout from "../../../layouts/PhotoLayout.astro";
 import { getAllPostsByDate } from "../../../utils/photography";
 import Modal from "../../../components/Modal.astro";
+import { formatDate } from "../../../utils/date";
 
 export async function getStaticPaths() {
   const photos = await getAllPostsByDate("desc");
@@ -70,7 +71,7 @@ const { photo } = Astro.props;
       </main>
     </Modal>
     <div class="flex spaced">
-      <time>{photo.data.date}</time>
+      <time>{formatDate(photo.data.date)}</time>
       <button aria-label="Open modal">Want this picture removed?</button>
     </div>
     {photo.data.description && <p>{photo.data.description}</p>}
