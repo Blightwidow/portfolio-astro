@@ -50,7 +50,7 @@ However, I've watched how geopolitical tensions have exposed critical vulnerabil
 
 I find the technological gap becomes apparent when comparing spacecraft interiors—the contrast is striking to me.
 
-INSERT IMAGE
+![A side by side comparison of Dragonand Soyuz](../../images/space-race-cockpits.jpg)
 
 ### The New Paradigm
 
