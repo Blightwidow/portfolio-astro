@@ -7,13 +7,13 @@ const { id } = Astro.props;
 ---
 
 <div>
-  <dialog class="modal" id={id} role="dialog" aria-modal="true">
+  <dialog class="modal" id={id} aria-modal="true">
     <div class="header">
       <div>
         <slot name="header" />
       </div>
       <form method="dialog">
-        <button autofocus>&times;</button>
+        <button>&times;</button>
       </form>
     </div>
     <slot name="content" />

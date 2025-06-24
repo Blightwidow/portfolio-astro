@@ -22,7 +22,7 @@ const { photos } = Astro.props;
 
 <div>
   {
-    photos.map((photo: Photo, index) => (
+    photos.map((photo: Photo, index: number) => (
       <a href={`/photography/photo/${photo.id}`}>
         {/* @ts-expect-error */}
         <Picture
