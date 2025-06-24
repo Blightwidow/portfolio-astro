@@ -19,6 +19,7 @@ export default defineConfig({
     defaultStrategy: "viewport",
   },
   experimetal: {
+    assets: true,
     responsiveImage: true,
   },
   adapter: netlify(),

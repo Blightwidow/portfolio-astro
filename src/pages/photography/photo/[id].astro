@@ -23,7 +23,7 @@ const { photo } = Astro.props;
   <Picture
     id="fullscreen-img"
     src={photo.data.image}
-    formats={["webp"]}
+    formats={["webp", "avif"]}
     alt={photo.data.alt}
     aria-label="Toggle fullscreen"
   />
@@ -82,10 +82,10 @@ const { photo } = Astro.props;
 <script>
   const toggleFullscreen = () => {
     const img = document.getElementById("fullscreen-img");
-    if (img.classList.contains("fullscreen")) {
-      img.classList.remove("fullscreen");
+    if (img?.classList.contains("fullscreen")) {
+      img?.classList.remove("fullscreen");
     } else {
-      img.classList.add("fullscreen");
+      img?.classList.add("fullscreen");
     }
   };
   const toggles = document.querySelectorAll("[aria-label='Toggle fullscreen']");
@@ -99,7 +99,7 @@ const { photo } = Astro.props;
   });
 
   const button = document.querySelector("button[aria-label='Open modal']");
-  button.addEventListener("click", () => {
+  button?.addEventListener("click", () => {
     (document.getElementById("modal") as HTMLDialogElement | undefined)?.showModal();
   });
 </script>
