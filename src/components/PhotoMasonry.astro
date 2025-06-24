@@ -22,7 +22,7 @@ const { photos } = Astro.props;
 
 <div>
   {
-    photos.map((photo: Photo) => (
+    photos.map((photo: Photo, index) => (
       <a href={`/photography/photo/${photo.id}`}>
         {/* @ts-expect-error */}
         <Picture
@@ -31,6 +31,7 @@ const { photos } = Astro.props;
           alt={photo.data.alt}
           widths={[224, 510]}
           sizes={`(min-width: 750px) 224px, 510px`}
+          priority={index < 2}
         />
       </a>
     ))
