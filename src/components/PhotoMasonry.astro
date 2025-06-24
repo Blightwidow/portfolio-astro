@@ -18,6 +18,10 @@ interface Props {
 }
 
 const { photos } = Astro.props;
+
+// quality={90}
+// widths={[224, 510]}
+// sizes={`(min-width: 750px) 224px, 510px`}
 ---
 
 <div>
@@ -31,7 +35,9 @@ const { photos } = Astro.props;
           alt={photo.data.alt}
           widths={[224, 510]}
           sizes={`(min-width: 750px) 224px, 510px`}
-          priority={index < 2}
+          loading={index < 2 ? "eager" : "lazy"}
+          decoding={index < 2 ? "sync" : "async"}
+          fetchpriority={index < 2 ? "high" : "low"}
         />
       </a>
     ))
