@@ -4,19 +4,28 @@ import Layout from "../../../layouts/PhotoLayout.astro";
 import { getAllPostsByDate } from "../../../utils/photography";
 import Modal from "../../../components/Modal.astro";
 import { formatDate } from "../../../utils/date";
+import Spacer from "../../../components/Spacer.astro";
 
 export async function getStaticPaths() {
   const photos = await getAllPostsByDate("desc");
 
-  return photos.map((photo) => ({
-    params: { id: photo.id },
-    props: {
-      photo,
-    },
-  }));
+  const props = [];
+
+  for (let i = 0; i < photos.length; i++) {
+    props.push({
+      params: { id: photos[i].id },
+      props: {
+        photo: photos[i],
+        prev: i > 0 ? photos[i - 1].id : null,
+        next: i < photos.length - 1 ? photos[i + 1].id : null,
+      },
+    });
+  }
+
+  return props;
 }
 
-const { photo } = Astro.props;
+const { photo, next, prev } = Astro.props;
 ---
 
 <Layout title={`${photo.data.alt} - Theo Dammaretz`}>
@@ -70,6 +79,11 @@ const { photo } = Astro.props;
         </form>
       </main>
     </Modal>
+    <div class="flex spaced">
+      {prev ? <a href={`/photography/photo/${prev}`}>← Previous</a> : <span />}
+      {next ? <a href={`/photography/photo/${next}`}>Next →</a> : <span />}
+    </div>
+    <Spacer units={2} />
     <div class="flex spaced">
       <time>{formatDate(photo.data.date)}</time>
       <button aria-label="Open modal">Want this picture removed?</button>
