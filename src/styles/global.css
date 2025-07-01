@@ -29,7 +29,7 @@ a {
   color: inherit;
   text-decoration-color: rgba(var(--foreground-rgb), 0.3);
   text-underline-offset: 0.2rem;
-  transition: all 0.3s ease-in-out;
+  transition: text-decoration-color 0.3s ease-in-out;
 }
 
 a:hover,

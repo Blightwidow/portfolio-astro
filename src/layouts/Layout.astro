@@ -17,8 +17,9 @@ const { title } = Astro.props;
 <html lang="en">
   <BaseHead title={title} />
   <body>
+    <a href="#main-content" class="skip-link">Skip to main content</a>
     <Header />
-    <main>
+    <main id="main-content">
       <slot />
     </main>
     <Footer />
@@ -51,5 +52,22 @@ const { title } = Astro.props;
   main {
     max-width: 44rem;
     margin: 0 auto;
+  }
+
+  .skip-link {
+    position: absolute;
+    top: -50px;
+    left: 6px;
+    background: rgb(var(--background-rgb));
+    color: rgb(var(--foreground-rgb));
+    padding: 8px;
+    text-decoration: none;
+    border: 1px solid rgb(var(--foreground-rgb));
+    z-index: 100;
+    border-radius: 4px;
+  }
+
+  .skip-link:focus {
+    top: 6px;
   }
 </style>

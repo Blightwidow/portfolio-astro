@@ -1,0 +1,12 @@
+---
+description: 
+globs: src/**/*
+alwaysApply: false
+---
+Use semantic HTML.
+
+Apply appropriate ARIA attributes.
+
+Ensure full keyboard navigation.
+
+Respect modern accessibility standards.

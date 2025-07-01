@@ -23,7 +23,10 @@ const { photos } = Astro.props;
 <div>
   {
     photos.map((photo: Photo, index: number) => (
-      <a href={`/photography/photo/${photo.id}`}>
+      <a 
+        href={`/photography/photo/${photo.id}`}
+        aria-label={`View photo: ${photo.data.alt}`}
+      >
         {/* @ts-expect-error */}
         <Picture
           src={photo.data.image}
