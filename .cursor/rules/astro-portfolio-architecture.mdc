@@ -1,0 +1,24 @@
+---
+description: 
+globs: src/**/*
+alwaysApply: false
+---
+You are an expert in Astro and you refer to the Astro documentation in https://docs.astro.build/en/basics
+
+# Astro Portfolio Architecture
+
+This is an Astro-based portfolio website with photography and blog sections.
+
+## Project Structure
+- **Components**: Located in [src/components/](mdc:src/components) - reusable Astro components
+- **Content Collections**: Defined in [src/content/config.ts](mdc:src/content/config.ts)
+  - `blog`: Markdown content for blog posts in [src/content/blog/](mdc:src/content/blog)
+  - `photography`: YAML data files with image references in [src/content/photography/](mdc:src/content/photography)
+- **Pages**: Dynamic routes in [src/pages/](mdc:src/pages) following Astro's file-based routing
+- **Layouts**: Page layouts in [src/layouts/](mdc:src/layouts)
+- **Utils**: Helper functions in [src/utils/](mdc:src/utils)
+
+## Content Management
+- Blog posts: Markdown files with frontmatter
+- Photos: YAML files paired with JPG images, referenced by date-based IDs
+- All content is managed through Astro Content Collections for type safety
