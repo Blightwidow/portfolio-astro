@@ -8,9 +8,12 @@ import Footer from "../components/Footer.astro";
 
 interface Props {
   title: string;
+  backLink?: string;
+  showFooter?: boolean;
+  constrainMain?: boolean;
 }
 
-const { title } = Astro.props;
+const { title, backLink, showFooter = true, constrainMain = true } = Astro.props;
 ---
 
 <!doctype html>
@@ -18,11 +21,11 @@ const { title } = Astro.props;
   <BaseHead title={title} />
   <body>
     <a href="#main-content" class="skip-link">Skip to main content</a>
-    <Header />
-    <main id="main-content">
+    <Header backLink={backLink} />
+    <main id="main-content" class:list={[{ constrained: constrainMain }]}>
       <slot />
     </main>
-    <Footer />
+    {showFooter && <Footer />}
   </body>
 </html>
 
@@ -49,7 +52,7 @@ const { title } = Astro.props;
     }
   }
 
-  main {
+  main.constrained {
     max-width: 44rem;
     margin: 0 auto;
   }
