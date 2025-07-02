@@ -46,19 +46,20 @@ const { photos } = Astro.props;
 
 <style>
   div {
-    display: block;
-    columns: 14rem;
+    display: flex;
+    flex-wrap: wrap;
     gap: 1rem;
   }
 
   img {
-    margin-bottom: 1rem;
     break-inside: avoid;
     width: 100%;
     height: auto;
     display: block;
     border-radius: 0.5rem;
     background: grey;
+    aspect-ratio: 1;
+    object-fit: cover;
   }
 
   a {
