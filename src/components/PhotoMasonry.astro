@@ -49,6 +49,7 @@ const { photos } = Astro.props;
     display: flex;
     flex-wrap: wrap;
     gap: 1rem;
+    justify-content: center;
   }
 
   img {
@@ -58,8 +59,14 @@ const { photos } = Astro.props;
     display: block;
     border-radius: 0.5rem;
     background: grey;
-    aspect-ratio: 1;
     object-fit: cover;
+  }
+
+  @media (min-width: 750px) {
+    img {
+      aspect-ratio: 1;
+      width: 14rem;
+    }
   }
 
   a {
