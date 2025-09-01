@@ -4,6 +4,8 @@ subtitle: How our space renaissance is creating an orbital minefield
 date: 2025-09-01
 ---
 
+# The new Space Race II, A sea of debris
+
 As I mentioned in my previous article about the transformation of the space industry, we're witnessing an unprecedented boom in space activity. With more than two launches per week globally and over 180 launches planned for 2024 alone, there's clearly a new race for space driven by satellite constellations, commercial interests, and political sovereignty.
 
 While I find this expansion exciting and undoubtedly a win for humanity, pushing our knowledge and capabilities ever further, some troubling questions are emerging. How are we going to manage the debris from all those launches and aging satellites? What about the environmental impact? And if space launchers are tools for state sovereignty, why is Europe struggling to keep pace?
