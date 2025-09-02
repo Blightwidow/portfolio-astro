@@ -23,7 +23,7 @@ const { photos } = Astro.props;
 <div>
   {
     photos.map((photo: Photo, index: number) => (
-      <a 
+      <a
         href={`/photography/photo/${photo.id}`}
         aria-label={`View photo: ${photo.data.alt}`}
       >
@@ -32,9 +32,9 @@ const { photos } = Astro.props;
           src={photo.data.image}
           formats={["webp", "avif"]}
           alt={photo.data.alt}
-          widths={[224, 510]}
+          widths={[300, 510]}
           quality={90}
-          sizes={`(min-width: 750px) 224px, 510px`}
+          sizes={`(min-width: 750px) 300, 510px`}
           loading={index < 2 ? "eager" : "lazy"}
           decoding={index < 2 ? "sync" : "async"}
           fetchpriority={index < 2 ? "high" : "low"}
@@ -81,9 +81,15 @@ const { photos } = Astro.props;
     left: 0;
     width: 100%;
     height: 100%;
-    background: linear-gradient(to bottom, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.5));
+    background: linear-gradient(
+      to bottom,
+      rgba(0, 0, 0, 0),
+      rgba(0, 0, 0, 0.5)
+    );
     opacity: 0;
     transition: opacity 0.2s ease-in-out;
+    border-radius: 0.5rem;
+    overflow: hidden;
   }
 
   a:hover::after {
