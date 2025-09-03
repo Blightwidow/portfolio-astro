@@ -1,33 +1,45 @@
 ---
 import { Picture } from "astro:assets";
+import Pagination from "./Pagination.astro";
 
 interface Photo {
   id: string;
   data: {
-    image: {
-      src: string;
-    };
+    image: any; // Astro content collection image type
     alt: string;
     date: string;
     description?: string;
     tags: Array<string>;
   };
 }
-interface Props {
-  photos?: Array<Photo>;
+
+interface Page {
+  /** the count of the first item on the page, starting from 0 */
+  start: number;
+  /** the count of the last item on the page, starting from 0 */
+  end: number;
+  /** total number of results */
+  total: number;
+  /** the current page number, starting from 1 */
+  currentPage: number;
+  /** number of items per page (default: 10) */
+  size: number;
+  /** number of last page */
+  lastPage: number;
 }
 
-const { photos } = Astro.props;
+interface Props {
+  photos?: Array<Photo>;
+  page?: Page;
+}
+
+const { photos, page } = Astro.props;
 ---
 
 <div>
   {
     photos.map((photo: Photo, index: number) => (
-      <a
-        href={`/photography/photo/${photo.id}`}
-        aria-label={`View photo: ${photo.data.alt}`}
-      >
-        {/* @ts-expect-error */}
+      <a href={`/photography/photo/${photo.id}`} aria-label={`View photo: ${photo.data.alt}`}>
         <Picture
           src={photo.data.image}
           formats={["webp", "avif"]}
@@ -42,6 +54,7 @@ const { photos } = Astro.props;
       </a>
     ))
   }
+  {page && <Pagination page={page} />}
 </div>
 
 <style>
@@ -81,11 +94,7 @@ const { photos } = Astro.props;
     left: 0;
     width: 100%;
     height: 100%;
-    background: linear-gradient(
-      to bottom,
-      rgba(0, 0, 0, 0),
-      rgba(0, 0, 0, 0.5)
-    );
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.5));
     opacity: 0;
     transition: opacity 0.2s ease-in-out;
     border-radius: 0.5rem;

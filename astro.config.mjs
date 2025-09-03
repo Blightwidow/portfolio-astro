@@ -19,4 +19,7 @@ export default defineConfig({
     defaultStrategy: "viewport",
   },
   adapter: netlify(),
+  redirects: {
+    "/photography": "/photography/1",
+  },
 });
