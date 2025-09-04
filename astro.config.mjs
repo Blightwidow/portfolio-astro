@@ -20,6 +20,7 @@ export default defineConfig({
   },
   adapter: netlify(),
   redirects: {
+    "/blog": "/blog/1",
     "/photography": "/photography/1",
   },
 });

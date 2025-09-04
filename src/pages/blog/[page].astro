@@ -1,16 +1,23 @@
 ---
+import Pagination from "../../components/Pagination.astro";
 import Spacer from "../../components/Spacer.astro";
 import Layout from "../../layouts/Layout.astro";
 import { getAllPostByDate } from "../../utils/blog";
 import { formatDate } from "../../utils/date";
 
-const posts = await getAllPostByDate("desc");
+export async function getStaticPaths({ paginate }) {
+  const posts = await getAllPostByDate("desc");
+
+  return paginate(posts, { pageSize: 10 });
+}
+
+const { page } = Astro.props;
 ---
 
-<Layout title="Blog - Theo Dammaretz">
+<Layout title="Blog - Theo Dammaretz" backLink="/">
   <h1>Blog</h1>
   {
-    posts.map((post) => (
+    page.data.map((post) => (
       <div>
         <h3>
           <a href={`/blog/${post.slug}`}>{post.data.title}</a>
@@ -21,6 +28,7 @@ const posts = await getAllPostByDate("desc");
       </div>
     ))
   }
+  <Pagination page={page} />
 </Layout>
 
 <style>
