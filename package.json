@@ -21,7 +21,7 @@
     "@netlify/blobs": "9.1.1",
     "@playform/compress": "0.1.9",
     "@unpic/astro": "1.0.0",
-    "astro": "5.7.5",
+    "astro": "5.14.3",
     "deepmerge-ts": "7.1.5",
     "typescript": "5.8.3",
     "unpic": "4.1.2"
