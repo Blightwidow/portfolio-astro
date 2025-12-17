@@ -14,7 +14,7 @@ What strikes me most are the advances in propulsion technology: I love comparing
 
 At first glance, their specific impulse (the rocket equivalent of fuel efficiency) appears similar. But when you dig deeper, the differences become stark. The _Merlin 1D_ delivers twice the thrust-to-weight ratio of its Soviet predecessor while being dramatically smaller and lighter. More importantly, it can restart mid-flight, a capability that is crucial for landing and reusability.
 
-What I find most remarkable is that each _Merlin_ engine costs approximately $1 million to produce, a fraction of traditional rocket engine costs (The RS-25 costs more than $100M). This economic efficiency stems from what modern manufacturing techniques, streamlined supply chains, and design philosophies that prioritize simplicity over complexity.
+What I find most remarkable is that each _Merlin_ engine costs approximately $1 million to produce, a fraction of traditional rocket engine costs (The RS-25 costs more than $100M). This economic efficiency stems from modern manufacturing techniques, streamlined supply chains, and design philosophies that prioritize simplicity over complexity.
 
 ### The Reusability Game-Changer
 
