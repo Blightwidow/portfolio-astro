@@ -10065,7 +10065,7 @@ const RAW_RUNTIME_STATE =
           ["micro-api-client", "npm:3.3.0"],\
           ["node-fetch", "npm:3.3.2"],\
           ["p-wait-for", "npm:5.0.2"],\
-          ["qs", "npm:6.14.0"]\
+          ["qs", "npm:6.14.1"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -11175,10 +11175,10 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["qs", [\
-      ["npm:6.14.0", {\
-        "packageLocation": "../../.yarn/berry/cache/qs-npm-6.14.0-6b298311eb-10c0.zip/node_modules/qs/",\
+      ["npm:6.14.1", {\
+        "packageLocation": "../../.yarn/berry/cache/qs-npm-6.14.1-2af4c28250-10c0.zip/node_modules/qs/",\
         "packageDependencies": [\
-          ["qs", "npm:6.14.0"],\
+          ["qs", "npm:6.14.1"],\
           ["side-channel", "npm:1.1.0"]\
         ],\
         "linkType": "HARD"\
