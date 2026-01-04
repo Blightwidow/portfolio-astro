@@ -20,7 +20,7 @@ const { id } = Astro.props;
   </dialog>
 </div>
 
-<script define:vars={{ id }}>
+<script define:vars={{ id }} is:inline>
   const modal = document.getElementById(id);
   
   if (modal) {

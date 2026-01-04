@@ -1,4 +1,7 @@
-import { getCollection } from "astro:content";
+import { getCollection, type DataEntryMap } from "astro:content";
+import { queryClient, useMutation, useQuery } from "./store";
+
+export type Photo = ValueOf<DataEntryMap["photography"]>;
 
 export async function getAllPostsByDate(order: "asc" | "desc") {
   const posts = await getCollection("photography");
@@ -25,4 +28,37 @@ export async function getAllTags() {
   });
 
   return Array.from(tags);
+}
+
+export function useGetPhotoClap({ postId }: { postId: string }) {
+  return useQuery<string>({
+    queryKey: ["photo-clap", postId],
+    queryFn: async () => {
+      return fetch(`/api/post-clap/photo-${postId}`).then((res) => res.text());
+    },
+    staleTime: 1000 * 60 * 5,
+  });
+}
+
+export function useAddPhotoClap({ postId }: { postId: string }) {
+  return useMutation({
+    mutationFn: async () => {
+      return fetch(`/api/post-clap/photo-${postId}`, {
+        method: "POST",
+      });
+    },
+    onMutate: () => {
+      queryClient.setQueryData(
+        ["photo-clap", postId],
+        (old: number) => old + 1,
+      );
+    },
+    onError: (error) => {
+      console.error(error);
+      queryClient.setQueryData(
+        ["photo-clap", postId],
+        (old: number) => old - 1,
+      );
+    },
+  });
 }

@@ -1,36 +1,11 @@
 ---
 import { Picture } from "astro:assets";
 import Pagination from "./Pagination.astro";
-
-interface Photo {
-  id: string;
-  data: {
-    image: any; // Astro content collection image type
-    alt: string;
-    date: string;
-    description?: string;
-    tags: Array<string>;
-  };
-}
-
-interface Page {
-  /** the count of the first item on the page, starting from 0 */
-  start: number;
-  /** the count of the last item on the page, starting from 0 */
-  end: number;
-  /** total number of results */
-  total: number;
-  /** the current page number, starting from 1 */
-  currentPage: number;
-  /** number of items per page (default: 10) */
-  size: number;
-  /** number of last page */
-  lastPage: number;
-}
-
+import type { Page } from "astro";
+import type { Photo } from "../utils/photography";
 interface Props {
-  photos?: Array<Photo>;
-  page?: Page;
+  photos: Photo[];
+  page?: Page<Photo>;
 }
 
 const { photos, page } = Astro.props;
@@ -38,21 +13,23 @@ const { photos, page } = Astro.props;
 
 <div>
   {
-    photos.map((photo: Photo, index: number) => (
-      <a href={`/photography/photo/${photo.id}`} aria-label={`View photo: ${photo.data.alt}`}>
-        <Picture
-          src={photo.data.image}
-          formats={["webp", "avif"]}
-          alt={photo.data.alt}
-          widths={[300, 510]}
-          quality={90}
-          sizes={`(min-width: 750px) 300, 510px`}
-          loading={index < 2 ? "eager" : "lazy"}
-          decoding={index < 2 ? "sync" : "async"}
-          fetchpriority={index < 2 ? "high" : "low"}
-        />
-      </a>
-    ))
+    photos
+      .filter((photo) => Boolean(photo.data.image?.src))
+      .map((photo, index) => (
+        <a href={`/photography/photo/${photo.id}`} aria-label={`View photo: ${photo.data.alt}`}>
+          <Picture
+            src={photo.data.image as ImageMetadata}
+            formats={["webp", "avif"]}
+            alt={photo.data.alt}
+            widths={[300, 510]}
+            quality={90}
+            sizes={`(min-width: 750px) 300, 510px`}
+            loading={index < 2 ? "eager" : "lazy"}
+            decoding={index < 2 ? "sync" : "async"}
+            fetchpriority={index < 2 ? "high" : "low"}
+          />
+        </a>
+      ))
   }
   {page && <Pagination page={page} />}
 </div>
