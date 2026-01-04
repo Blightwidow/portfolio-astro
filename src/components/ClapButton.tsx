@@ -3,7 +3,7 @@ import "react";
 import { useAddPhotoClap, useGetPhotoClap } from "../utils/store";
 
 export function ClapButton({ postId }: { postId: string }) {
-  const { data, isLoading } = useGetPhotoClap({ postId });
+  const { data } = useGetPhotoClap({ postId });
   const { mutateAsync: addPostClap } = useAddPhotoClap({ postId });
 
   return (
