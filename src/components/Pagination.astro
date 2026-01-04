@@ -1,21 +1,7 @@
 ---
-interface Page {
-  /** the count of the first item on the page, starting from 0 */
-  start: number;
-  /** the count of the last item on the page, starting from 0 */
-  end: number;
-  /** total number of results */
-  total: number;
-  /** the current page number, starting from 1 */
-  currentPage: number;
-  /** number of items per page (default: 10) */
-  size: number;
-  /** number of last page */
-  lastPage: number;
-}
-
+import type { Page } from "astro";
 interface Props {
-  page: Page;
+  page: Page<unknown>;
   baseUrl?: string;
 }
 

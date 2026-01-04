@@ -1,9 +1,10 @@
 ---
+import type { PaginateFunction } from "astro";
 import PhotoMasonry from "../../components/PhotoMasonry.astro";
 import Layout from "../../layouts/Layout.astro";
 import { getAllPostsByDate } from "../../utils/photography";
 
-export async function getStaticPaths({ paginate }) {
+export async function getStaticPaths({ paginate }: { paginate: PaginateFunction }) {
   const photos = await getAllPostsByDate("desc");
   return paginate(photos, { pageSize: 30 });
 }

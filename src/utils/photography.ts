@@ -1,4 +1,6 @@
-import { getCollection } from "astro:content";
+import { getCollection, type DataEntryMap } from "astro:content";
+
+export type Photo = ValueOf<DataEntryMap["photography"]>;
 
 export async function getAllPostsByDate(order: "asc" | "desc") {
   const posts = await getCollection("photography");

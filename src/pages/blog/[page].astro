@@ -1,11 +1,12 @@
 ---
+import type { PaginateFunction } from "astro";
 import Pagination from "../../components/Pagination.astro";
 import Spacer from "../../components/Spacer.astro";
 import Layout from "../../layouts/Layout.astro";
 import { getAllPostByDate } from "../../utils/blog";
 import { formatDate } from "../../utils/date";
 
-export async function getStaticPaths({ paginate }) {
+export async function getStaticPaths({ paginate }: { paginate: PaginateFunction }) {
   const posts = await getAllPostByDate("desc");
 
   return paginate(posts, { pageSize: 10 });
