@@ -15,3 +15,50 @@ export function useQuery<T>(options: UseQueryOptions<T, Error>) {
 export function useMutation<T>(options: UseMutationOptions<T, Error>) {
   return useTanstackMutation<T, Error>(options, queryClient);
 }
+
+export function useGetPhotoClap({ postId }: { postId: string }) {
+  return useQuery<string>({
+    queryKey: ["photo-clap", postId],
+    queryFn: async () => {
+      const response = await fetch(`/api/post-clap/photo-${postId}`);
+
+      if (!response.ok) {
+        throw new Error("Failed to get photo clap");
+      }
+
+      return response.text();
+    },
+    staleTime: 1000 * 60 * 5,
+    enabled: true,
+    initialData: "0",
+  });
+}
+
+export function useAddPhotoClap({ postId }: { postId: string }) {
+  return useMutation({
+    mutationFn: async () => {
+      const response = await fetch(`/api/post-clap/photo-${postId}`, {
+        method: "POST",
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to add photo clap");
+      }
+
+      return response.text();
+    },
+    onMutate: () => {
+      queryClient.setQueryData(
+        ["photo-clap", postId],
+        (old: number) => old + 1,
+      );
+    },
+    onError: (error) => {
+      console.error(error);
+      queryClient.setQueryData(
+        ["photo-clap", postId],
+        (old: number) => old - 1,
+      );
+    },
+  });
+}

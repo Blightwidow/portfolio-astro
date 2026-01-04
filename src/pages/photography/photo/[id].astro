@@ -88,7 +88,7 @@ const { photo, next, prev } = Astro.props;
     <div class="flex spaced">
       <div>
         <time>{formatDate(photo.data.date)}</time>
-        <ClapButton postId={photo.id} />
+        <ClapButton postId={photo.id} client:idle />
       </div>
       <button aria-label="Open modal">Want this picture removed?</button>
     </div>

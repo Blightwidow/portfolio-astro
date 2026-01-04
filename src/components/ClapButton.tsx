@@ -1,10 +1,10 @@
-import { useAddPhotoClap, useGetPhotoClap } from "../utils/photography";
+import "react";
+
+import { useAddPhotoClap, useGetPhotoClap } from "../utils/store";
 
 export function ClapButton({ postId }: { postId: string }) {
   const { data, isLoading } = useGetPhotoClap({ postId });
   const { mutateAsync: addPostClap } = useAddPhotoClap({ postId });
-
-  console.log(data, isLoading);
 
   return (
     <button
