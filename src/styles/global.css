@@ -133,3 +133,20 @@ button:hover,
 button:focus {
   background-color: rgba(var(--foreground-rgb), 0.1);
 }
+
+.loader {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  border: 2px solid rgba(var(--foreground-rgb), 0.3);
+  border-top-color: rgba(var(--foreground-rgb), 0.8);
+  animation: spin 1s linear infinite;
+  display: inline-block;
+  margin-right: 0.25rem;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}

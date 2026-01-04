@@ -1,9 +1,7 @@
-import "react";
-
 import { useAddPhotoClap, useGetPhotoClap } from "../utils/store";
 
 export function ClapButton({ postId }: { postId: string }) {
-  const { data } = useGetPhotoClap({ postId });
+  const { data, isLoading } = useGetPhotoClap({ postId });
   const { mutateAsync: addPostClap } = useAddPhotoClap({ postId });
 
   return (
@@ -11,7 +9,7 @@ export function ClapButton({ postId }: { postId: string }) {
       style={{ margin: "0 0.5rem", cursor: "pointer" }}
       onClick={async () => await addPostClap()}
     >
-      <span>{data} Claps 👏🏼</span>
+      <span>{isLoading ? <div className="loader" /> : data ?? 0} Claps 👏🏼</span>
     </button>
   );
 }
