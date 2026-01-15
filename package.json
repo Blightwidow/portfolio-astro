@@ -5,9 +5,10 @@
   "scripts": {
     "dev": "astro dev",
     "start": "astro dev",
-    "build": "astro check && yarn lint && astro build",
+    "build": "astro check && yarn lint && yarn format && astro build",
     "preview": "serve dist/",
-    "lint": "eslint src/**/*.{js,mjs,cjs,ts,mts,cts,jsx,tsx,astro}",
+    "lint": "oxlint --type-aware src/**/*.{js,mjs,cjs,ts,mts,cts,jsx,tsx,astro}",
+    "format": "oxfmt --check src/**/*.{js,mjs,cjs,ts,mts,cts,jsx,tsx,astro}",
     "astro": "astro",
     "generate-photo-metadata": "node scripts/generate-photo-metadata.js"
   },
@@ -37,12 +38,14 @@
     "@types/react": "^19.2.7",
     "@types/react-dom": "^19.2.3",
     "@typescript-eslint/parser": "^8.35.0",
-    "eslint": "^9.39.2",
     "eslint-plugin-astro": "^1.5.0",
     "eslint-plugin-jsx-a11y": "^6.10.2",
     "eslint-plugin-react": "^7.37.5",
     "globals": "^17.0.0",
     "jiti": "^2.6.1",
+    "oxfmt": "^0.24.0",
+    "oxlint": "^1.39.0",
+    "oxlint-tsgolint": "^0.11.1",
     "serve": "^14.2.4",
     "sharp": "0.34.1",
     "typescript-eslint": "^8.51.0"

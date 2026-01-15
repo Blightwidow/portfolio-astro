@@ -1,10 +1,7 @@
 import { QueryClient } from "@tanstack/react-query";
 import { useQuery as useTanstackQuery } from "@tanstack/react-query";
 import { useMutation as useTanstackMutation } from "@tanstack/react-query";
-import type {
-  UseQueryOptions,
-  UseMutationOptions,
-} from "@tanstack/react-query";
+import type { UseQueryOptions, UseMutationOptions } from "@tanstack/react-query";
 
 export const queryClient = new QueryClient();
 
@@ -47,17 +44,11 @@ export function useAddPhotoClap({ postId }: { postId: string }) {
       return response.text();
     },
     onMutate: () => {
-      queryClient.setQueryData(
-        ["photo-clap", postId],
-        (old: number) => old + 1,
-      );
+      queryClient.setQueryData(["photo-clap", postId], (old: number) => old + 1);
     },
     onError: (error) => {
       console.error(error);
-      queryClient.setQueryData(
-        ["photo-clap", postId],
-        (old: number) => old - 1,
-      );
+      queryClient.setQueryData(["photo-clap", postId], (old: number) => old - 1);
     },
   });
 }

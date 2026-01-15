@@ -1,7 +1,7 @@
 import sitemap from "@astrojs/sitemap";
 import { defineConfig } from "astro/config";
 import playformCompress from "@playform/compress";
-import netlify from '@astrojs/netlify';
+import netlify from "@astrojs/netlify";
 
 import react from "@astrojs/react";
 
@@ -10,9 +10,13 @@ export default defineConfig({
   site: "https://dammaretz.fr",
   trailingSlash: "never",
   output: "static",
-  integrations: [sitemap(), playformCompress({
-    Image: false,
-  }), react()],
+  integrations: [
+    sitemap(),
+    playformCompress({
+      Image: false,
+    }),
+    react(),
+  ],
   prefetch: {
     prefetchAll: true,
     defaultStrategy: "viewport",

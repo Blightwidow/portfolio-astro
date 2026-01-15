@@ -9,7 +9,7 @@ export function ClapButton({ postId }: { postId: string }) {
       style={{ margin: "0 0.5rem", cursor: "pointer" }}
       onClick={async () => await addPostClap()}
     >
-      <span>{isLoading ? <div className="loader" /> : data ?? 0} Claps 👏🏼</span>
+      <span>{isLoading ? <div className="loader" /> : (data ?? 0)} Claps 👏🏼</span>
     </button>
   );
 }

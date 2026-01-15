@@ -1,4 +1,4 @@
-export function formatDate(date: Date, short: boolean = false): string {
+export function formatDate(date: Date, short = false): string {
   if (short) {
     return date.toLocaleDateString("en-UK", {
       day: "2-digit",

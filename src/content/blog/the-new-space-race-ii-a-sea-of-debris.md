@@ -1,6 +1,6 @@
 ---
-title: The new Space Race II, A sea of debris 
-subtitle: How our space renaissance is creating an orbital minefield 
+title: The new Space Race II, A sea of debris
+subtitle: How our space renaissance is creating an orbital minefield
 date: 2025-09-01
 ---
 

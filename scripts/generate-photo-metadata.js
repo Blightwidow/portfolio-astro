@@ -81,9 +81,7 @@ async function generatePhotoMetadata() {
     const files = await readdir(PHOTOGRAPHY_DIR);
 
     // Filter for JPG files
-    const jpgFiles = files.filter(
-      (file) => extname(file).toLowerCase() === ".jpg"
-    );
+    const jpgFiles = files.filter((file) => extname(file).toLowerCase() === ".jpg");
 
     console.log(`Found ${jpgFiles.length} JPG files`);
 
@@ -110,12 +108,12 @@ async function generatePhotoMetadata() {
     }
 
     console.log(
-      `\n🎉 Done! Created ${createdCount} new metadata files, skipped ${skippedCount} existing files.`
+      `\n🎉 Done! Created ${createdCount} new metadata files, skipped ${skippedCount} existing files.`,
     );
 
     if (createdCount > 0) {
       console.log(
-        "\n📝 Don't forget to update the generated YAML files with proper descriptions and tags!"
+        "\n📝 Don't forget to update the generated YAML files with proper descriptions and tags!",
       );
     }
   } catch (error) {
