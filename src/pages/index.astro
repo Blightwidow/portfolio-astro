@@ -50,7 +50,7 @@ const PROJECTS = [
     {
       posts.slice(0, 3).map((post) => (
         <li>
-          <a href={`/blog/${post.slug}`}>{post.data.title}</a>
+          <a href={`/blog/${post.id}`}>{post.data.title}</a>
           <time>{formatDate(post.data.date, true)}</time>
         </li>
       ))

@@ -10,6 +10,11 @@ export default defineConfig({
   site: "https://dammaretz.fr",
   trailingSlash: "never",
   output: "static",
+  csp: {
+    scriptDirectives: {
+      ressources: ["'self'", "https://dammaretz.fr"],
+    },
+  },
   integrations: [
     sitemap(),
     playformCompress({
