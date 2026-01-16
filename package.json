@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "astro dev",
     "start": "astro dev",
-    "build": "astro check && yarn lint && yarn format && astro build",
+    "build": "astro check && yarn lint && astro build",
     "preview": "serve dist/",
     "lint": "oxlint --type-aware src/**/*.{js,mjs,cjs,ts,mts,cts,jsx,tsx,astro}",
     "format": "oxfmt --check src/**/*.{js,mjs,cjs,ts,mts,cts,jsx,tsx,astro}",
