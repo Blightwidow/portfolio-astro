@@ -10,20 +10,14 @@ import { ClapButton } from "../../../components/ClapButton";
 export async function getStaticPaths() {
   const photos = await getAllPostsByDate("desc");
 
-  const props = [];
-
-  for (let i = 0; i < photos.length; i++) {
-    props.push({
-      params: { id: photos[i].id },
-      props: {
-        photo: photos[i],
-        prev: i > 0 ? photos[i - 1].id : null,
-        next: i < photos.length - 1 ? photos[i + 1].id : null,
-      },
-    });
-  }
-
-  return props;
+  return photos.map((photo, i) => ({
+    params: { id: photo.id },
+    props: {
+      photo,
+      prev: i > 0 ? (photos[i - 1]?.id ?? null) : null,
+      next: i < photos.length - 1 ? (photos[i + 1]?.id ?? null) : null,
+    },
+  }));
 }
 
 const { photo, next, prev } = Astro.props;
@@ -93,7 +87,15 @@ const { photo, next, prev } = Astro.props;
       <button aria-label="Open modal">Want this picture removed?</button>
     </div>
     {photo.data.description && <p>{photo.data.description}</p>}
-    <div class="flex">{photo.data.tags.map((tag: string) => <a href={`/photography/${tag}`}>#{tag}</a>)}</div>
+    {
+      photo.data.tags !== undefined && (
+        <div class="flex">
+          {photo.data.tags.map((tag: string) => (
+            <a href={`/photography/${tag}`}>#{tag}</a>
+          ))}
+        </div>
+      )
+    }
   </div>
 </Layout>
 

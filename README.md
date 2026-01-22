@@ -9,8 +9,9 @@ This is the code that my [personnal website](https://dammaretz.fr) is running on
 ## Getting Started
 
 1. `git clone` to get the repo
-2. install dependencies with `yarn`
-3. Launch development with `yarn start`
+2. Make sure you have `bun` [installed](https://bun.com/docs/installation) 
+3. install dependencies with `bun install`
+4. Launch development with `bun start`
 
 You can also deploy this website directly to netlify by clicking the button below.
 
@@ -21,7 +22,7 @@ You can also deploy this website directly to netlify by clicking the button belo
 What things you need to install the software and how to install them
 
 - node
-- yarn
+- bun
 
 ## Deployment
 

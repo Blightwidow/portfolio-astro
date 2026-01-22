@@ -4,6 +4,11 @@ import { getStore } from "@netlify/blobs";
 export default async (_: Request, context: Context) => {
   const store = getStore("photo-claps");
   const postId = context.params.postId;
+
+  if (!postId) {
+    return new Response("Post ID is required", { status: 400 });
+  }
+
   const claps = (await store.get(postId, { type: "text" })) ?? "0";
 
   try {
