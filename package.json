@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "astro dev",
     "start": "astro dev",
-    "build": "astro check && yarn lint && astro build",
+    "build": "astro check && bun lint && astro build",
     "preview": "serve dist/",
     "lint": "oxlint --type-aware src/**/*.{js,mjs,cjs,ts,mts,cts,jsx,tsx,astro}",
     "format": "oxfmt --check src/**/*.{js,mjs,cjs,ts,mts,cts,jsx,tsx,astro}",
@@ -50,5 +50,5 @@
     "sharp": "0.34.1",
     "typescript-eslint": "^8.51.0"
   },
-  "packageManager": "yarn@4.12.0"
+  "packageManager": "bun@1.3.6"
 }

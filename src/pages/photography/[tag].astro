@@ -11,7 +11,7 @@ export async function getStaticPaths() {
     params: { tag },
     props: {
       tag,
-      photos: photos.filter((photo) => photo.data.tags.includes(tag)),
+      photos: photos.filter((photo) => photo.data.tags?.includes(tag) ?? false),
     },
   }));
 }

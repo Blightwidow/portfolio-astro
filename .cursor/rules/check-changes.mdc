@@ -1,10 +1,12 @@
----
-description: 
-globs: 
+***
+
+description:
+globs:
 alwaysApply: true
----
+-----------------
+
 In order to check changes, you can run the following commands:
 
-Run `yarn lint` to check code quality.
+Run `bun run lint` to check code quality.
 
-Run `yarn build` to ensure the code compile correctly.
+Run `bun run build` to ensure the code compile correctly.
