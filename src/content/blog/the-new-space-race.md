@@ -20,23 +20,23 @@ What I find most remarkable is that each _Merlin_ engine costs approximately $1 
 
 In my opinion, **the most transformative innovation of the past two decades has been rocket reusability**. The Space Shuttle program attempted this concept but was hampered by its complexity and design compromises. Today's approach is elegantly different: traditional rocket stages that can autonomously navigate back to Earth and land with pinpoint precision on floating barges hundreds of kilometers downrange.
 
-I remember when SpaceX first proposed landing rockets vertically —industry veterans dismissed it as impossible. Today, I see reusability as the competitive standard. Any company serious about cost-effective space access must either recover their boosters or risk being priced out of the market.
+I remember when SpaceX first proposed landing rockets vertically, industry veterans dismissed it as impossible. Today, I see reusability as the competitive standard. Any company serious about cost-effective space access must either recover their boosters or risk being priced out of the market.
 
 ### Manufacturing Revolution
 
 I've also observed how parallel advances in manufacturing have democratized rocket production. 3D printing enables rapid prototyping and reduces the extensive tooling traditionally required for rocket components. This technology arrived at what I think was the perfect moment: as manufacturing became more accessible, satellites simultaneously became smaller and more capable.
 
-The rise of CubeSats —standardized satellites measuring just 2, 3, or 6 liters in volume— created demand for frequent, affordable small launchers. Companies like Rocket Lab build entire business models around serving this market, offering dedicated small-satellite launches at previously impossible price points.
+The rise of CubeSats, standardized satellites measuring just 2, 3, or 6 liters in volume, created demand for frequent, affordable small launchers. Companies like Rocket Lab build entire business models around serving this market, offering dedicated small-satellite launches at previously impossible price points.
 
 I could mention other technological leaps: the shift toward methane-based propellants for better performance and reusability, the development of full-flow staged combustion engines for maximum efficiency, and advances in guidance and transmission systems that make precision landing routine rather than miraculous.
 
 ## The Political Dimension
 
-Technology alone doesn't explains the transformation. Government policies and institutional approaches have played equally important roles—sometimes as catalysts, sometimes as obstacles.
+Technology alone doesn't explains the transformation. Government policies and institutional approaches have played equally important roles, sometimes as catalysts, sometimes as obstacles.
 
 ### American Struggles and Adaptation
 
-The Space Shuttle's retirement left NASA in an awkward position. After 30 years of shuttle operations—marked by extraordinary achievements but also tragic losses and escalating costs—America found itself dependent on Russian Soyuz rockets to reach the International Space Station.
+The Space Shuttle's retirement left NASA in an awkward position. After 30 years of shuttle operations, marked by extraordinary achievements but also tragic losses and escalating costs, America found itself dependent on Russian Soyuz rockets to reach the International Space Station.
 
 NASA's response, the Space Launch System (SLS), illustrates what are both the promise and peril of government-led space programs. While technically ambitious, SLS has been constrained by political realities that prioritize job distribution across congressional districts over engineering efficiency. The result: a rocket that reuses Space Shuttle-era components like RS-25 engines and solid rocket boosters, technologies that, while proven, represent the previous generation of space technology.
 
@@ -48,7 +48,7 @@ Russia's space program tells a different cautionary tale. Built on Soviet-era in
 
 However, geopolitical tensions have exposed critical vulnerabilities in that model. Many components for Russia's next-generation rockets were manufactured in Ukraine, while their primary launch facility remains in Kazakhstan. International sanctions and supply chain disruptions have left Russia's space program increasingly isolated, while its domestic investment in new technologies has lagged.
 
-I find the technological gap becomes apparent when comparing spacecraft interiors—the contrast is striking to me.
+I find the technological gap becomes apparent when comparing spacecraft interiors, the contrast is striking to me.
 
 ![A side by side comparison of Dragonand Soyuz](../../images/space-race-cockpits.jpg)
 

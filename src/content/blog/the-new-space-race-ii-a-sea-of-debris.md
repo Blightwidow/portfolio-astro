@@ -20,7 +20,7 @@ This scenario has long fascinated scientists, who analyze the possibility of rea
 
 ## How We Got Here
 
-For decades, space debris wasn't really considered a serious issue. Leaving large upper stages in long-lasting orbits was common practice—out of sight, out of mind. With time, most space agencies realized the potential catastrophe brewing above our heads and started taking measures: deorbiting upper stages, planning end-of-life procedures for satellites, and implementing debris mitigation guidelines.
+For decades, space debris wasn't really considered a serious issue. Leaving large upper stages in long-lasting orbits was common practice, out of sight, out of mind. With time, most space agencies realized the potential catastrophe brewing above our heads and started taking measures: deorbiting upper stages, planning end-of-life procedures for satellites, and implementing debris mitigation guidelines.
 
 Everything should be improving then, right? Sadly, not.
 
@@ -28,7 +28,7 @@ Everything should be improving then, right? Sadly, not.
 
 With rising geopolitical tensions and China's expanding space capabilities, we're once again seeing debris numbers explode, literally. In November 2021, Russia destroyed one of their own aging satellites with a ground-based missile, creating over 1,500 trackable pieces of debris. That's still short of the 40,000 pieces China generated 13 years prior with a similar test. The reason? A show of force without any real provocation, demonstrating their ability to blind enemy satellites in wartime.
 
-These destructive tests represent what I see as the most irresponsible acts in space history. Unlike terrestrial weapons testing, space debris doesn't respect national boundaries—it threatens every nation's space assets equally.
+These destructive tests represent what I see as the most irresponsible acts in space history. Unlike terrestrial weapons testing, space debris doesn't respect national boundaries, it threatens every nation's space assets equally.
 
 ### The Constellation Explosion
 
