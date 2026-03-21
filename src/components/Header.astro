@@ -7,6 +7,9 @@ const { backLink } = Astro.props;
 
 const asPath = Astro.url.pathname;
 const parent = backLink || asPath.split("/").slice(0, -1).join("/") || "/";
+
+const isPhotography = asPath.startsWith("/photography");
+const isBlog = asPath.startsWith("/blog");
 ---
 
 <header id="header" role="banner">
@@ -14,10 +17,10 @@ const parent = backLink || asPath.split("/").slice(0, -1).join("/") || "/";
     {asPath === "/" ? <h1>theo dammaretz</h1> : <a href={parent}>← back</a>}
     <ul>
       <li>
-        <a href="/photography" style={{ textDecoration: "none" }}>photography</a>
+        <a href="/photography" class:list={[{ active: isPhotography }]} style={{ textDecoration: "none" }}>photography</a>
       </li>
       <li>
-        <a href="/blog" style={{ textDecoration: "none" }}>blog</a>
+        <a href="/blog" class:list={[{ active: isBlog }]} style={{ textDecoration: "none" }}>blog</a>
       </li>
     </ul>
   </nav>
@@ -27,10 +30,6 @@ const parent = backLink || asPath.split("/").slice(0, -1).join("/") || "/";
   header {
     max-width: 44rem;
     margin: 0 auto 3rem;
-  }
-
-  header {
-    margin-bottom: 3rem;
   }
 
   nav {
@@ -56,5 +55,11 @@ const parent = backLink || asPath.split("/").slice(0, -1).join("/") || "/";
     font-size: 1rem;
     font-weight: normal;
     margin: 0;
+  }
+
+  .active {
+    text-decoration: underline !important;
+    text-underline-offset: 0.3rem;
+    opacity: 1;
   }
 </style>

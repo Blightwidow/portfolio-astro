@@ -2,9 +2,11 @@
 import Spacer from "../components/Spacer.astro";
 import Layout from "../layouts/Layout.astro";
 import { getAllPostByDate } from "../utils/blog";
-import { formatDate } from "../utils/date";
+import { getAllPostsByDate } from "../utils/photography";
+import { formatDate, toISODate } from "../utils/date";
 
 const posts = await getAllPostByDate("desc");
+const photoCount = (await getAllPostsByDate("desc")).length;
 
 const PROJECTS = [
   {
@@ -25,7 +27,7 @@ const PROJECTS = [
 ];
 ---
 
-<Layout title="Theo Dammaretz">
+<Layout title="Theo Dammaretz" ogType="profile">
   <p>
     Hey there, I&apos;m Theo Dammaretz, and for the most part I am a Frontend Engineer. I&apos;ve started in 2016 and
     have been passionate about it ever since. I also have a knack for writing down random thoughts in my blog.
@@ -45,13 +47,18 @@ const PROJECTS = [
     }
   </div>
   <Spacer units={1} />
+  <h2>Photography</h2>
+  <p>
+    I shoot film photography as a hobby. Browse my <a href="/photography">collection of {photoCount} photos</a>.
+  </p>
+  <Spacer units={1} />
   <h2>Blog</h2>
   <ul>
     {
       posts.slice(0, 3).map((post) => (
         <li>
           <a href={`/blog/${post.id}`}>{post.data.title}</a>
-          <time>{formatDate(post.data.date, true)}</time>
+          <time datetime={toISODate(post.data.date)}>{formatDate(post.data.date, true)}</time>
         </li>
       ))
     }

@@ -1,9 +1,7 @@
 import sitemap from "@astrojs/sitemap";
 import { defineConfig } from "astro/config";
 import playformCompress from "@playform/compress";
-import netlify from "@astrojs/netlify";
-
-import react from "@astrojs/react";
+import { remarkReadingTime } from "./src/utils/reading-time.mjs";
 
 // https://astro.build/config
 export default defineConfig({
@@ -15,13 +13,17 @@ export default defineConfig({
     playformCompress({
       Image: false,
     }),
-    react(),
   ],
   prefetch: {
     prefetchAll: true,
     defaultStrategy: "viewport",
   },
-  adapter: netlify(),
+  markdown: {
+    remarkPlugins: [remarkReadingTime],
+    shikiConfig: {
+      theme: "github-dark",
+    },
+  },
   redirects: {
     "/blog": "/blog/1",
     "/photography": "/photography/1",

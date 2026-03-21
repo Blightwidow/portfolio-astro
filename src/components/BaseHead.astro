@@ -2,9 +2,39 @@
 import metropolis from "@fontsource/metropolis/files/metropolis-latin-400-normal.woff2?url";
 interface Props {
   title: string;
+  description?: string;
+  ogType?: "website" | "article" | "profile";
+  articleDate?: Date;
 }
 
-const { title } = Astro.props;
+const {
+  title,
+  description = "Theo Dammaretz online business card and resume homemade website and portfolio",
+  ogType = "website",
+  articleDate,
+} = Astro.props;
+
+const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+
+const jsonLd =
+  ogType === "article" && articleDate
+    ? {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        headline: title,
+        datePublished: articleDate.toISOString(),
+        author: {
+          "@type": "Person",
+          name: "Theo Dammaretz",
+        },
+        url: canonicalURL.href,
+      }
+    : {
+        "@context": "http://schema.org",
+        "@type": "WebSite",
+        name: "Theo Dammaretz",
+        url: "https://dammaretz.fr",
+      };
 ---
 
 <head>
@@ -13,39 +43,26 @@ const { title } = Astro.props;
     type="application/ld+json"
     data-test="jsonld"
     is:inline
-    set:html={JSON.stringify(
-      {
-        "@context": "http://schema.org",
-        "@type": "WebSite",
-        name: "Theo Dammaretz",
-        url: "https://dammaretz.fr",
-      },
-      null,
-      2
-    )}
+    set:html={JSON.stringify(jsonLd, null, 2)}
   />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <meta name="description" content="Theo Dammaretz online business card and resume homemade website and portfolio" />
-  <meta
-    name="keywords"
-    content="resume, CV, Theo, Dammaretz, software, engineer, international, developper, developer"
-  />
+  <meta name="description" content={description} />
   <meta name="author" content="Theo Dammaretz" />
-  <meta name="msapplication-tap-highlight" content="no" />
-  <meta name="theme-color" content="#282A36" />
+  <meta name="theme-color" content="#fcfcf8" media="(prefers-color-scheme: light)" />
+  <meta name="theme-color" content="#1c1c1c" media="(prefers-color-scheme: dark)" />
   <meta name="twitter:card" content="summary" />
-  <meta property="og:title" content="Theo Dammaretz, Full Stack Engineer" />
-  <meta property="og:type" content="profile" />
-  <meta property="og:profile:first_name" content="Dammaretz" />
-  <meta property="og:profile:last_name" content="Theo" />
-  <meta property="og:url" content="https://dammaretz.fr" />
-  <meta property="og:description" content="Theo Dammaretz online business card and resume" />
-  <meta property="og:site_name" content="Theo Dammaretz, Full Stack Engineer" />
+  <meta property="og:title" content={title} />
+  <meta property="og:type" content={ogType === "article" ? "article" : "website"} />
+  <meta property="og:url" content={canonicalURL.href} />
+  <meta property="og:description" content={description} />
+  <meta property="og:site_name" content="Theo Dammaretz" />
+  {ogType === "profile" && <meta property="og:profile:first_name" content="Theo" />}
+  {ogType === "profile" && <meta property="og:profile:last_name" content="Dammaretz" />}
   <meta name="robots" content="index, follow" />
-  <meta name="humans" content="/humans.txt" />
+  <link rel="canonical" href={canonicalURL.href} />
+  <link rel="author" href="/humans.txt" />
   <link rel="manifest" href="/manifest.json" />
-  <link rel="icon" type="image/xicon" href="/favicon.ico" />
+  <link rel="icon" type="image/x-icon" href="/favicon.ico" />
   <link rel="apple-touch-icon" href="/favicon.ico" />
   <link rel="alternate" type="application/rss+xml" title="Blog feed" href="/rss.xml" />
   <meta name="generator" content={Astro.generator} />

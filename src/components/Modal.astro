@@ -26,16 +26,20 @@ const { id } = Astro.props;
   if (modal) {
     // Store the element that was focused before opening the modal
     let previouslyFocusedElement;
-    
-    // Focus management when modal opens
-    modal.addEventListener('open', () => {
-      previouslyFocusedElement = document.activeElement;
-      // Focus the first focusable element in the modal
-      const firstFocusable = modal.querySelector('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
-      if (firstFocusable) {
-        firstFocusable.focus();
+
+    // Focus management when modal opens (dialog has no 'open' event, use MutationObserver)
+    const observer = new MutationObserver((mutations) => {
+      for (const mutation of mutations) {
+        if (mutation.attributeName === 'open' && modal.hasAttribute('open')) {
+          previouslyFocusedElement = document.activeElement;
+          const firstFocusable = modal.querySelector('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
+          if (firstFocusable) {
+            firstFocusable.focus();
+          }
+        }
       }
     });
+    observer.observe(modal, { attributes: true });
     
     // Focus management when modal closes
     modal.addEventListener('close', () => {
