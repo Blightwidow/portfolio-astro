@@ -8,17 +8,20 @@ import Footer from "../components/Footer.astro";
 
 interface Props {
   title: string;
+  description?: string;
+  ogType?: "website" | "article" | "profile";
+  articleDate?: Date;
   backLink?: string;
   showFooter?: boolean;
   constrainMain?: boolean;
 }
 
-const { title, backLink, showFooter = true, constrainMain = true } = Astro.props;
+const { title, description, ogType, articleDate, backLink, showFooter = true, constrainMain = true } = Astro.props;
 ---
 
 <!doctype html>
 <html lang="en">
-  <BaseHead title={title} />
+  <BaseHead title={title} description={description} ogType={ogType} articleDate={articleDate} />
   <body>
     <a href="#main-content" class="skip-link">Skip to main content</a>
     <Header backLink={backLink} />

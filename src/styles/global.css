@@ -94,15 +94,23 @@ code {
   padding: 0.2rem 0.6rem;
   margin: 0 0.2rem;
   font-size: 90%;
-  background: rgba(0, 0, 0, 0.3);
+  background: rgba(var(--foreground-rgb), 0.1);
   border-radius: 4px;
   font-family: monospace;
+}
+
+pre {
+  background: #24292e;
+  border-radius: 6px;
+  overflow-x: auto;
 }
 
 pre > code {
   display: block;
   padding: 1rem 1.5rem;
   white-space: pre;
+  background: transparent;
+  margin: 0;
 }
 
 /* Misc
@@ -125,13 +133,34 @@ button {
   border-radius: 0.5rem;
   border: solid 1px rgba(var(--foreground-rgb), 0.3);
   cursor: pointer;
-  text-transform: underline;
+  text-decoration: underline;
   transition: background-color 0.1s ease-in-out;
 }
 
 button:hover,
 button:focus {
   background-color: rgba(var(--foreground-rgb), 0.1);
+}
+
+button:focus-visible {
+  outline: 2px solid rgb(var(--foreground-rgb));
+  outline-offset: 2px;
+}
+
+a:focus-visible {
+  outline: 2px solid rgb(var(--foreground-rgb));
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }
 
 .loader {

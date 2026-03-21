@@ -2,6 +2,7 @@
 import { render } from "astro:content";
 import Layout from "../../layouts/Layout.astro";
 import { getAllPostByDate } from "../../utils/blog";
+import { formatDate, toISODate } from "../../utils/date";
 
 export async function getStaticPaths() {
   const posts = await getAllPostByDate("desc");
@@ -15,9 +16,36 @@ export async function getStaticPaths() {
 }
 
 const { post } = Astro.props;
-const { Content } = await render(post);
+const { Content, remarkPluginFrontmatter } = await render(post);
+const readingTime = remarkPluginFrontmatter?.readingTime;
 ---
 
-<Layout title={`${post.data.title} - Theo Dammaretz`}>
-  <article><Content /></article>
+<Layout
+  title={`${post.data.title} - Theo Dammaretz`}
+  description={post.data.subtitle}
+  ogType="article"
+  articleDate={post.data.date}
+>
+  <article>
+    <div class="meta">
+      <time datetime={toISODate(post.data.date)}>{formatDate(post.data.date)}</time>
+      {readingTime && <span class="reading-time">{readingTime}</span>}
+    </div>
+    <Content />
+  </article>
 </Layout>
+
+<style>
+  .meta {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    opacity: 0.6;
+    margin-bottom: 1.5rem;
+  }
+
+  .reading-time::before {
+    content: "\b7";
+    margin-right: 1rem;
+  }
+</style>

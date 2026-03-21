@@ -3,7 +3,16 @@ import Spacer from "../components/Spacer.astro";
 import Layout from "../layouts/Layout.astro";
 ---
 
-<Layout title="Theo Dammaretz">
-  <Spacer units={5} />
+<Layout title="Page Not Found - Theo Dammaretz">
+  <Spacer units={3} />
   <h1>404 - Page Not Found</h1>
+  <p>The page you're looking for doesn't exist or has been moved.</p>
+  <Spacer units={1} />
+  <nav>
+    <ul>
+      <li><a href="/">Go to homepage</a></li>
+      <li><a href="/blog">Browse blog posts</a></li>
+      <li><a href="/photography">Browse photography</a></li>
+    </ul>
+  </nav>
 </Layout>

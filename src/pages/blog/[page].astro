@@ -4,7 +4,7 @@ import Pagination from "../../components/Pagination.astro";
 import Spacer from "../../components/Spacer.astro";
 import Layout from "../../layouts/Layout.astro";
 import { getAllPostByDate } from "../../utils/blog";
-import { formatDate } from "../../utils/date";
+import { formatDate, toISODate } from "../../utils/date";
 
 export async function getStaticPaths({ paginate }: { paginate: PaginateFunction }) {
   const posts = await getAllPostByDate("desc");
@@ -24,7 +24,7 @@ const { page } = Astro.props;
           <a href={`/blog/${post.id}`}>{post.data.title}</a>
         </h3>
         {Boolean(post.data.subtitle) && <p>{post.data.subtitle}</p>}
-        <time>{formatDate(post.data.date)}</time>
+        <time datetime={toISODate(post.data.date)}>{formatDate(post.data.date)}</time>
         <Spacer units={2} />
       </div>
     ))

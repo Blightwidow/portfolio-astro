@@ -3,9 +3,9 @@ import { Image, Picture } from "astro:assets";
 import Layout from "../../../layouts/PhotoLayout.astro";
 import { getAllPostsByDate } from "../../../utils/photography";
 import Modal from "../../../components/Modal.astro";
-import { formatDate } from "../../../utils/date";
+import { formatDate, toISODate } from "../../../utils/date";
 import Spacer from "../../../components/Spacer.astro";
-import { ClapButton } from "../../../components/ClapButton";
+
 
 export async function getStaticPaths() {
   const photos = await getAllPostsByDate("desc");
@@ -29,9 +29,8 @@ const { photo, next, prev } = Astro.props;
     src={photo.data.image}
     formats={["webp", "avif"]}
     alt={photo.data.alt}
-    aria-label="Toggle fullscreen"
   />
-  <div aria-label="Toggle fullscreen" class="relative">
+  <div role="button" tabindex="0" aria-label="Toggle fullscreen" class="relative">
     <svg
       xmlns="http://www.w3.org/2000/svg"
       width="30px"
@@ -80,10 +79,7 @@ const { photo, next, prev } = Astro.props;
     </div>
     <Spacer units={2} />
     <div class="flex spaced">
-      <div>
-        <time>{formatDate(photo.data.date)}</time>
-        <ClapButton postId={photo.id} client:idle />
-      </div>
+      <time datetime={toISODate(photo.data.date)}>{formatDate(photo.data.date)}</time>
       <button aria-label="Open modal">Want this picture removed?</button>
     </div>
     {photo.data.description && <p>{photo.data.description}</p>}
@@ -114,6 +110,13 @@ const { photo, next, prev } = Astro.props;
     if (window.matchMedia("(min-width: 550px)").matches) {
       toggle.addEventListener("click", () => {
         toggleFullscreen();
+      });
+      toggle.addEventListener("keydown", (event) => {
+        const e = event as KeyboardEvent;
+        if (e.key === "Enter" || e.key === " ") {
+          e.preventDefault();
+          toggleFullscreen();
+        }
       });
     }
   });
