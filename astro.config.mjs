@@ -26,6 +26,5 @@ export default defineConfig({
   },
   redirects: {
     "/blog": "/blog/1",
-    "/photography": "/photography/1",
   },
 });

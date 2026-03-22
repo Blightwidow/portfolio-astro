@@ -1,6 +1,38 @@
 import { getCollection, type DataEntryMap } from "astro:content";
+import sharp from "sharp";
+import { fileURLToPath } from "node:url";
+import path from "node:path";
 
 export type Photo = ValueOf<DataEntryMap["photography"]>;
+
+const CONTENT_DIR = path.join(
+  path.dirname(fileURLToPath(import.meta.url)),
+  "../content/photography",
+);
+
+export async function generatePlaceholder(
+  photoId: string,
+): Promise<string> {
+  const filePath = path.join(CONTENT_DIR, `${photoId}.jpg`);
+  const buffer = await sharp(filePath)
+    .resize(20)
+    .blur(5)
+    .toFormat("webp")
+    .toBuffer();
+  return `data:image/webp;base64,${buffer.toString("base64")}`;
+}
+
+export async function generatePlaceholders(
+  photos: Photo[],
+): Promise<Map<string, string>> {
+  const entries = await Promise.all(
+    photos.map(async (photo) => {
+      const placeholder = await generatePlaceholder(photo.id);
+      return [photo.id, placeholder] as const;
+    }),
+  );
+  return new Map(entries);
+}
 
 export async function getAllPostsByDate(order: "asc" | "desc") {
   const posts = await getCollection("photography");

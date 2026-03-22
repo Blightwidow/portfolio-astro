@@ -19,7 +19,16 @@ export async function getStaticPaths() {
 const { tag, photos } = Astro.props;
 ---
 
-<Layout title={`Photography: #${tag} - Theo Dammaretz`}>
-  <h1>#{tag}</h1>
+<Layout title={`Photography: #${tag} - Theo Dammaretz`} constrainMain={false}>
+  <div class="intro">
+    <h1>#{tag}</h1>
+  </div>
   <PhotoMasonry photos={photos} />
 </Layout>
+
+<style>
+  .intro {
+    max-width: 44rem;
+    margin: 0 auto;
+  }
+</style>

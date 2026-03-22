@@ -34,7 +34,7 @@ Defined in `src/content.config.ts` using Astro's glob loader:
 - `src/pages/photography/photo/[id].astro` - Individual photo page
 - `src/pages/rss.xml.js` - RSS feed
 
-Redirects: `/blog` -> `/blog/1`, `/photography` -> `/photography/1`.
+Redirects: `/blog` -> `/blog/1`.
 
 ### Layouts
 
