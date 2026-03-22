@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "astro dev",
     "start": "astro dev",
-    "build": "astro check && bun lint && astro build",
+    "build": "astro check & bun lint & wait && astro build",
     "preview": "serve dist/",
     "lint": "oxlint --type-aware src/**/*.{js,mjs,cjs,ts,mts,cts,jsx,tsx,astro}",
     "format": "oxfmt --check src/**/*.{js,mjs,cjs,ts,mts,cts,jsx,tsx,astro}",
@@ -35,6 +35,7 @@
     "eslint-plugin-react": "^7.37.5",
     "globals": "^17.0.0",
     "jiti": "^2.6.1",
+    "netlify-plugin-cache": "^1.0.3",
     "oxfmt": "^0.24.0",
     "oxlint": "^1.39.0",
     "oxlint-tsgolint": "^0.11.1",

@@ -1,5 +1,5 @@
 ---
-import { Image, Picture } from "astro:assets";
+import { Picture } from "astro:assets";
 import Layout from "../../../layouts/PhotoLayout.astro";
 import { getAllPostsByDate } from "../../../utils/photography";
 import Modal from "../../../components/Modal.astro";
@@ -24,13 +24,7 @@ const { photo, next, prev } = Astro.props;
 ---
 
 <Layout title={`${photo.data.alt} - Theo Dammaretz`}>
-  <Picture
-    id="fullscreen-img"
-    src={photo.data.image}
-    formats={["webp", "avif"]}
-    alt={photo.data.alt}
-  />
-  <div role="button" tabindex="0" aria-label="Toggle fullscreen" class="relative">
+  <div role="button" tabindex="0" aria-label="Toggle fullscreen" class="relative" id="photo-container">
     <svg
       xmlns="http://www.w3.org/2000/svg"
       width="30px"
@@ -46,7 +40,7 @@ const { photo, next, prev } = Astro.props;
         d="M10.7071 14.7071L5.41421 20H9C9.55228 20 10 20.4477 10 21C10 21.5523 9.55228 22 9 22H3.00069L2.997 22C2.74301 21.9992 2.48924 21.9023 2.29502 21.7092L2.29078 21.705C2.19595 21.6096 2.12432 21.4999 2.07588 21.3828C2.02699 21.2649 2 21.1356 2 21V15C2 14.4477 2.44772 14 3 14C3.55228 14 4 14.4477 4 15V18.5858L9.29289 13.2929C9.68342 12.9024 10.3166 12.9024 10.7071 13.2929C11.0976 13.6834 11.0976 14.3166 10.7071 14.7071Z"
       ></path>
     </svg>
-    <Image class="image" src={photo.data.image} alt={photo.data.alt} />
+    <Picture class="image" src={photo.data.image} formats={["webp"]} alt={photo.data.alt} />
   </div>
   <div class="wrapper">
     <Modal id="modal">
@@ -96,30 +90,20 @@ const { photo, next, prev } = Astro.props;
 </Layout>
 
 <script>
+  const container = document.getElementById("photo-container");
   const toggleFullscreen = () => {
-    const img = document.getElementById("fullscreen-img");
-    if (img?.classList.contains("fullscreen")) {
-      img?.classList.remove("fullscreen");
-    } else {
-      img?.classList.add("fullscreen");
-    }
+    container?.classList.toggle("fullscreen");
   };
-  const toggles = document.querySelectorAll("[aria-label='Toggle fullscreen']");
 
-  toggles.forEach((toggle) => {
-    if (window.matchMedia("(min-width: 550px)").matches) {
-      toggle.addEventListener("click", () => {
+  if (container && window.matchMedia("(min-width: 550px)").matches) {
+    container.addEventListener("click", toggleFullscreen);
+    container.addEventListener("keydown", (event) => {
+      if (event.key === "Enter" || event.key === " ") {
+        event.preventDefault();
         toggleFullscreen();
-      });
-      toggle.addEventListener("keydown", (event) => {
-        const e = event as KeyboardEvent;
-        if (e.key === "Enter" || e.key === " ") {
-          e.preventDefault();
-          toggleFullscreen();
-        }
-      });
-    }
-  });
+      }
+    });
+  }
 
   const button = document.querySelector("button[aria-label='Open modal']");
   button?.addEventListener("click", () => {
@@ -137,30 +121,34 @@ const { photo, next, prev } = Astro.props;
     height: auto;
   }
 
-  #fullscreen-img {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: auto;
-    cursor: zoom-out;
-    opacity: 0;
-    display: none;
-    transition: opacity 0.2s ease-in-out;
-    z-index: 10;
-  }
-
-  #fullscreen-img.fullscreen {
-    display: block;
-    opacity: 1;
-  }
-
   div.relative {
     position: relative;
     min-width: min(100%, 404px);
     max-width: calc(-130px + 70vh);
     margin: auto;
     cursor: zoom-in;
+  }
+
+  div.relative.fullscreen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    max-width: 100vw;
+    min-width: 100vw;
+    height: 100vh;
+    z-index: 10;
+    cursor: zoom-out;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: black;
+  }
+
+  div.relative.fullscreen .image {
+    width: auto;
+    max-width: 100vw;
+    max-height: 100vh;
+    object-fit: contain;
   }
 
   .fullscreen-icon {

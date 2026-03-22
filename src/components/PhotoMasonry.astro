@@ -19,10 +19,10 @@ const { photos, page } = Astro.props;
         <a href={`/photography/photo/${photo.id}`} aria-label={`View photo: ${photo.data.alt}`}>
           <Picture
             src={photo.data.image as ImageMetadata}
-            formats={["webp", "avif"]}
+            formats={["webp"]}
             alt={photo.data.alt}
             widths={[300, 510]}
-            quality={90}
+            quality={80}
             sizes={`(min-width: 750px) 300, 510px`}
             loading={index < 2 ? "eager" : "lazy"}
             decoding={index < 2 ? "sync" : "async"}
