@@ -1,13 +1,12 @@
 import { getCollection, type DataEntryMap } from "astro:content";
 import sharp from "sharp";
-import { fileURLToPath } from "node:url";
 import path from "node:path";
 
 export type Photo = ValueOf<DataEntryMap["photography"]>;
 
 const CONTENT_DIR = path.join(
-  path.dirname(fileURLToPath(import.meta.url)),
-  "../content/photography",
+  process.cwd(),
+  "src/content/photography",
 );
 
 export async function generatePlaceholder(
