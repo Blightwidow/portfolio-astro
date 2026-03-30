@@ -1,7 +1,7 @@
 ---
 title: Claude Code learnings
 subtitle: How to boost your productivity writing code or any content while keeping control
-date: 2026-04-01
+date: 2026-03-30
 ---
 
 # Claude Code learnings
