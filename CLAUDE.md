@@ -56,6 +56,19 @@ In `netlify/functions/`, using `@netlify/blobs` for storage:
 
 Plain CSS with CSS custom properties (no Tailwind). Global styles in `src/styles/global.css`. Font: Metropolis via `@fontsource`.
 
+## Blog Writing Style
+
+When writing or editing blog articles, match this voice:
+
+- **First person, opinionated but grounded.** Use "I believe", "I find", "what concerns me" — own the point of view.
+- **Conversational with substance.** Accessible without being dumbed down. Light humor is fine, but never forced.
+- **Data-driven storytelling.** Cite specific figures but always translate them into something relatable (e.g. "the annual car emissions of 500 French people", "less than a Hollywood blockbuster's budget").
+- **Rhetorical questions as transitions.** Use them to set up counterarguments or twists ("So we're done here, right?").
+- **Bold for key stats and takeaways.** Inline links to sources when available.
+- **Frustration targets systems, not technology.** Critical of policy failures and institutional inertia, optimistic about innovation.
+- **Structure with narrative arc.** H2 for major thematic acts, H3 for subsections. Build toward an insight or conclusion — don't just list facts.
+- **Lexical habits**: "I find it remarkable", "what strikes me", "the irony isn't lost on me". Prefer commas or parentheses for asides — avoid em dashes. Series articles end with a forward-looking italic sign-off.
+
 ## Conventions
 
 - Conventional commits: `<type>[scope]: <description>` (max 60 chars)
