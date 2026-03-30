@@ -1,7 +1,7 @@
 ---
 title: The new Space Race III, Does it pollute?
 subtitle: What is the environmental impact of rocket launches
-date: 2026-04-01
+date: 2026-04-07
 ---
 
 # The new Space Race III, Does it pollute?

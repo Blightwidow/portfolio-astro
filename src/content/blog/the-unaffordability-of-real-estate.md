@@ -1,7 +1,7 @@
 ---
 title: The unaffordability of real estate
 subtitle: How housing became the defining economic challenge of our generation
-date: 2026-04-01
+date: 2026-04-15
 ---
 
 # The unaffordability of real estate
