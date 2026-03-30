@@ -78,3 +78,7 @@ The chess programming community had already solved this problem. The answer was 
 And before I could justify the complexity of a neural network, I needed to feel the ceiling of handcrafted evaluation personally. Not read about it, *feel* it. Playing test games where the engine made the same positional mistakes despite my best manual tuning attempts was what finally pushed me toward NNUE.
 
 But I don't regret the handcrafted phase. Writing a tapered evaluation from scratch taught me what chess engines actually care about, and that understanding made the neural network transition much less mysterious when it finally came.
+
+---
+
+*This is part 6 of a series on building a chess engine in Rust. Previous: [The search for better search](/blog/the-search-for-better-search). Next: [The neural network that broke everything](/blog/the-neural-network-that-broke-everything).*

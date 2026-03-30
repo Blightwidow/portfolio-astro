@@ -114,3 +114,7 @@ The protocol itself is straightforward. The spec is one document, and most engin
 4. **Check compliance with some executable**: A lot of test suite exists. `fastchess` for example has a `--compliance` flag to test your engine.
 
 UCI is the boring part of a chess engine. It's also the part that makes everything else possible.
+
+---
+
+*This is part 4 of a series on building a chess engine in Rust. Previous: [Giving it eyes: a handcrafted evaluation](/blog/giving-it-eyes-a-handcrafted-evaluation). Next: [The search for better search](/blog/the-search-for-better-search).*

@@ -45,13 +45,21 @@ svg {
 
 /* Blog
 –––––––––––––––––––––––––––––––––––––––––––––––––– */
+article h2 {
+  margin-block-start: 3em;
+}
+
 article h3 {
-  margin-block-start: 1.5em;
+  margin-block-start: 2em;
 }
 
 article img {
   width: 100%;
   height: auto;
+}
+
+article li {
+  margin-bottom: 0.25rem;
 }
 
 @media (min-width: 550px) {

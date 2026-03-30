@@ -110,3 +110,7 @@ You don't need to target 3000 Elo. You don't need NNUE. You need a board represe
 The [Chess Programming Wiki](https://www.chessprogramming.org) is the canonical reference. [Rustic](https://rustic-chess.org/) is a great resource if you want to build in Rust specifically. The community on Stockfish Discord and engine development forums is generous with help and feedback.
 
 And above all: measure. Every change, every idea, every "I think this will be better." Measure it. The numbers don't lie, even when your intuition does.
+
+---
+
+*This is part 8 (final) of a series on building a chess engine in Rust. Previous: [The neural network that broke everything](/blog/the-neural-network-that-broke-everything).*

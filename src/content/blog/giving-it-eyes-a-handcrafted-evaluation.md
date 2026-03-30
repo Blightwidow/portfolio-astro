@@ -81,3 +81,7 @@ None of these terms are individually revolutionary. They're all well-known chess
 The frustrating part? I had to tune every single one of these values by hand. Is a passed pawn on the 6th rank worth 60 or 70 centipawns in the middlegame? Is the bishop pair bonus really 30, or should it be 25? I didn't know. I guessed, played test games, adjusted, and guessed again.
 
 Eventually, I'd stop guessing and stand on the shoulders of people who had done this properly. But that's a story for later.
+
+---
+
+*This is part 3 of a series on building a chess engine in Rust. Previous: [My first shitty playable bot](/blog/my-first-shitty-playable-bot). Next: [Speaking UCI: making your engine talk to the world](/blog/speaking-uci-making-your-engine-talk).*

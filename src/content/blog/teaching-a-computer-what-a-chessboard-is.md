@@ -83,3 +83,7 @@ The board representation and move generation took me longer than I expected, wee
 But getting perft right was deeply satisfying. It's one of those rare moments in programming where the answer is either exactly correct or wrong. No ambiguity, no "it depends." Your move generator either produces 3,195,901,860 nodes from the starting position at depth 7, or it doesn't.
 
 With legal move generation working, Oxide could now understand what a chessboard is and what moves are possible. It just had no idea which moves were *good*. That's what the next post is about: teaching it to play, badly.
+
+---
+
+*This is part 1 of a series on building a chess engine in Rust. Next: [My first shitty playable bot](/blog/my-first-shitty-playable-bot).*
