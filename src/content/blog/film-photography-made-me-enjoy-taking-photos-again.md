@@ -12,9 +12,9 @@ Not because I had stopped caring about photos, but because I had started to disl
 
 I don’t hate editing. I just don’t want it to be the main event. I like the act of taking pictures. The walking, the waiting, the framing, the little decisions you make in half a second. Somewhere along the way, I had lost that.
 
-And then, by complete luck, I bought a disposable film camera for a vacation with my wife. It was the perfect antidote. A throwaway camera you can keep in your pocket, pull out for a random shot, and not worry about. If you lose it, you shrug. If you get a weird frame, you accept it. The pictures came back looking… not great, objectively (plastic lens, questionable sharpness...), but they had *a thing*. A built-in aesthetic you have to get on board with. Most importantly: I didn’t edit them.
+And then, by complete luck, I bought a disposable film camera for a vacation. It was the perfect antidote. A throwaway camera you can keep in your pocket, pull out for a random shot, and not worry about. If you lose it, you shrug. If you get a weird frame, you accept it. The pictures came back looking… not great, objectively (plastic lens, questionable sharpness...), but they had *a thing*. A built-in aesthetic you have to get on board with. Most importantly: I didn’t edit them.
 
-That was enough to hook me. I decided to get back into photography, but this time through film.
+That was enough to hook me back. I decided to get back into photography, but this time through film.
 
 ## The challenge (and the part where I failed)
 
@@ -26,7 +26,7 @@ No. I failed miserably.
 
 But I did shoot again. I carried a camera again. I made images I’m genuinely proud of. And that alone made the year worth it.
 
-Over that year, I shot **19 rolls** of film. **Four** were black and white. **Seven** were **Kodak Gold**. The rest were **Vision film** (the cinema stock, more down below). It’s not a lot for a “daily” challenge, but it was a real restart, and it brought back something I had missed: enjoying photography *while doing it*.
+Over that year, I shot **22 rolls** of film. **Four** were black and white. **Seven** were **Kodak Gold**. The rest were **Vision film** (the cinema stock, more down below). It’s not a lot for a “daily” challenge, but it was a real restart, and it brought back something I had missed: enjoying photography *while doing it*.
 
 ## Starting cheap: the €30 camera that almost worked
 
@@ -70,7 +70,7 @@ For black and white, the advice is boring but effective: buy the cheap stocks. *
 
 Color is where things get painful. I find the entry-level stocks can be fun, but also limiting: the grain can be heavy, the colors can lean “retro” (which you might love), and they’re not always what I want.
 
-A great hack here is **Vision3 film**, cinema film meant for the movie industry. It’s often sold as **repackaged / hand-rolled** 35mm rolls. You’ll see it under names like **250D** or **400T** depending on the stock. You can buy it in bulk and roll it yourself (the hand-roller is about **€80**), or buy it already rolled from smaller sellers for around **€8** a roll. At around **€8** a roll, you save 2 euros and get better quality.
+A great hack here is **Vision3 film**, cinema film meant for the movie industry. It’s often sold as **repackaged / hand-rolled** 35mm rolls. You’ll see it under names like **250D** or **500T** depending on the stock. You can buy it in bulk and roll it yourself (the hand-roller is about **€80**), or buy it already rolled from smaller sellers for around **€8** a roll. At around **€8** a roll, you save 2 euros and get better quality.
 
 One important warning: **Vision3 generally requires ECN-2 development**, not standard C-41. So before you buy a stack of it, check that your lab can actually process it, or plan to do it yourself.
 
@@ -100,7 +100,7 @@ Personally, I’ve been lucky: I have access to a lab that does ECN-2 for the sa
 
 At the end of this year-long experiment, I spent roughly **€600** on everything: equipment, film, development, scanning. It sounds like a lot when you say it out loud.
 
-And yet, it bought me a year of photography that I actually enjoyed. I didn’t complete the daily challenge. But I did restart a habit. I learned what I like: smaller cameras, fewer decisions, less editing, more shooting. I also learned that film photography is both more accessible and more expensive than people think: cheap to start, costly to sustain, unless you take control of a few parts of the pipeline.
+And yet, it bought me a year of photography that I actually enjoyed. I didn’t complete the daily challenge I fixed myself, but I did restart a habit. I learned what I like: smaller cameras, fewer decisions, less editing, more shooting. I also learned that film photography is both more accessible and more expensive than people think: cheap to start, costly to sustain, unless you take control of a few parts of the pipeline.
 
 Will I continue posting every day? Probably not.
 
