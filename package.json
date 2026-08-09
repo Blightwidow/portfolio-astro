@@ -10,7 +10,8 @@
     "lint": "oxlint --type-aware src/**/*.{js,mjs,cjs,ts,mts,cts,jsx,tsx,astro}",
     "format": "oxfmt --check src/**/*.{js,mjs,cjs,ts,mts,cts,jsx,tsx,astro}",
     "astro": "astro",
-    "generate-photo-metadata": "node scripts/generate-photo-metadata.js"
+    "generate-photo-metadata": "node scripts/generate-photo-metadata.js",
+    "rename-photos-sequential": "node scripts/rename-photos-sequential.js"
   },
   "dependencies": {
     "@astrojs/check": "0.9.6-beta.1",
