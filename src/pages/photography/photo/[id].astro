@@ -64,6 +64,16 @@ const socialImage = await getImage({
       data-pagefind-meta="image[src], image_alt[alt]"
     />
   </div>
+  <script is:inline>
+    // Applied synchronously during parse so navigating between photos while
+    // fullscreen does not flash the regular layout before the module script runs.
+    if (
+      sessionStorage.getItem("photo-fullscreen") === "true" &&
+      window.matchMedia("(min-width: 550px)").matches
+    ) {
+      document.getElementById("photo-container").classList.add("fullscreen");
+    }
+  </script>
   <div class="wrapper">
     <div data-pagefind-ignore>
     <Modal id="modal">
@@ -116,8 +126,14 @@ const socialImage = await getImage({
 
 <script>
   const container = document.getElementById("photo-container");
+  const FULLSCREEN_STORAGE_KEY = "photo-fullscreen";
+
+  const setFullscreen = (enabled: boolean) => {
+    container?.classList.toggle("fullscreen", enabled);
+    sessionStorage.setItem(FULLSCREEN_STORAGE_KEY, String(enabled));
+  };
   const toggleFullscreen = () => {
-    container?.classList.toggle("fullscreen");
+    setFullscreen(!container?.classList.contains("fullscreen"));
   };
 
   if (container && window.matchMedia("(min-width: 550px)").matches) {
@@ -149,7 +165,7 @@ const socialImage = await getImage({
     } else if (event.key === "ArrowRight" && nextLink) {
       nextLink.click();
     } else if (event.key === "Escape" && container?.classList.contains("fullscreen")) {
-      container.classList.remove("fullscreen");
+      setFullscreen(false);
     } else if (event.key === "f" && window.matchMedia("(min-width: 550px)").matches) {
       toggleFullscreen();
     }
