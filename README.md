@@ -34,7 +34,6 @@ The setup is currently hosted and deployed through [Netlify](https://www.netlify
 - [Astro](https://astro.build/) - Static site framework
 - [Typescript](https://www.typescriptlang.org/) - Javascript compiling language with strong typings
 - [Pagefind](https://pagefind.app/) - Static search indexing
-- [Satori](https://github.com/vercel/satori) - Generated Open Graph images for blog posts
 
 ## Contributing
 

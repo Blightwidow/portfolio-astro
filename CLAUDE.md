@@ -32,7 +32,6 @@ Defined in `src/content.config.ts` using Astro's glob loader:
 - `src/pages/search.astro` - Pagefind search page (index only exists on built site)
 - `src/pages/blog/[page].astro` - Paginated blog listing
 - `src/pages/blog/[slug].astro` - Individual blog post
-- `src/pages/blog/og/[slug].png.ts` - Generated OG card per post (satori + resvg)
 - `src/pages/photography/index.astro` - Photo gallery (masonry, single page, tag index)
 - `src/pages/photography/[tag].astro` - Photos filtered by tag
 - `src/pages/photography/photo/[id].astro` - Individual photo page
@@ -43,7 +42,7 @@ Redirects: `/blog` -> `/blog/1`.
 ### Search & Social Previews
 
 - **Search**: Pagefind indexes blog posts and photo pages at build time (`data-pagefind-body` marks indexable regions, `data-pagefind-ignore` excludes noise). UI on `/search` via the Pagefind Default UI, loaded from `/pagefind/` (built site only).
-- **OG images**: photo pages emit the photo itself (resized via `getImage`); blog posts get a generated 1200x630 card. Both flow through the `ogImage` prop on `Layout`/`PhotoLayout` into `BaseHead`.
+- **OG images**: photo pages emit the photo itself (resized via `getImage`) through the `ogImage` prop on `Layout`/`PhotoLayout` into `BaseHead`. Blog posts have no OG image (text-only `summary` card).
 
 ### Layouts
 
