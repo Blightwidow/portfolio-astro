@@ -150,6 +150,8 @@ const socialImage = await getImage({
       nextLink.click();
     } else if (event.key === "Escape" && container?.classList.contains("fullscreen")) {
       container.classList.remove("fullscreen");
+    } else if (event.key === "f" && window.matchMedia("(min-width: 550px)").matches) {
+      toggleFullscreen();
     }
   });
 
