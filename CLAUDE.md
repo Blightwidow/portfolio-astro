@@ -10,6 +10,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - **Format check**: `bun run format` (oxfmt)
 - **Preview built site**: `bun run preview` (serves `dist/`)
 - **Generate photo metadata**: `bun run generate-photo-metadata`
+- **Rename photos sequentially**: `bun run rename-photos-sequential`
 
 Always run `bun run lint` and `bun run build` to verify changes.
 
@@ -27,9 +28,10 @@ Defined in `src/content.config.ts` using Astro's glob loader:
 ### Pages (file-based routing)
 
 - `src/pages/index.astro` - Homepage
+- `src/pages/404.astro` - Not-found page
 - `src/pages/blog/[page].astro` - Paginated blog listing
 - `src/pages/blog/[slug].astro` - Individual blog post
-- `src/pages/photography/[page].astro` - Paginated photo gallery
+- `src/pages/photography/index.astro` - Photo gallery (masonry, single page)
 - `src/pages/photography/[tag].astro` - Photos filtered by tag
 - `src/pages/photography/photo/[id].astro` - Individual photo page
 - `src/pages/rss.xml.js` - RSS feed
@@ -39,18 +41,7 @@ Redirects: `/blog` -> `/blog/1`.
 ### Layouts
 
 - `Layout.astro` - Main layout (header, footer, constrained content area)
-- `PhotoLayout.astro` - Photography-specific layout
-
-### Interactive Components
-
-React is used for client-side interactivity via `@astrojs/react`:
-- `ClapButton.tsx` - Photo clap button using React Query
-
-### Netlify Functions (serverless API)
-
-In `netlify/functions/`, using `@netlify/blobs` for storage:
-- `getPhotoClaps.mts` - `GET /api/post-clap/:postId`
-- `increasePhotoClaps.mts` - Increments clap count
+- `PhotoLayout.astro` - Photography-specific layout (wraps `Layout`, no footer, unconstrained)
 
 ### Styling
 
