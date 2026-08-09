@@ -21,7 +21,7 @@ const placeholders = await generatePlaceholders(photos);
         return (
           <a
             href={`/photography/photo/${photo.id}`}
-            aria-label={`View photo: ${photo.data.alt}`}
+            aria-label={`View photo: ${photo.data.title}`}
             class="photo-item"
             style={`aspect-ratio: ${img.width} / ${img.height}; background-image: url(${placeholder}); background-size: cover;`}
           >

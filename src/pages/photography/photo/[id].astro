@@ -30,7 +30,7 @@ const socialImage = await getImage({
 ---
 
 <Layout
-  title={`${photo.data.alt} - Theo Dammaretz`}
+  title={`${photo.data.title} - Theo Dammaretz`}
   description={photo.data.description ?? photo.data.alt}
   ogImage={{
     url: socialImage.src,
@@ -39,7 +39,7 @@ const socialImage = await getImage({
     alt: photo.data.alt,
   }}
 >
-  <div class="contents" data-pagefind-body data-pagefind-meta={`title:${photo.data.alt}`}>
+  <div class="contents" data-pagefind-body data-pagefind-meta={`title:${photo.data.title}`}>
   <div role="button" tabindex="0" aria-label="Toggle fullscreen" class="relative" id="photo-container">
     <svg
       xmlns="http://www.w3.org/2000/svg"

@@ -46,7 +46,8 @@ function generateYamlContent(jpgFilename) {
   const date = extractDateFromFilename(jpgFilename);
   const defaultTags = generateDefaultTags();
 
-  return `alt: Add your title here.
+  return `title: Add your title here.
+alt: Describe the photo for screen readers here.
 description: >
   Add your photo description here.
 date: ${date}

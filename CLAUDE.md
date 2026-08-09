@@ -23,7 +23,7 @@ This is an Astro 6 (beta) static site for [dammaretz.fr](https://dammaretz.fr), 
 Defined in `src/content.config.ts` using Astro's glob loader:
 
 - **blog**: Markdown files in `src/content/blog/`. Schema: `title`, `subtitle`, `date`.
-- **photography**: YAML files in `src/content/photography/` (each paired with a `.jpg`). Schema: `alt`, `description?`, `date`, `image`, `tags?`, `hideFromGallery?` (defaults to `false`; hides the photo from the main gallery but keeps it on tag pages, its own page, and in search).
+- **photography**: YAML files in `src/content/photography/` (each paired with a `.jpg`). Schema: `title` (short display title, used for the page title and search results), `alt` (descriptive alt text for screen readers), `description?`, `date`, `image`, `tags?`, `hideFromGallery?` (defaults to `false`; hides the photo from the main gallery but keeps it on tag pages, its own page, and in search).
 
 ### Pages (file-based routing)
 

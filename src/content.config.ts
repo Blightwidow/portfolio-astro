@@ -15,6 +15,7 @@ const photography = defineCollection({
   loader: glob({ pattern: "**/*.yaml", base: "./src/content/photography" }),
   schema: ({ image }) =>
     z.object({
+      title: z.string(),
       alt: z.string(),
       description: z.string().optional(),
       date: z.date(),
