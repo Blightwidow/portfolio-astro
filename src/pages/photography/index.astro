@@ -4,8 +4,10 @@ import TagList from "../../components/TagList.astro";
 import Layout from "../../layouts/Layout.astro";
 import { getAllPostsByDate, getAllTagsWithCounts } from "../../utils/photography";
 
+const MINIMUM_PHOTOS_PER_TAG = 5;
+
 const photos = await getAllPostsByDate("desc");
-const tags = await getAllTagsWithCounts();
+const tags = (await getAllTagsWithCounts()).filter(({ count }) => count >= MINIMUM_PHOTOS_PER_TAG);
 ---
 
 <Layout title="Photography - Theo Dammaretz" backLink="/" constrainMain={false}>
