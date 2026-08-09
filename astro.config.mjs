@@ -1,4 +1,5 @@
 import sitemap from "@astrojs/sitemap";
+import { unified } from "@astrojs/markdown-remark";
 import { defineConfig } from "astro/config";
 import playformCompress from "@playform/compress";
 import { remarkReadingTime } from "./src/utils/reading-time.mjs";
@@ -19,7 +20,7 @@ export default defineConfig({
     defaultStrategy: "viewport",
   },
   markdown: {
-    remarkPlugins: [remarkReadingTime],
+    processor: unified({ remarkPlugins: [remarkReadingTime] }),
     shikiConfig: {
       theme: "github-dark",
     },
