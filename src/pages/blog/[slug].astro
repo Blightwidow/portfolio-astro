@@ -32,7 +32,7 @@ const readingTime = remarkPluginFrontmatter?.readingTime;
     alt: post.data.title,
   }}
 >
-  <article>
+  <article data-pagefind-body>
     <div class="meta">
       <time datetime={toISODate(post.data.date)}>{formatDate(post.data.date)}</time>
       {readingTime && <span class="reading-time">{readingTime}</span>}

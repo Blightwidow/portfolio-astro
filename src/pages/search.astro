@@ -1,0 +1,50 @@
+---
+import Layout from "../layouts/Layout.astro";
+---
+
+<Layout title="Search - Theo Dammaretz" backLink="/">
+  <h1>Search</h1>
+  <p class="hint">Search across blog posts and photos.</p>
+  <div id="search"></div>
+</Layout>
+
+<link rel="stylesheet" href="/pagefind/pagefind-ui.css" />
+<script is:inline src="/pagefind/pagefind-ui.js"></script>
+<script is:inline>
+  window.addEventListener("DOMContentLoaded", () => {
+    if (window.PagefindUI) {
+      new window.PagefindUI({
+        element: "#search",
+        showImages: true,
+        showSubResults: true,
+        autofocus: true,
+      });
+    } else {
+      const searchElement = document.getElementById("search");
+      if (searchElement) {
+        searchElement.textContent =
+          "Search index is only available on the built site (bun run build && bun run preview).";
+      }
+    }
+  });
+</script>
+
+<style>
+  .hint {
+    opacity: 0.6;
+  }
+</style>
+
+<style is:global>
+  #search {
+    --pagefind-ui-primary: rgb(var(--foreground-rgb));
+    --pagefind-ui-text: rgb(var(--foreground-rgb));
+    --pagefind-ui-background: rgb(var(--background-rgb));
+    --pagefind-ui-border: rgba(var(--foreground-rgb), 0.3);
+    --pagefind-ui-tag: rgba(var(--foreground-rgb), 0.1);
+    --pagefind-ui-border-width: 1px;
+    --pagefind-ui-border-radius: 4px;
+    --pagefind-ui-image-border-radius: 4px;
+    --pagefind-ui-font: var(--main-font-family);
+  }
+</style>

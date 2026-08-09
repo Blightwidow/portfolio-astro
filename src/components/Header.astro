@@ -10,6 +10,7 @@ const parent = backLink || asPath.split("/").slice(0, -1).join("/") || "/";
 
 const isPhotography = asPath.startsWith("/photography");
 const isBlog = asPath.startsWith("/blog");
+const isSearch = asPath.startsWith("/search");
 ---
 
 <header id="header" role="banner">
@@ -21,6 +22,9 @@ const isBlog = asPath.startsWith("/blog");
       </li>
       <li>
         <a href="/blog" class:list={[{ active: isBlog }]} style={{ textDecoration: "none" }}>blog</a>
+      </li>
+      <li>
+        <a href="/search" class:list={[{ active: isSearch }]} style={{ textDecoration: "none" }}>search</a>
       </li>
     </ul>
   </nav>
