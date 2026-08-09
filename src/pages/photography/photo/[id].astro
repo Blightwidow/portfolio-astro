@@ -83,8 +83,8 @@ const socialImage = await getImage({
       </main>
     </Modal>
     <div class="flex spaced">
-      {prev ? <a href={`/photography/photo/${prev}`}>← Previous</a> : <span />}
-      {next ? <a href={`/photography/photo/${next}`}>Next →</a> : <span />}
+      {prev ? <a data-navigate="previous" href={`/photography/photo/${prev}`}>← Previous</a> : <span />}
+      {next ? <a data-navigate="next" href={`/photography/photo/${next}`}>Next →</a> : <span />}
     </div>
     <Spacer units={2} />
     <div class="flex spaced">
@@ -124,6 +124,61 @@ const socialImage = await getImage({
   button?.addEventListener("click", () => {
     (document.getElementById("modal") as HTMLDialogElement | undefined)?.showModal();
   });
+
+  const previousLink = document.querySelector<HTMLAnchorElement>("a[data-navigate='previous']");
+  const nextLink = document.querySelector<HTMLAnchorElement>("a[data-navigate='next']");
+  const modal = document.getElementById("modal") as HTMLDialogElement | undefined;
+
+  document.addEventListener("keydown", (event) => {
+    if (modal?.open) {
+      return;
+    }
+
+    if (event.key === "ArrowLeft" && previousLink) {
+      previousLink.click();
+    } else if (event.key === "ArrowRight" && nextLink) {
+      nextLink.click();
+    } else if (event.key === "Escape" && container?.classList.contains("fullscreen")) {
+      container.classList.remove("fullscreen");
+    }
+  });
+
+  let touchStartX = 0;
+  let touchStartY = 0;
+
+  container?.addEventListener(
+    "touchstart",
+    (event) => {
+      const touch = event.changedTouches[0];
+      if (!touch) {
+        return;
+      }
+      touchStartX = touch.clientX;
+      touchStartY = touch.clientY;
+    },
+    { passive: true },
+  );
+
+  container?.addEventListener(
+    "touchend",
+    (event) => {
+      const touch = event.changedTouches[0];
+      if (!touch) {
+        return;
+      }
+      const deltaX = touch.clientX - touchStartX;
+      const deltaY = touch.clientY - touchStartY;
+      if (Math.abs(deltaX) < 60 || Math.abs(deltaX) < Math.abs(deltaY) * 2) {
+        return;
+      }
+      if (deltaX > 0) {
+        previousLink?.click();
+      } else {
+        nextLink?.click();
+      }
+    },
+    { passive: true },
+  );
 </script>
 
 <style>
