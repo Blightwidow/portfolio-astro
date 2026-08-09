@@ -1,0 +1,45 @@
+---
+interface Props {
+  tags: { tag: string; count: number }[];
+  activeTag?: string;
+}
+
+const { tags, activeTag } = Astro.props;
+---
+
+<nav class="tag-list" aria-label="Photo tags">
+  {activeTag && <a href="/photography">All photos</a>}
+  {
+    tags.map(({ tag, count }) => (
+      <a
+        href={`/photography/${tag}`}
+        class:list={[{ active: tag === activeTag }]}
+        aria-current={tag === activeTag ? "page" : undefined}
+      >
+        #{tag} <span class="count">{count}</span>
+      </a>
+    ))
+  }
+</nav>
+
+<style>
+  .tag-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.25rem 1rem;
+    margin-bottom: 2rem;
+  }
+
+  a {
+    white-space: nowrap;
+  }
+
+  a.active {
+    font-weight: 700;
+  }
+
+  .count {
+    opacity: 0.6;
+    font-size: 0.85em;
+  }
+</style>

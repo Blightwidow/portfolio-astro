@@ -48,14 +48,16 @@ export async function getAllPostsByDate(order: "asc" | "desc") {
     }));
 }
 
-export async function getAllTags() {
+export async function getAllTagsWithCounts(): Promise<{ tag: string; count: number }[]> {
   const posts = await getCollection("photography");
-  const tags = new Set<string>();
+  const counts = new Map<string, number>();
   posts.forEach((post) => {
     post.data.tags?.forEach((tag: string) => {
-      tags.add(tag);
+      counts.set(tag, (counts.get(tag) ?? 0) + 1);
     });
   });
 
-  return Array.from(tags);
+  return Array.from(counts, ([tag, count]) => ({ tag, count })).sort(
+    (a, b) => b.count - a.count || a.tag.localeCompare(b.tag),
+  );
 }
