@@ -31,9 +31,10 @@ The setup is currently hosted and deployed through [Netlify](https://www.netlify
 
 ## Built With
 
-- [React](https://reactjs.org/) - The web framework used
-- [Astro](https://astro.build/) - Static HTML rendering of React content
+- [Astro](https://astro.build/) - Static site framework
 - [Typescript](https://www.typescriptlang.org/) - Javascript compiling language with strong typings
+- [Pagefind](https://pagefind.app/) - Static search indexing
+- [Satori](https://github.com/vercel/satori) - Generated Open Graph images for blog posts
 
 ## Contributing
 
