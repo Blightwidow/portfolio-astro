@@ -25,6 +25,12 @@ const readingTime = remarkPluginFrontmatter?.readingTime;
   description={post.data.subtitle}
   ogType="article"
   articleDate={post.data.date}
+  ogImage={{
+    url: `/blog/og/${post.id}.png`,
+    width: 1200,
+    height: 630,
+    alt: post.data.title,
+  }}
 >
   <article>
     <div class="meta">
