@@ -12,6 +12,8 @@ Chess engines are stochastic enough that small samples lie to you constantly. Ti
 
 This post is about the tools and discipline that keep you honest.
 
+![A single die resting on the corner of a wooden crate (photo by Zhuo Cheng you on Unsplash)](../../images/dice-on-crate.webp)
+
 ## SPRT testing
 
 SPRT, Sequential Probability Ratio Test, is the standard method for testing chess engine changes. Instead of running a fixed number of games and comparing win rates, SPRT runs games until it has enough statistical evidence to accept or reject a hypothesis.

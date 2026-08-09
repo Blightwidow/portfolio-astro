@@ -10,6 +10,8 @@ At some point, I ran out of search improvements that were easy to implement. The
 
 The problem was my piece-square tables. I had tuned them by hand, using a mix of chess intuition, trial games, and guesswork. They were fine. They were not good.
 
+![White and black chess pieces facing off (photo by Alicia Christin Gerald on Unsplash)](../../images/chess-pieces-facing.webp)
+
 ## What PeSTO is
 
 PeSTO is a set of piece-square tables that were tuned by the chess programming community through automated optimization. The name stands for "Piece-Square Tables Only": it's an evaluation that uses nothing but material values and PSTs, with no pawn structure terms, no king safety, no mobility. Just 12 tables of 64 values (6 piece types times 2 phases), tuned to minimize evaluation error against a large dataset of positions with known outcomes.

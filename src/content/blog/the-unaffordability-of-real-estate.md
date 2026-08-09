@@ -10,6 +10,8 @@ How many years of your salary would it take to buy a home? If you're living in P
 
 I find it remarkable that we've collectively normalized something that, by any historical standard, is extraordinary. In 1997, the UK's national price-to-income ratio was [**3.5 years**](https://www.ons.gov.uk/peoplepopulationandcommunity/housing/datasets/ratioofhousepricetoworkplacebasedearningslowerquartileandmedian). By 2023, it was 8.3. What happened in between isn't a mystery, but the scale of the disconnect, and the inadequacy of every attempted fix, is what I want to explore.
 
+![Densely packed apartment facades in Hong Kong (photo by I P on Unsplash)](../../images/hong-kong-apartments.webp)
+
 ## The great divergence
 
 ### Prices versus wages: France in numbers

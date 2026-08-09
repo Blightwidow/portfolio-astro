@@ -12,6 +12,8 @@ And yet, when METR ran a randomized controlled trial with 16 experienced open-so
 
 So which is it? Having spent months using Claude Code across several personal projects (a chess engine, a music generator, this very blog), I believe the answer is neither. The productivity gain is real, but it's conditional. It depends entirely on how you set up the harness around the model, not on the model itself, and what you are trying to solve.
 
+![A code editor with an AI assistant prompting for confirmation (photo by Bernd Dittrich on Unsplash)](../../images/code-editor-agent.webp)
+
 ## The productivity paradox
 
 ### The numbers tell two stories

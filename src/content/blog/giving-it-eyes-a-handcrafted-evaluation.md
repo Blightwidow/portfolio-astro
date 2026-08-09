@@ -10,6 +10,8 @@ Once the engine could search, the next question was: search *towards what*? The 
 
 My first evaluation was just material counting. Pawns are worth 1, knights and bishops 3, rooks 5, queens 9, the values every chess player learns as a kid. It worked in the most basic sense: the engine tried to win material. But it played like a toddler with a material chart. It had no concept of piece placement, pawn structure, or king safety. A knight on the rim was the same as a knight in the center. A king in the open was the same as a king behind a wall of pawns.
 
+![A marble chess set mid-game in dramatic light (photo by Kevin Hessey on Unsplash)](../../images/chess-eval-light.webp)
+
 ## Tapered evaluation
 
 The first real improvement was understanding that chess has phases. A centralized knight is great in the middlegame but less relevant in an endgame. A king in the center is suicidal during the middlegame but strong in the endgame. Pawns become more valuable as pieces come off the board.

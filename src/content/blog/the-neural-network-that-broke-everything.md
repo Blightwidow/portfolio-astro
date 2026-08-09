@@ -10,6 +10,8 @@ I knew I wanted to add NNUE to Oxide for months before I actually did it. The ev
 
 What nobody warned me about was how many things would break along the way.
 
+![A dense web of threads and nodes (photo by Alina Grubnyak on Unsplash)](../../images/neural-network-web.webp)
+
 ## What NNUE actually is
 
 NNUE stands for "Efficiently Updatable Neural Network." The key insight is in the "efficiently updatable" part. In a normal neural network, you'd recompute the entire evaluation from scratch for every position. In a chess search, consecutive positions differ by only one move, one piece changes square. NNUE exploits this by maintaining an **accumulator** that can be incrementally updated: when a piece moves, you subtract its old features and add its new ones, rather than recomputing everything.

@@ -8,6 +8,8 @@ date: 2026-03-13
 
 There's a specific moment in building a chess engine where it goes from a legal move generator to something that actually *plays chess*. It doesn't play well, it plays terribly, in fact, but it makes moves that have intent behind them. It tries to capture your pieces. It occasionally stumbles into a checkmate. That moment is magic, and it came sooner than I expected.
 
+![Chess pieces mid-game on a wooden board (photo by Heriberto Murrieta on Unsplash)](../../images/chess-midgame.webp)
+
 ## The simplest possible search
 
 The idea behind all chess engine search is minimax: you assume both players play optimally, and you pick the move that leads to the best outcome for you assuming your opponent also picks their best moves. At depth 1, you just evaluate every legal move and pick the highest-scoring one. At depth 2, you evaluate every response to every move. At depth 3, every response to every response. It explodes exponentially, which is why nobody actually implements it this way.

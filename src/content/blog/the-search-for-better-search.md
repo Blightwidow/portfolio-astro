@@ -10,6 +10,8 @@ At some point, the bottleneck became obvious. The evaluation was decent, the mov
 
 The path from "okay" to "respectable" in chess engines is almost entirely about searching deeper in the same amount of time. That means pruning (skipping branches that probably don't matter), reductions (searching some branches at reduced depth), and better move ordering (so the good moves get searched first).
 
+![Aerial view of a hedge maze (photo by Marina Reich on Unsplash)](../../images/maze-aerial.webp)
+
 ## Iterative deepening
 
 This one sounds wasteful: search to depth 1, then start over and search to depth 2, then start over and search to depth 3, and so on. You're redoing all that work each time.

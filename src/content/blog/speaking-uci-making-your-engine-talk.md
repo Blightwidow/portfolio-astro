@@ -8,6 +8,8 @@ date: 2026-03-17
 
 You can have the best chess engine in the world, and if it doesn't speak UCI, nobody will ever use it. UCI, Universal Chess Interface, is the protocol that lets chess GUIs, tournament managers, and analysis tools talk to engines. It's how Stockfish communicates with Lichess. It's how my engine communicates with Cute Chess. Without it, your engine is just a program that thinks about chess silently.
 
+![Two players and a chess clock in a park (photo by Tanner Mardis on Unsplash)](../../images/chess-park-clock.webp)
+
 ## The protocol in 60 seconds
 
 UCI is text-based. The GUI sends commands to the engine's stdin. The engine responds on stdout. That's it. No sockets, no HTTP, no serialization libraries. Just lines of text, back and forth.

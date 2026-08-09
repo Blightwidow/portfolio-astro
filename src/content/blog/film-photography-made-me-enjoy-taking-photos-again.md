@@ -16,6 +16,8 @@ And then, by complete luck, I bought a disposable film camera for a vacation. It
 
 That was enough to hook me back. I decided to get back into photography, but this time through film.
 
+![Two rolls of Kodak 400 35mm film (photo by Arturo Anez on Unsplash)](../../images/kodak-film-rolls.webp)
+
 ## The challenge (and the part where I failed)
 
 Because I know I’m lazy, I needed a constraint. So I made it public: I would post a picture on my website every day for a year.

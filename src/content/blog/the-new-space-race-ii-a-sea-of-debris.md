@@ -12,6 +12,8 @@ While I find this expansion exciting and undoubtedly a win for humanity, pushing
 
 I plan to address each question in separate posts, but today I want to focus on what I believe is the most immediate threat: space debris.
 
+![The Hubble telescope in orbit above Earth (photo by NASA on Unsplash)](../../images/space-debris-satellite.webp)
+
 ## The Scale of the Problem
 
 The numbers are staggering when you really look at them. We currently have approximately 54,000 pieces of debris larger than 10 centimeters actively tracked in orbit, with an estimated 1,200,000 pieces between 1-10 centimeters that we can't reliably monitor. Each piece of debris, when hitting a spacecraft at speeds exceeding 7,500 meter per second, can create thousands more fragments.

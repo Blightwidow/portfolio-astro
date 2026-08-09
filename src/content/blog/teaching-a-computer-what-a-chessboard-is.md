@@ -10,6 +10,8 @@ I started building a chess engine because I wanted a project that was hard in a 
 
 The engine is called [Oxide](https://github.com/Blightwidow/oxide-chess-engine). This is the story of how it went from zero to generating legal moves, which turned out to be much harder than I expected.
 
+![A wooden chessboard seen from above (photo by Jani Kaasinen on Unsplash)](../../images/chess-board-wooden.webp)
+
 ## How do you even represent a chessboard?
 
 The first decision is deceptively simple: how does the computer "see" the board?

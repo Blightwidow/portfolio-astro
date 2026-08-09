@@ -10,6 +10,8 @@ We're back with the third installment of the space race series. In the [first ar
 
 The short answer is yes, obviously. You can't strap thousands of tonnes of propellant to a metal tube, set it on fire, and expect zero consequences. But the longer answer is more nuanced, and more interesting, than most people expect.
 
+![A Falcon 9 rocket lifting off in a cloud of smoke (photo by SpaceX on Unsplash)](../../images/rocket-launch-spacex.webp)
+
 ## What rockets put in the sky
 
 Not all rockets burn the same fuel, and the choice of propellant matters enormously for what ends up in our atmosphere. Let me walk through the main families.
