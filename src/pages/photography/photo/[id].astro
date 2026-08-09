@@ -1,5 +1,5 @@
 ---
-import { Picture } from "astro:assets";
+import { getImage, Picture } from "astro:assets";
 import Layout from "../../../layouts/PhotoLayout.astro";
 import { getAllPostsByDate } from "../../../utils/photography";
 import Modal from "../../../components/Modal.astro";
@@ -21,9 +21,24 @@ export async function getStaticPaths() {
 }
 
 const { photo, next, prev } = Astro.props;
+
+const socialImage = await getImage({
+  src: photo.data.image,
+  width: 1200,
+  format: "jpg",
+});
 ---
 
-<Layout title={`${photo.data.alt} - Theo Dammaretz`}>
+<Layout
+  title={`${photo.data.alt} - Theo Dammaretz`}
+  description={photo.data.description ?? photo.data.alt}
+  ogImage={{
+    url: socialImage.src,
+    width: socialImage.attributes.width,
+    height: socialImage.attributes.height,
+    alt: photo.data.alt,
+  }}
+>
   <div role="button" tabindex="0" aria-label="Toggle fullscreen" class="relative" id="photo-container">
     <svg
       xmlns="http://www.w3.org/2000/svg"

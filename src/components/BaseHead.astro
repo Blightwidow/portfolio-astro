@@ -1,10 +1,19 @@
 ---
 import metropolis from "@fontsource/metropolis/files/metropolis-latin-400-normal.woff2?url";
+
+export interface OpenGraphImage {
+  url: string;
+  width?: number;
+  height?: number;
+  alt?: string;
+}
+
 interface Props {
   title: string;
   description?: string;
   ogType?: "website" | "article" | "profile";
   articleDate?: Date;
+  ogImage?: OpenGraphImage;
 }
 
 const {
@@ -12,9 +21,11 @@ const {
   description = "Theo Dammaretz online business card and resume homemade website and portfolio",
   ogType = "website",
   articleDate,
+  ogImage,
 } = Astro.props;
 
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+const ogImageURL = ogImage ? new URL(ogImage.url, Astro.site).href : undefined;
 
 const jsonLd =
   ogType === "article" && articleDate
@@ -50,11 +61,16 @@ const jsonLd =
   <meta name="author" content="Theo Dammaretz" />
   <meta name="theme-color" content="#fcfcf8" media="(prefers-color-scheme: light)" />
   <meta name="theme-color" content="#1c1c1c" media="(prefers-color-scheme: dark)" />
-  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:card" content={ogImageURL ? "summary_large_image" : "summary"} />
   <meta property="og:title" content={title} />
   <meta property="og:type" content={ogType === "article" ? "article" : "website"} />
   <meta property="og:url" content={canonicalURL.href} />
   <meta property="og:description" content={description} />
+  {ogImageURL && <meta property="og:image" content={ogImageURL} />}
+  {ogImageURL && <meta name="twitter:image" content={ogImageURL} />}
+  {ogImageURL && ogImage?.alt && <meta property="og:image:alt" content={ogImage.alt} />}
+  {ogImageURL && ogImage?.width && <meta property="og:image:width" content={String(ogImage.width)} />}
+  {ogImageURL && ogImage?.height && <meta property="og:image:height" content={String(ogImage.height)} />}
   <meta property="og:site_name" content="Theo Dammaretz" />
   {ogType === "profile" && <meta property="og:profile:first_name" content="Theo" />}
   {ogType === "profile" && <meta property="og:profile:last_name" content="Dammaretz" />}

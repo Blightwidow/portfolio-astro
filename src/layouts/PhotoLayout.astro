@@ -1,16 +1,25 @@
 ---
 import Layout from "./Layout.astro";
+import type { OpenGraphImage } from "../components/BaseHead.astro";
 
 interface Props {
   title: string;
   description?: string;
+  ogImage?: OpenGraphImage;
 }
 
-const { title, description } = Astro.props;
+const { title, description, ogImage } = Astro.props;
 const asPath = Astro.url.pathname;
 const backLink = asPath.includes("/photo/") ? "/photography" : undefined;
 ---
 
-<Layout title={title} description={description} backLink={backLink} showFooter={false} constrainMain={false}>
+<Layout
+  title={title}
+  description={description}
+  ogImage={ogImage}
+  backLink={backLink}
+  showFooter={false}
+  constrainMain={false}
+>
   <slot />
 </Layout>
