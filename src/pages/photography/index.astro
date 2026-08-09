@@ -6,7 +6,7 @@ import { getAllPostsByDate, getAllTagsWithCounts } from "../../utils/photography
 
 const MINIMUM_PHOTOS_PER_TAG = 5;
 
-const photos = await getAllPostsByDate("desc");
+const photos = (await getAllPostsByDate("desc")).filter((photo) => !photo.data.hideFromGallery);
 const tags = (await getAllTagsWithCounts()).filter(({ count }) => count >= MINIMUM_PHOTOS_PER_TAG);
 ---
 

@@ -20,6 +20,7 @@ const photography = defineCollection({
       date: z.date(),
       image: image(),
       tags: z.array(z.string()).optional(),
+      hideFromGallery: z.boolean().default(false),
     }),
 });
 
