@@ -2,6 +2,9 @@
 title: The nonsense of train prices
 subtitle: Why the plane remains the only option even in EU
 date: 2023-11-15
+series:
+  name: "Train prices in Europe"
+  order: 1
 ---
 
 # The nonsense of train prices

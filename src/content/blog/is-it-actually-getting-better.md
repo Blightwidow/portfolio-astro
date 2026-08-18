@@ -2,6 +2,9 @@
 title: Is it actually getting better?
 subtitle: SPRT testing, benchmarks, and the discipline of not fooling yourself
 date: 2026-03-25
+series:
+  name: "Building a chess engine in Rust"
+  order: 8
 ---
 
 # Is it actually getting better?
@@ -113,6 +116,3 @@ The [Chess Programming Wiki](https://www.chessprogramming.org) is the canonical 
 
 And above all: measure. Every change, every idea, every "I think this will be better." Measure it. The numbers don't lie, even when your intuition does.
 
----
-
-*This is part 8 (final) of a series on building a chess engine in Rust. Previous: [The neural network that broke everything](/blog/the-neural-network-that-broke-everything).*

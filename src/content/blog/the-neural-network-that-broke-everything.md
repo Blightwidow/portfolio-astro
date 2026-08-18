@@ -2,6 +2,9 @@
 title: The neural network that broke everything
 subtitle: Switching to NNUE, training with Bullet, and the regressions nobody warns you about
 date: 2026-03-23
+series:
+  name: "Building a chess engine in Rust"
+  order: 7
 ---
 
 # The neural network that broke everything
@@ -86,6 +89,3 @@ The v1.0.0 release of Oxide is the NNUE version. It removed the entire handcraft
 
 I won't pretend it wasn't bittersweet. I spent weeks hand-tuning those evaluation terms, and they're all gone now. But the engine is objectively stronger for it, and that's what matters.
 
----
-
-*This is part 7 of a series on building a chess engine in Rust. Previous: [Standing on the shoulders of PeSTO](/blog/standing-on-the-shoulders-of-pesto). Next: [Is it actually getting better?](/blog/is-it-actually-getting-better).*

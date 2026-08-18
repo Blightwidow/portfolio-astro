@@ -2,6 +2,9 @@
 title: Standing on the shoulders of PeSTO
 subtitle: Better piece-square tables and the limits of handcrafted evaluation
 date: 2026-03-21
+series:
+  name: "Building a chess engine in Rust"
+  order: 6
 ---
 
 # Standing on the shoulders of PeSTO
@@ -81,6 +84,3 @@ And before I could justify the complexity of a neural network, I needed to feel 
 
 But I don't regret the handcrafted phase. Writing a tapered evaluation from scratch taught me what chess engines actually care about, and that understanding made the neural network transition much less mysterious when it finally came.
 
----
-
-*This is part 6 of a series on building a chess engine in Rust. Previous: [The search for better search](/blog/the-search-for-better-search). Next: [The neural network that broke everything](/blog/the-neural-network-that-broke-everything).*

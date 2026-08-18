@@ -2,6 +2,9 @@
 title: The new Space race
 subtitle: How the space industry is shifting away from government-led
 date: 2025-06-16
+series:
+  name: "The new Space Race"
+  order: 1
 ---
 
 # The new Space race

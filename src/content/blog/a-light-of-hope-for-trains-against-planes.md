@@ -2,6 +2,9 @@
 title: A light of hope for trains against planes?
 subtitle: Train prices might be going in the right direction.
 date: 2024-03-08
+series:
+  name: "Train prices in Europe"
+  order: 2
 ---
 
 # A light of hope for trains against planes?

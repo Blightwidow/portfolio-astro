@@ -2,6 +2,9 @@
 title: "Giving it eyes: a handcrafted evaluation"
 subtitle: Material, piece-square tables, and the art of scoring a position
 date: 2026-03-15
+series:
+  name: "Building a chess engine in Rust"
+  order: 3
 ---
 
 # Giving it eyes: a handcrafted evaluation
@@ -84,6 +87,3 @@ The frustrating part? I had to tune every single one of these values by hand. Is
 
 Eventually, I'd stop guessing and stand on the shoulders of people who had done this properly. But that's a story for later.
 
----
-
-*This is part 3 of a series on building a chess engine in Rust. Previous: [My first shitty playable bot](/blog/my-first-shitty-playable-bot). Next: [Speaking UCI: making your engine talk to the world](/blog/speaking-uci-making-your-engine-talk).*
