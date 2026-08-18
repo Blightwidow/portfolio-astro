@@ -15,6 +15,9 @@ const blog = defineCollection({
         order: z.number().int().positive(),
       })
       .optional(),
+    // Topics, in their own namespace: photography tags describe subject and location, these
+    // describe what a post is about, and the two lists are never merged.
+    tags: z.array(z.string()).optional(),
   }),
 });
 

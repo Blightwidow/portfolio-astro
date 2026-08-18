@@ -35,7 +35,18 @@ Open questions:
 
 ## Blog topics/tags
 
-**Status**: Not Started
+**Status**: Complete (2026-08-18)
+
+Shipped. `tags` is an optional string array on the blog schema, backfilled across all 22 posts with a 12-term vocabulary: `engineering` (10), `chess` (8), `rust` (8), `environment` (5), `travel` (4), `space` (3), `trains` (3), `ai` (2), `hiking` (2), `housing` (1), `photography` (1), `work` (1).
+
+`/blog/tag/<tag>` lists posts for one topic, and `TagList.astro` now takes `baseUrl`/`allUrl`/`allLabel`/`ariaLabel` instead of hardcoding the photography routes, so both sections share the component. The listing markup (title, series line, subtitle, date) moved out of `src/pages/blog/[page].astro` into `PostList.astro`, used by both the paginated feed and the tag pages.
+
+Post pages close with `#tag` links, then `SeriesNav`, then a "Read next" block. Related posts rank by shared tag count with recency as the tiebreak, top up with recent posts when fewer than three share a tag, and **exclude other parts of the same series**, since `SeriesNav` already links those and they would otherwise fill every slot on a chess post. All three blocks sit outside `<article data-pagefind-body>`, so none of it enters the search index.
+
+Resolved: two separate namespaces. Photo tags stay subject-and-location only per the existing rule, so a shared vocabulary would have meant either polluting them with topics or leaving half the tag space empty on each side. Tags render in the footer, keeping the header meta line (date, reading time, series part) to one line.
+
+<details>
+<summary>Original plan</summary>
 
 Photography has tags and `/photography/[tag]`; the blog has no taxonomy at all. The content already splits cleanly into engineering, space, trains and climate, housing, photography, and AI. Reuse the existing photography patterns rather than inventing new ones.
 
@@ -44,12 +55,12 @@ Photography has tags and `/photography/[tag]`; the blog has no taxonomy at all. 
 - Reuse `src/components/TagList.astro` on the blog listing and `src/components/Tag*` markup on the post page.
 - Add a "related posts" block on `src/pages/blog/[slug].astro`, ranked by shared tag count and falling back to recency.
 
-The `/blog` listing refactor this depended on is done (see the series item above), so this is now self-contained.
-
 Open questions:
 
 - One flat tag vocabulary shared between blog and photography, or two separate namespaces?
 - Show tags on the post page header or footer?
+
+</details>
 
 ## Film gear & stats page
 

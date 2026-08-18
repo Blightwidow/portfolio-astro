@@ -83,3 +83,67 @@ export async function getSeriesNavigation(post: BlogPost): Promise<SeriesNavigat
     next: series.posts.at(index + 1),
   };
 }
+
+export interface TagCount {
+  tag: string;
+  count: number;
+}
+
+/**
+ * Blog topics with a post count, most used first. This vocabulary is deliberately separate
+ * from the photography one: photo tags name a subject or a place, blog tags name a topic.
+ */
+export async function getAllTagsWithCounts(): Promise<TagCount[]> {
+  const posts = await getAllPostByDate("desc");
+  const counts = new Map<string, number>();
+
+  posts.forEach((post) => {
+    post.data.tags?.forEach((tag) => {
+      counts.set(tag, (counts.get(tag) ?? 0) + 1);
+    });
+  });
+
+  return Array.from(counts, ([tag, count]) => ({ tag, count })).sort(
+    (a, b) => b.count - a.count || a.tag.localeCompare(b.tag),
+  );
+}
+
+export async function getPostsByTag(tag: string): Promise<BlogPost[]> {
+  const posts = await getAllPostByDate("desc");
+
+  return posts.filter((post) => post.data.tags?.includes(tag) ?? false);
+}
+
+/**
+ * What to read after this post: candidates are ranked by how many tags they share, ties broken
+ * by recency, and the list is topped up with recent posts when too few share a tag.
+ *
+ * Other parts of the same series are excluded, because `SeriesNav` already links them and they
+ * would otherwise take every slot on every series post.
+ */
+export async function getRelatedPosts(post: BlogPost, limit = 3): Promise<BlogPost[]> {
+  const tags = new Set(post.data.tags ?? []);
+  const seriesName = post.data.series?.name;
+
+  const candidates = (await getAllPostByDate("desc")).filter(
+    (candidate) =>
+      candidate.id !== post.id &&
+      (seriesName === undefined || candidate.data.series?.name !== seriesName),
+  );
+
+  const ranked = candidates
+    .map((candidate) => ({
+      post: candidate,
+      sharedTags: (candidate.data.tags ?? []).filter((tag) => tags.has(tag)).length,
+    }))
+    .filter(({ sharedTags }) => sharedTags > 0)
+    .sort(
+      (a, b) =>
+        b.sharedTags - a.sharedTags || b.post.data.date.getTime() - a.post.data.date.getTime(),
+    )
+    .map(({ post: relatedPost }) => relatedPost);
+
+  const filler = candidates.filter((candidate) => !ranked.includes(candidate));
+
+  return [...ranked, ...filler].slice(0, limit);
+}

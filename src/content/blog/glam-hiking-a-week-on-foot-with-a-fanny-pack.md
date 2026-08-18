@@ -5,6 +5,9 @@ date: 2026-08-16
 series:
   name: "Hiking by train"
   order: 1
+tags:
+  - hiking
+  - travel
 ---
 
 # Glam-hiking: a week on foot with a fanny pack
@@ -67,4 +70,4 @@ The irony isn't lost on me: I have spent time writing about how [European train 
 
 Which raises the question I could not answer from a map: how many French trails actually start and end at a station? I tried planning a few of these by hand, cross-referencing GR routes against timetables, and it was miserable. So I built something to answer it properly, and the answer surprised me.
 
-*More on that next.*
+_More on that next._

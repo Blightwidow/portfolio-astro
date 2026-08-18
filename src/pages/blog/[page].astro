@@ -1,10 +1,10 @@
 ---
 import type { PaginateFunction } from "astro";
 import Pagination from "../../components/Pagination.astro";
-import Spacer from "../../components/Spacer.astro";
+import PostList from "../../components/PostList.astro";
+import TagList from "../../components/TagList.astro";
 import Layout from "../../layouts/Layout.astro";
-import { getAllPostByDate, getAllSeries } from "../../utils/blog";
-import { formatDate, toISODate } from "../../utils/date";
+import { getAllPostByDate, getAllTagsWithCounts } from "../../utils/blog";
 
 export async function getStaticPaths({ paginate }: { paginate: PaginateFunction }) {
   const posts = await getAllPostByDate("desc");
@@ -13,50 +13,12 @@ export async function getStaticPaths({ paginate }: { paginate: PaginateFunction 
 }
 
 const { page } = Astro.props;
-
-const seriesByName = new Map((await getAllSeries()).map((series) => [series.name, series]));
-const entries = page.data.map((post) => ({
-  post,
-  series: post.data.series === undefined ? undefined : seriesByName.get(post.data.series.name),
-  part: post.data.series?.order,
-}));
+const tags = await getAllTagsWithCounts();
 ---
 
 <Layout title="Blog - Theo Dammaretz" backLink="/">
   <h1>Blog</h1>
-  {
-    entries.map(({ post, series, part }) => (
-      <div>
-        <h3>
-          <a href={`/blog/${post.id}`}>{post.data.title}</a>
-        </h3>
-        {series && part !== undefined && (
-          <p class="series">
-            <a href={`/blog/series/${series.slug}`}>{series.name}</a>, part {part} of {series.posts.length}
-          </p>
-        )}
-        {Boolean(post.data.subtitle) && <p>{post.data.subtitle}</p>}
-        <time datetime={toISODate(post.data.date)}>{formatDate(post.data.date)}</time>
-        <Spacer units={2} />
-      </div>
-    ))
-  }
+  <TagList tags={tags} baseUrl="/blog/tag" allUrl="/blog" allLabel="All posts" ariaLabel="Blog topics" />
+  <PostList posts={page.data} />
   <Pagination page={page} baseUrl="/blog" />
 </Layout>
-
-<style>
-  time {
-    opacity: 0.6;
-  }
-
-  .series {
-    opacity: 0.6;
-    font-size: 0.85em;
-    margin: 0 0 0.5rem;
-  }
-
-  /* Tighten only the headings that are followed by a series label. */
-  h3:has(+ .series) {
-    margin-block-end: 0.2rem;
-  }
-</style>

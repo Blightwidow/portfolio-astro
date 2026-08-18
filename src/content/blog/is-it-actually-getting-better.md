@@ -5,6 +5,10 @@ date: 2026-03-25
 series:
   name: "Building a chess engine in Rust"
   order: 8
+tags:
+  - chess
+  - rust
+  - engineering
 ---
 
 # Is it actually getting better?
@@ -58,9 +62,9 @@ Each SPRT run produces a verdict: H1 accepted (keep the change), H0 accepted (re
 
 ## The benchmark suite
 
-SPRT testing tells you if a change makes the engine play better. The **benchmark** tells you if a change makes the engine *think* differently, even before you run a single game.
+SPRT testing tells you if a change makes the engine play better. The **benchmark** tells you if a change makes the engine _think_ differently, even before you run a single game.
 
-Oxide has a 46-position benchmark suite, a curated set of positions that the engine searches at a fixed depth. The benchmark reports the total node count. If you make a change that affects search behavior (new pruning technique, different move ordering, evaluation change), the node count changes. If you make a change that *shouldn't* affect search (refactoring, code cleanup), and the node count changes, you have a bug.
+Oxide has a 46-position benchmark suite, a curated set of positions that the engine searches at a fixed depth. The benchmark reports the total node count. If you make a change that affects search behavior (new pruning technique, different move ordering, evaluation change), the node count changes. If you make a change that _shouldn't_ affect search (refactoring, code cleanup), and the node count changes, you have a bug.
 
 ```
 $ cargo run -r -- bench
@@ -83,21 +87,21 @@ The method is simple bracketing: find the Stash version that Oxide barely beats 
 For context, that means v0.2.0 could beat most club players but would lose to any titled player and to pretty much any engine from the last decade. A lot of headroom remains.
 
 | Stash Version | CCRL Elo |
-|---------------|----------|
-| v9 | 1275 |
-| v11 | 1690 |
-| v12 | 1886 |
-| v13 | 1972 |
-| v14 | 2060 |
-| v17 | 2298 |
-| v20 | 2509 |
-| v25 | 2937 |
+| ------------- | -------- |
+| v9            | 1275     |
+| v11           | 1690     |
+| v12           | 1886     |
+| v13           | 1972     |
+| v14           | 2060     |
+| v17           | 2298     |
+| v20           | 2509     |
+| v25           | 2937     |
 
 The gap between Stash v12 (1886) and Stash v25 (2937) is over 1000 Elo. That's the space I still have to climb through with each improvement.
 
 ## The discipline
 
-The hardest part of all this isn't the tooling, it's the discipline. Confirmation bias is strong. When you've spent three days implementing a feature, you *want* it to work. You'll unconsciously cherry-pick the games where it played well and dismiss the losses as flukes. SPRT removes that entirely. The test doesn't care how much time you spent. It cares about the statistics.
+The hardest part of all this isn't the tooling, it's the discipline. Confirmation bias is strong. When you've spent three days implementing a feature, you _want_ it to work. You'll unconsciously cherry-pick the games where it played well and dismiss the losses as flukes. SPRT removes that entirely. The test doesn't care how much time you spent. It cares about the statistics.
 
 Some specific habits I've adopted:
 
@@ -115,4 +119,3 @@ You don't need to target 3000 Elo. You don't need NNUE. You need a board represe
 The [Chess Programming Wiki](https://www.chessprogramming.org) is the canonical reference. [Rustic](https://rustic-chess.org/) is a great resource if you want to build in Rust specifically. The community on Stockfish Discord and engine development forums is generous with help and feedback.
 
 And above all: measure. Every change, every idea, every "I think this will be better." Measure it. The numbers don't lie, even when your intuition does.
-

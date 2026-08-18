@@ -5,6 +5,9 @@ date: 2026-04-07
 series:
   name: "The new Space Race"
   order: 3
+tags:
+  - space
+  - environment
 ---
 
 # The new Space Race III, Does it pollute?

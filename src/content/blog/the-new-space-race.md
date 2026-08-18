@@ -5,6 +5,8 @@ date: 2025-06-16
 series:
   name: "The new Space Race"
   order: 1
+tags:
+  - space
 ---
 
 # The new Space race

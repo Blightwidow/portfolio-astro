@@ -5,6 +5,10 @@ date: 2026-03-21
 series:
   name: "Building a chess engine in Rust"
   order: 6
+tags:
+  - chess
+  - rust
+  - engineering
 ---
 
 # Standing on the shoulders of PeSTO
@@ -80,7 +84,6 @@ I added pawn structure terms (doubled, isolated, passed pawns), bishop pair bonu
 
 The chess programming community had already solved this problem. The answer was neural networks, specifically, NNUE. But I wasn't ready for that yet. First, I needed to learn how to measure whether changes actually made the engine stronger. That discipline turned out to be just as important as the changes themselves.
 
-And before I could justify the complexity of a neural network, I needed to feel the ceiling of handcrafted evaluation personally. Not read about it, *feel* it. Playing test games where the engine made the same positional mistakes despite my best manual tuning attempts was what finally pushed me toward NNUE.
+And before I could justify the complexity of a neural network, I needed to feel the ceiling of handcrafted evaluation personally. Not read about it, _feel_ it. Playing test games where the engine made the same positional mistakes despite my best manual tuning attempts was what finally pushed me toward NNUE.
 
 But I don't regret the handcrafted phase. Writing a tapered evaluation from scratch taught me what chess engines actually care about, and that understanding made the neural network transition much less mysterious when it finally came.
-

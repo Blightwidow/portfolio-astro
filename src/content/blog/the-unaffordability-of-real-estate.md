@@ -2,6 +2,8 @@
 title: The unaffordability of real estate
 subtitle: How housing became the defining economic challenge of our generation
 date: 2026-04-15
+tags:
+  - housing
 ---
 
 # The unaffordability of real estate
@@ -60,7 +62,7 @@ Young people aren't choosing to rent. They're being priced out, and the gap is a
 
 When earned income can't bridge the affordability gap, family wealth steps in. In France, roughly **40% of first-time buyers under 35** received financial help from their family in 2023, with average gifts of €30,000 to €50,000. In the UK, the "Bank of Mum and Dad" lends about £9.4 billion per year, which would make it the **10th largest mortgage lender** if it were a bank, according to Legal & General. In Australia, **60% of first-time buyers under 35** received parental help.
 
-What concerns me about this isn't the generosity. It's the implication. If you need family wealth to buy property, then homeownership increasingly depends on who your parents are, not what you earn. As Thomas Piketty documented in *Capital in the 21st Century*, total annual inheritance and gift flows in France have risen to roughly [**15% of national income**](https://wid.world/), up from about 5% in the 1970s. We are drifting back toward a wealth structure that looks more 19th century than 20th.
+What concerns me about this isn't the generosity. It's the implication. If you need family wealth to buy property, then homeownership increasingly depends on who your parents are, not what you earn. As Thomas Piketty documented in _Capital in the 21st Century_, total annual inheritance and gift flows in France have risen to roughly [**15% of national income**](https://wid.world/), up from about 5% in the 1970s. We are drifting back toward a wealth structure that looks more 19th century than 20th.
 
 ### The rental trap
 

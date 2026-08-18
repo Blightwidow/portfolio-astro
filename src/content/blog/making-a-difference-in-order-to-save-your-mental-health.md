@@ -2,6 +2,8 @@
 title: Making a difference in order to save your mental health
 subtitle: Working for an NGO saved my sanity
 date: 2022-05-30
+tags:
+  - work
 ---
 
 # Making a difference in order to save your mental health

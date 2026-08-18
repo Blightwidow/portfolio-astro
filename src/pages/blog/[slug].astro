@@ -2,7 +2,7 @@
 import { render } from "astro:content";
 import Layout from "../../layouts/Layout.astro";
 import SeriesNav from "../../components/SeriesNav.astro";
-import { getAllPostByDate, getSeriesNavigation } from "../../utils/blog";
+import { getAllPostByDate, getRelatedPosts, getSeriesNavigation } from "../../utils/blog";
 import { formatDate, toISODate } from "../../utils/date";
 
 export async function getStaticPaths() {
@@ -20,6 +20,8 @@ const { post } = Astro.props;
 const { Content, remarkPluginFrontmatter } = await render(post);
 const readingTime = remarkPluginFrontmatter?.readingTime;
 const seriesNavigation = await getSeriesNavigation(post);
+const tags = post.data.tags ?? [];
+const relatedPosts = await getRelatedPosts(post);
 ---
 
 <Layout
@@ -36,7 +38,31 @@ const seriesNavigation = await getSeriesNavigation(post);
     {seriesNavigation && <SeriesNav navigation={seriesNavigation} variant="header" />}
     <Content />
   </article>
+  {
+    tags.length > 0 && (
+      <nav class="tags" aria-label="Post topics">
+        {tags.map((tag) => (
+          <a href={`/blog/tag/${tag}`}>#{tag}</a>
+        ))}
+      </nav>
+    )
+  }
   {seriesNavigation && <SeriesNav navigation={seriesNavigation} variant="footer" />}
+  {
+    relatedPosts.length > 0 && (
+      <nav class="related" aria-labelledby="read-next">
+        <h2 id="read-next">Read next</h2>
+        <ul>
+          {relatedPosts.map((relatedPost) => (
+            <li>
+              <a href={`/blog/${relatedPost.id}`}>{relatedPost.data.title}</a>
+              {Boolean(relatedPost.data.subtitle) && <p>{relatedPost.data.subtitle}</p>}
+            </li>
+          ))}
+        </ul>
+      </nav>
+    )
+  }
 </Layout>
 
 <style>
@@ -51,5 +77,43 @@ const seriesNavigation = await getSeriesNavigation(post);
   .reading-time::before {
     content: "\b7";
     margin-right: 1rem;
+  }
+
+  .tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.25rem 1rem;
+    margin-top: 3rem;
+  }
+
+  .tags a {
+    white-space: nowrap;
+  }
+
+  .related {
+    margin-top: 3rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid rgba(var(--foreground-rgb), 0.15);
+  }
+
+  .related h2 {
+    font-size: 1rem;
+    opacity: 0.6;
+    margin: 0 0 0.75rem;
+  }
+
+  .related ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .related p {
+    margin: 0.1rem 0 0;
+    opacity: 0.6;
+    font-size: 0.9em;
   }
 </style>

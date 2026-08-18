@@ -24,7 +24,14 @@ const { tag, tags, photos } = Astro.props;
 <Layout title={`Photography: #${tag} - Theo Dammaretz`} constrainMain={false}>
   <div class="intro">
     <h1>#{tag}</h1>
-    <TagList tags={tags} activeTag={tag} />
+    <TagList
+      tags={tags}
+      baseUrl="/photography"
+      allUrl="/photography"
+      allLabel="All photos"
+      ariaLabel="Photo tags"
+      activeTag={tag}
+    />
   </div>
   <PhotoMasonry photos={photos} />
 </Layout>

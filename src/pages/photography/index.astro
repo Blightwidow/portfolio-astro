@@ -20,7 +20,13 @@ const tags = (await getAllTagsWithCounts()).filter(({ count }) => count >= MINIM
       The experiment is now over, but I will continue to share photos here as I take them. Curious about the cameras and
       stocks behind them? See the <a href="/photography/stats">stats page</a>.
     </p>
-    <TagList tags={tags} />
+    <TagList
+      tags={tags}
+      baseUrl="/photography"
+      allUrl="/photography"
+      allLabel="All photos"
+      ariaLabel="Photo tags"
+    />
   </div>
   <PhotoMasonry photos={photos} />
 </Layout>

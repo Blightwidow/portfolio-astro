@@ -5,6 +5,10 @@ date: 2026-03-11
 series:
   name: "Building a chess engine in Rust"
   order: 1
+tags:
+  - chess
+  - rust
+  - engineering
 ---
 
 # Teaching a computer what a chessboard is
@@ -40,7 +44,7 @@ Pieces are encoded as `side * 8 + piece_type`. White knight is `0 * 8 + 2 = 2`. 
 
 Generating attacks for knights and kings is easy: they always move to the same relative squares, so you precompute a lookup table indexed by the origin square. Sixty-four entries, done.
 
-Sliding pieces (bishops, rooks, queens) are different. A rook on e4 can slide in four directions, but it stops when it hits another piece. The set of attacked squares depends on what's *blocking* the path. That's a huge number of possible configurations.
+Sliding pieces (bishops, rooks, queens) are different. A rook on e4 can slide in four directions, but it stops when it hits another piece. The set of attacked squares depends on what's _blocking_ the path. That's a huge number of possible configurations.
 
 The solution the chess programming community converged on is called **magic bitboards**. The idea is: take the set of occupied squares that could block a sliding piece, multiply it by a carefully chosen "magic number," and use the result as an index into a precomputed attack table. The magic number is chosen so that different blocking configurations map to different indices, a perfect hash, essentially.
 
@@ -48,13 +52,13 @@ I won't pretend I derived the magic numbers myself. I used the well-known set th
 
 ## Legal moves: where the real pain lives
 
-Generating *pseudo-legal* moves, moves that look legal but might leave your king in check, is relatively straightforward once you have attack tables. Generating *actually legal* moves is where everything falls apart.
+Generating _pseudo-legal_ moves, moves that look legal but might leave your king in check, is relatively straightforward once you have attack tables. Generating _actually legal_ moves is where everything falls apart.
 
 The engine has to handle:
 
-* **Pins**: a bishop might be pinned to the king by an enemy rook, meaning it can only move along the pin ray. You can't just check "does this piece have moves", you have to verify each move doesn't expose the king.
-* **En passant**: the most cursed rule in chess. Not only do you need to track the target square from the previous move, but en passant can *reveal a discovered check* in bizarre ways. Two pawns disappear from the same rank, and suddenly a rook sees the king.
-* **Castling through check**: the king can't castle through or into check, and the rook's path must be clear. That's multiple conditions that all have to be verified simultaneously.
+- **Pins**: a bishop might be pinned to the king by an enemy rook, meaning it can only move along the pin ray. You can't just check "does this piece have moves", you have to verify each move doesn't expose the king.
+- **En passant**: the most cursed rule in chess. Not only do you need to track the target square from the previous move, but en passant can _reveal a discovered check_ in bizarre ways. Two pawns disappear from the same rank, and suddenly a rook sees the king.
+- **Castling through check**: the king can't castle through or into check, and the rook's path must be clear. That's multiple conditions that all have to be verified simultaneously.
 
 I spent more time debugging move generation than any other part of the engine. Probably more time than all other parts combined.
 
@@ -87,5 +91,4 @@ The board representation and move generation took me longer than I expected, wee
 
 But getting perft right was deeply satisfying. It's one of those rare moments in programming where the answer is either exactly correct or wrong. No ambiguity, no "it depends." Your move generator either produces 3,195,901,860 nodes from the starting position at depth 7, or it doesn't.
 
-With legal move generation working, Oxide could now understand what a chessboard is and what moves are possible. It just had no idea which moves were *good*. That's what the next post is about: teaching it to play, badly.
-
+With legal move generation working, Oxide could now understand what a chessboard is and what moves are possible. It just had no idea which moves were _good_. That's what the next post is about: teaching it to play, badly.

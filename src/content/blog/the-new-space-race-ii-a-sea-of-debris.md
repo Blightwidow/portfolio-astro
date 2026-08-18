@@ -5,6 +5,9 @@ date: 2025-09-01
 series:
   name: "The new Space Race"
   order: 2
+tags:
+  - space
+  - environment
 ---
 
 # The new Space Race II, A sea of debris

@@ -2,17 +2,19 @@
 title: Film photography made me enjoy taking photos again
 subtitle: A one-year challenge, 19 rolls, and the hidden cost of “cheap to start”
 date: 2026-05-15
+tags:
+  - photography
 ---
 
 # Film photography made me enjoy taking photos again
 
 A year ago, I set myself a challenge to get back into photography.
 
-Not because I had stopped caring about photos, but because I had started to dislike the process. Digital photography is amazing at many things, but it also comes with a trap: you can take *as many pictures as you want*. Burst a scene into oblivion, come back home, then spend an evening (or three) sorting, picking, and editing.
+Not because I had stopped caring about photos, but because I had started to dislike the process. Digital photography is amazing at many things, but it also comes with a trap: you can take _as many pictures as you want_. Burst a scene into oblivion, come back home, then spend an evening (or three) sorting, picking, and editing.
 
 I don’t hate editing. I just don’t want it to be the main event. I like the act of taking pictures. The walking, the waiting, the framing, the little decisions you make in half a second. Somewhere along the way, I had lost that.
 
-And then, by complete luck, I bought a disposable film camera for a vacation. It was the perfect antidote. A throwaway camera you can keep in your pocket, pull out for a random shot, and not worry about. If you lose it, you shrug. If you get a weird frame, you accept it. The pictures came back looking… not great, objectively (plastic lens, questionable sharpness...), but they had *a thing*. A built-in aesthetic you have to get on board with. Most importantly: I didn’t edit them.
+And then, by complete luck, I bought a disposable film camera for a vacation. It was the perfect antidote. A throwaway camera you can keep in your pocket, pull out for a random shot, and not worry about. If you lose it, you shrug. If you get a weird frame, you accept it. The pictures came back looking… not great, objectively (plastic lens, questionable sharpness...), but they had _a thing_. A built-in aesthetic you have to get on board with. Most importantly: I didn’t edit them.
 
 That was enough to hook me back. I decided to get back into photography, but this time through film.
 
@@ -28,7 +30,7 @@ No. I failed miserably.
 
 But I did shoot again. I carried a camera again. I made images I’m genuinely proud of. And that alone made the year worth it.
 
-Over that year, I shot **22 rolls** of film. **Four** were black and white. **Seven** were **Kodak Gold**. The rest were **Vision film** (the cinema stock, more down below). It’s not a lot for a “daily” challenge, but it was a real restart, and it brought back something I had missed: enjoying photography *while doing it*.
+Over that year, I shot **22 rolls** of film. **Four** were black and white. **Seven** were **Kodak Gold**. The rest were **Vision film** (the cinema stock, more down below). It’s not a lot for a “daily” challenge, but it was a real restart, and it brought back something I had missed: enjoying photography _while doing it_.
 
 ## Starting cheap: the €30 camera that almost worked
 
@@ -42,7 +44,7 @@ So I changed direction.
 
 ## Falling in love with SLRs (despite a Soviet detour)
 
-At some point I was gifted a **Zenit 11**, a gigantic Soviet-era camera. It was hilarious and charming and deeply mechanical in a way modern devices aren’t. It also had a problem: every photo came out blurry, because of some aging mirror mechanism. So it wasn’t a great *tool*.
+At some point I was gifted a **Zenit 11**, a gigantic Soviet-era camera. It was hilarious and charming and deeply mechanical in a way modern devices aren’t. It also had a problem: every photo came out blurry, because of some aging mirror mechanism. So it wasn’t a great _tool_.
 
 But it taught me something important: composing through an SLR, seeing what’s in focus (and what isn’t), is incredibly satisfying. It makes photography feel direct again.
 
@@ -82,7 +84,7 @@ Low-cost lab scans are often… fine. But they’re also often too low-quality t
 
 Scanning is a great candidate for DIY: A second-hand **Plustek** (for 35mm) or an **Epson** flatbed can pay for itself surprisingly fast if you shoot regularly. Another option is camera scanning with an old digital body and a cheap macro-ish setup.
 
-This is what I do now. I’m not sure I’ve fully “paid back” the scanner yet, but the *quality jump* alone made it worth it, and from a certain number of rolls onward, it becomes a straight saving.
+This is what I do now. I’m not sure I’ve fully “paid back” the scanner yet, but the _quality jump_ alone made it worth it, and from a certain number of rolls onward, it becomes a straight saving.
 
 ### 3) Developing
 
@@ -94,7 +96,7 @@ Color is trickier.
 
 **C-41 at home** works, and you’ll save money, but usually not enough to justify it unless you shoot a lot. The chemistry cost per roll tends to be a couple euros, and the setup adds time, temperature constraints, and upfront spending.
 
-**ECN-2**, on the other hand, can make sense *because labs often charge more for it* (or don’t offer it). If you want to shoot Vision3 to save money, but your lab charges double for ECN-2, you’ve defeated the point. In that case, developing yourself can bring the whole “Vision is cheaper” idea back into reality.
+**ECN-2**, on the other hand, can make sense _because labs often charge more for it_ (or don’t offer it). If you want to shoot Vision3 to save money, but your lab charges double for ECN-2, you’ve defeated the point. In that case, developing yourself can bring the whole “Vision is cheaper” idea back into reality.
 
 Personally, I’ve been lucky: I have access to a lab that does ECN-2 for the same price as C-41. But I might move, and then I won’t. Which is why I’m considering developing ECN-2 myself.
 

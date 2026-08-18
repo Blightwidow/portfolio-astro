@@ -5,6 +5,10 @@ date: 2026-03-19
 series:
   name: "Building a chess engine in Rust"
   order: 5
+tags:
+  - chess
+  - rust
+  - engineering
 ---
 
 # The search for better search
@@ -35,7 +39,7 @@ Here's where things get dense. Each of these techniques has a one-line intuition
 
 **Reverse Futility Pruning**: if the static eval is far above beta (the opponent's threshold), don't bother searching. The margin is `80 * depth` centipawns. Applied at non-PV nodes, depth <= 7, not in check.
 
-**Razoring**: the opposite direction. If the static eval is far *below* alpha at shallow depths (300 cp at depth 1, 600 cp at depth 2), drop straight into quiescence search. You probably can't recover.
+**Razoring**: the opposite direction. If the static eval is far _below_ alpha at shallow depths (300 cp at depth 1, 600 cp at depth 2), drop straight into quiescence search. You probably can't recover.
 
 **Futility Pruning**: at shallow depths, skip quiet moves where even with a bonus the score can't reach alpha. Margins: 200 cp (depth 1), 400 cp (depth 2). Only applied to quiet moves that aren't killers.
 
@@ -49,18 +53,18 @@ Here's where things get dense. Each of these techniques has a one-line intuition
 
 ## Move ordering: the silent multiplier
 
-None of the above works well unless the *best* moves are searched first. Alpha-beta's efficiency depends on seeing good moves early: a perfect move ordering makes alpha-beta search O(b^(d/2)) instead of O(b^d).
+None of the above works well unless the _best_ moves are searched first. Alpha-beta's efficiency depends on seeing good moves early: a perfect move ordering makes alpha-beta search O(b^(d/2)) instead of O(b^d).
 
 Oxide's move ordering priority:
 
-| Priority | Category | Score |
-|----------|----------|-------|
-| 1 | TT move | 1,000,000 |
-| 2 | Captures (MVV-LVA) | 100,000 + victim*100 - attacker |
-| 3 | Promotions | 100,000 + piece*100 |
-| 4 | First killer move | 90,000 |
-| 5 | Second killer move | 80,000 |
-| 6 | Quiet moves (history) | history[from][to] |
+| Priority | Category              | Score                            |
+| -------- | --------------------- | -------------------------------- |
+| 1        | TT move               | 1,000,000                        |
+| 2        | Captures (MVV-LVA)    | 100,000 + victim\*100 - attacker |
+| 3        | Promotions            | 100,000 + piece\*100             |
+| 4        | First killer move     | 90,000                           |
+| 5        | Second killer move    | 80,000                           |
+| 6        | Quiet moves (history) | history[from][to]                |
 
 The **TT move** comes from the transposition table: the best move found in a previous search of this position. It's almost always the best move to try first.
 
@@ -77,4 +81,3 @@ Moves are sorted using **incremental selection sort**: instead of fully sorting 
 No single technique here is dramatic on its own. Null move pruning might add 50-100 Elo. LMR might add another 50-100. Futility pruning, maybe 30. But they compound. Each technique lets the engine search deeper, which makes the other techniques more effective, which lets it search deeper still.
 
 Going from a basic alpha-beta search to the full pruning stack took Oxide from searching depth 8-9 to depth 16-20 in the same time. That's the difference between an engine that misses tactics and one that sees them coming 8 moves out. It's the difference between 1200 Elo and 1900.
-

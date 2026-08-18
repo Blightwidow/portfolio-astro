@@ -5,6 +5,10 @@ date: 2026-08-18
 series:
   name: "Hiking by train"
   order: 2
+tags:
+  - hiking
+  - trains
+  - engineering
 ---
 
 # Every trail you can reach by train
@@ -78,16 +82,16 @@ Run the decomposition and you get **436 station-to-station sections**, chaining 
 
 And the geography is brutally uneven:
 
-| Region | Trail km | Sections | Sections per 1,000 km | Trail km inside a section |
-| --- | --- | --- | --- | --- |
-| Hauts-de-France | 1,939 | 50 | 25.8 | 37% |
-| Île-de-France | 3,104 | 79 | 25.4 | 36% |
-| Centre-Val de Loire | 1,614 | 26 | 16.1 | 25% |
-| Provence-Alpes-Côte d'Azur | 2,635 | 31 | 11.8 | 15% |
-| Grand Est | 4,918 | 49 | 10.0 | 14% |
-| Nouvelle-Aquitaine | 5,195 | 27 | 5.2 | 8% |
-| Occitanie | 3,920 | 17 | 4.3 | 7% |
-| Bretagne | 4,252 | 16 | 3.8 | 5% |
+| Region                     | Trail km | Sections | Sections per 1,000 km | Trail km inside a section |
+| -------------------------- | -------- | -------- | --------------------- | ------------------------- |
+| Hauts-de-France            | 1,939    | 50       | 25.8                  | 37%                       |
+| Île-de-France              | 3,104    | 79       | 25.4                  | 36%                       |
+| Centre-Val de Loire        | 1,614    | 26       | 16.1                  | 25%                       |
+| Provence-Alpes-Côte d'Azur | 2,635    | 31       | 11.8                  | 15%                       |
+| Grand Est                  | 4,918    | 49       | 10.0                  | 14%                       |
+| Nouvelle-Aquitaine         | 5,195    | 27       | 5.2                   | 8%                        |
+| Occitanie                  | 3,920    | 17       | 4.3                   | 7%                        |
+| Bretagne                   | 4,252    | 16       | 3.8                   | 5%                        |
 
 The Paris basin is six times better served than Brittany. Brittany has **4,252 km of GR trail and 41 stations near it**, which produces sixteen sections: less than one walkable day per 250 km of trail. Occitanie, with the Pyrenees and some of the best walking in the country, manages seventeen.
 

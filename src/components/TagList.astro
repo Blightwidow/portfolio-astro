@@ -1,18 +1,24 @@
 ---
 interface Props {
   tags: { tag: string; count: number }[];
+  /** Where a tag link points: the tag name is appended to this. */
+  baseUrl: string;
+  /** Link back to the unfiltered list, only rendered when a tag is active. */
+  allUrl: string;
+  allLabel: string;
+  ariaLabel: string;
   activeTag?: string;
 }
 
-const { tags, activeTag } = Astro.props;
+const { tags, baseUrl, allUrl, allLabel, ariaLabel, activeTag } = Astro.props;
 ---
 
-<nav class="tag-list" aria-label="Photo tags">
-  {activeTag && <a href="/photography">All photos</a>}
+<nav class="tag-list" aria-label={ariaLabel}>
+  {activeTag && <a href={allUrl}>{allLabel}</a>}
   {
     tags.map(({ tag, count }) => (
       <a
-        href={`/photography/${tag}`}
+        href={`${baseUrl}/${tag}`}
         class:list={[{ active: tag === activeTag }]}
         aria-current={tag === activeTag ? "page" : undefined}
       >

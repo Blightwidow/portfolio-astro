@@ -1,0 +1,43 @@
+---
+import PostList from "../../../components/PostList.astro";
+import TagList from "../../../components/TagList.astro";
+import Layout from "../../../layouts/Layout.astro";
+import { getAllTagsWithCounts, getPostsByTag } from "../../../utils/blog";
+
+export async function getStaticPaths() {
+  const tags = await getAllTagsWithCounts();
+
+  return Promise.all(
+    tags.map(async ({ tag }) => ({
+      params: { tag },
+      props: { tag, tags, posts: await getPostsByTag(tag) },
+    })),
+  );
+}
+
+const { tag, tags, posts } = Astro.props;
+---
+
+<Layout
+  title={`Blog: #${tag} - Theo Dammaretz`}
+  description={`Every post about ${tag}.`}
+  backLink="/blog"
+>
+  <h1>#{tag}</h1>
+  <p class="meta">{posts.length} {posts.length === 1 ? "post" : "posts"}</p>
+  <TagList
+    tags={tags}
+    baseUrl="/blog/tag"
+    allUrl="/blog"
+    allLabel="All posts"
+    ariaLabel="Blog topics"
+    activeTag={tag}
+  />
+  <PostList posts={posts} />
+</Layout>
+
+<style>
+  .meta {
+    opacity: 0.6;
+  }
+</style>

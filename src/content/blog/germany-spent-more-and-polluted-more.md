@@ -2,6 +2,9 @@
 title: Germany spent more and polluted more
 subtitle: Why the carbon intensity of the grid, not renewable capacity, decides decarbonation
 date: 2026-09-01
+tags:
+  - energy
+  - environment
 ---
 
 # Germany spent more and polluted more
@@ -18,18 +21,18 @@ Rank European countries on climate ambition from a decade of headlines and Germa
 
 These are the 2025 carbon intensities of European grids, in grams of CO2 per kilowatt-hour, from [Ember's data](https://ourworldindata.org/grapher/carbon-intensity-electricity):
 
-| Country | gCO2/kWh (2025) | What runs the grid |
-| --- | --- | --- |
-| Norway | 28 | 90% hydro |
-| Sweden | 35 | 40% hydro, 28% nuclear |
-| Switzerland | 39 | hydro and nuclear |
-| France | 41 | 69% nuclear |
-| Finland | 57 | 40% nuclear, 27% wind |
-| Slovakia | 95 | nuclear |
-| Denmark | 114 | 58% wind, 13% solar |
-| EU average | 210 | mixed |
-| Germany | 330 | 27% wind, 18% solar, 37% coal and gas |
-| Poland | 589 | 50% coal |
+| Country     | gCO2/kWh (2025) | What runs the grid                    |
+| ----------- | --------------- | ------------------------------------- |
+| Norway      | 28              | 90% hydro                             |
+| Sweden      | 35              | 40% hydro, 28% nuclear                |
+| Switzerland | 39              | hydro and nuclear                     |
+| France      | 41              | 69% nuclear                           |
+| Finland     | 57              | 40% nuclear, 27% wind                 |
+| Slovakia    | 95              | nuclear                               |
+| Denmark     | 114             | 58% wind, 13% solar                   |
+| EU average  | 210             | mixed                                 |
+| Germany     | 330             | 27% wind, 18% solar, 37% coal and gas |
+| Poland      | 589             | 50% coal                              |
 
 One pattern jumps out. **Every European grid below 100 gCO2/kWh runs on hydro, nuclear, or both.** No exceptions.
 

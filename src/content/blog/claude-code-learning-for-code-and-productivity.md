@@ -2,6 +2,9 @@
 title: Claude Code learnings
 subtitle: How to boost your productivity writing code or any content while keeping control
 date: 2026-03-30
+tags:
+  - ai
+  - engineering
 ---
 
 # Claude Code learnings
@@ -118,11 +121,11 @@ All 18 frontier models exhibit measurable performance decline as context grows. 
 
 What I find striking is the signal ratio: a typical 20K-token context contains only about [**500 tokens of relevant code**](https://www.morphllm.com/context-rot), a 2.5% signal ratio. Token consumption shows 10x variance on equivalent tasks, driven entirely by search efficiency. Managing what the model sees is half the job.
 
-Practical strategies that work for me: 
+Practical strategies that work for me:
 
-- Check context usage regularly and compact at 60% capacity on complex tasks. 
-- Break features into roughly 500-line sub-task chunks. 
-- Store plans as markdown files that survive compaction. 
+- Check context usage regularly and compact at 60% capacity on complex tasks.
+- Break features into roughly 500-line sub-task chunks.
+- Store plans as markdown files that survive compaction.
 - Use SessionStart hooks to re-inject critical context post-compaction.
 - And don't start complicated work mid-conversation, fresh context is cheap, wasted context is expensive.
 

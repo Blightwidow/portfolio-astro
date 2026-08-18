@@ -2,6 +2,8 @@
 title: The world of indestructible-ish glassware
 subtitle: Long lasting glassware already exists
 date: 2024-07-10
+tags:
+  - environment
 ---
 
 # The world of indestructible-ish glassware

@@ -5,6 +5,10 @@ date: 2026-03-17
 series:
   name: "Building a chess engine in Rust"
   order: 4
+tags:
+  - chess
+  - rust
+  - engineering
 ---
 
 # Speaking UCI: making your engine talk to the world
@@ -119,4 +123,3 @@ The protocol itself is straightforward. The spec is one document, and most engin
 4. **Check compliance with some executable**: A lot of test suite exists. `fastchess` for example has a `--compliance` flag to test your engine.
 
 UCI is the boring part of a chess engine. It's also the part that makes everything else possible.
-

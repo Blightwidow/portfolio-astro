@@ -2,6 +2,8 @@
 title: The Freedom of a Small Backpack
 subtitle: Why I Travel With Only 35L
 date: 2023-11-16
+tags:
+  - travel
 ---
 
 # The Freedom of a Small Backpack

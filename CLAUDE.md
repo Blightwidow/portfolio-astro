@@ -28,7 +28,7 @@ Roll membership was established by difference-hashing every export against every
 
 Defined in `src/content.config.ts` using Astro's glob loader:
 
-- **blog**: Markdown files in `src/content/blog/`. Schema: `title`, `subtitle`, `date`, `series?` (`{ name, order }`, nested so a post cannot declare one without the other).
+- **blog**: Markdown files in `src/content/blog/`. Schema: `title`, `subtitle`, `date`, `series?` (`{ name, order }`, nested so a post cannot declare one without the other), `tags?` (**topics**, e.g. `chess`, `environment`, `trains`). Blog tags and photo tags are **separate namespaces**: blog tags name what a post is about, photo tags name a subject or a place, and no page mixes the two.
 - **photography**: YAML files in `src/content/photography/` (each paired with a `.jpg`). Files are named `rNNN-fFF` (roll number, frame position), which is also the photo's URL: `/photography/photo/r014-f07`. Schema: `title` (short display title, used for the page title and search results), `alt` (descriptive alt text for screen readers), `description?`, `date` (**month precision only**: the day is pinned to `01` and never displayed, since film scans carry no capture date; photo pages render it via `formatMonth`), `image`, `roll` (reference to a `rolls` entry), `frame` (1-based position on the strip, scan order), `tags?` (**subject and location only**), `hideFromGallery?` (defaults to `false`; hides the photo from the main gallery but keeps it on tag pages, its own page, and in search).
 - **rolls**: YAML files in `src/content/rolls/` named `rNNN`. Schema: `camera`, `film`, `format` (defaults to `35mm`), `process` (e.g. `color`, `black and white`, `pushed`), `shotMonth?` (`YYYY-MM`, for rolls where only the month is remembered), `shotFrom?`, `shotTo?`, `developed?`. A roll with no date at all is deliberate: it means the real dates are unknown, and `getRollPeriod` renders "date unknown" rather than guessing. Camera, stock, format and process are roll facts and must **not** be duplicated as photo tags. Display names for cameras and stocks live in `CAMERA_LABELS` / `FILM_LABELS` in `src/utils/photography.ts`.
 
@@ -40,6 +40,7 @@ Defined in `src/content.config.ts` using Astro's glob loader:
 - `src/pages/blog/[page].astro` - Paginated blog listing
 - `src/pages/blog/[slug].astro` - Individual blog post
 - `src/pages/blog/series/[series].astro` - All parts of one series, in reading order
+- `src/pages/blog/tag/[tag].astro` - Posts filtered by topic tag
 - `src/pages/photography/index.astro` - Photo gallery (masonry, single page, tag index)
 - `src/pages/photography/[tag].astro` - Photos filtered by tag
 - `src/pages/photography/photo/[id].astro` - Individual photo page

@@ -5,6 +5,11 @@ date: 2026-03-23
 series:
   name: "Building a chess engine in Rust"
   order: 7
+tags:
+  - chess
+  - rust
+  - engineering
+  - ai
 ---
 
 # The neural network that broke everything
@@ -73,7 +78,7 @@ Here's where the story gets painful.
 
 This is apparently normal. Early training data is often poor (the engine generating it is weak), and the network needs several rounds of self-play improvement to surpass a decent handcrafted evaluation. But "apparently normal" doesn't help when you're staring at your engine blundering a piece and wondering if you broke something fundamental.
 
-**Performance bugs after compilation.** Even after the net was functionally correct and playing decent chess, the engine was slower than expected. The node rate dropped significantly compared to the handcrafted eval, which makes sense, a neural network forward pass is more expensive than adding up a few table lookups. But it was *too* slow, and that meant the search depth advantage that's supposed to compensate for the per-node cost wasn't materializing.
+**Performance bugs after compilation.** Even after the net was functionally correct and playing decent chess, the engine was slower than expected. The node rate dropped significantly compared to the handcrafted eval, which makes sense, a neural network forward pass is more expensive than adding up a few table lookups. But it was _too_ slow, and that meant the search depth advantage that's supposed to compensate for the per-node cost wasn't materializing.
 
 The fix was a combination of things: pre-computing SCReLU activations, transposing the L1 weight matrix for cache-friendly access during the forward pass, and making sure the compiler was actually vectorizing the hot loops (the `target-cpu=native` flag in `.cargo/config.toml` turned out to be critical).
 
@@ -88,4 +93,3 @@ Combined with the forward pass optimizations, the engine went from being barely 
 The v1.0.0 release of Oxide is the NNUE version. It removed the entire handcrafted evaluation: all the piece-square tables I had tuned by hand, the pawn structure analysis, the bishop pair bonus, the rook-on-open-file detection. All of it replaced by a 768-to-256-to-32-to-1 network that learned those patterns (and many more) from data.
 
 I won't pretend it wasn't bittersweet. I spent weeks hand-tuning those evaluation terms, and they're all gone now. But the engine is objectively stronger for it, and that's what matters.
-

@@ -5,6 +5,10 @@ date: 2023-11-15
 series:
   name: "Train prices in Europe"
   order: 1
+tags:
+  - trains
+  - travel
+  - environment
 ---
 
 # The nonsense of train prices

@@ -5,6 +5,10 @@ date: 2024-03-08
 series:
   name: "Train prices in Europe"
   order: 2
+tags:
+  - trains
+  - travel
+  - environment
 ---
 
 # A light of hope for trains against planes?

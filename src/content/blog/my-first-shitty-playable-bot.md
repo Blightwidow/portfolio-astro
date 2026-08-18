@@ -5,11 +5,15 @@ date: 2026-03-13
 series:
   name: "Building a chess engine in Rust"
   order: 2
+tags:
+  - chess
+  - rust
+  - engineering
 ---
 
 # My first shitty playable bot
 
-There's a specific moment in building a chess engine where it goes from a legal move generator to something that actually *plays chess*. It doesn't play well, it plays terribly, in fact, but it makes moves that have intent behind them. It tries to capture your pieces. It occasionally stumbles into a checkmate. That moment is magic, and it came sooner than I expected.
+There's a specific moment in building a chess engine where it goes from a legal move generator to something that actually _plays chess_. It doesn't play well, it plays terribly, in fact, but it makes moves that have intent behind them. It tries to capture your pieces. It occasionally stumbles into a checkmate. That moment is magic, and it came sooner than I expected.
 
 ![Chess pieces mid-game on a wooden board (photo by Heriberto Murrieta on Unsplash)](../../images/chess-midgame.webp)
 
@@ -86,9 +90,8 @@ Position handles the board state and do/undo move. Movegen generates legal moves
 
 The first time I loaded Oxide into a chess GUI and played against it, it was comically bad. It could see about 5-6 plies deep, which sounds reasonable until you realize that without good move ordering or pruning, it was wasting most of its search time on terrible moves. It would make random-looking moves in the opening, occasionally blunder pieces, and sometimes find a nice tactic by accident.
 
-But it was *playing*. It was making decisions based on looking ahead, evaluating positions, and choosing. When it captured a piece, it meant to. When it checkmated me (once, at the very beginning, when I wasn't paying attention), it had seen it coming.
+But it was _playing_. It was making decisions based on looking ahead, evaluating positions, and choosing. When it captured a piece, it meant to. When it checkmated me (once, at the very beginning, when I wasn't paying attention), it had seen it coming.
 
 The shitty bot was alive. Everything after this point, evaluation, pruning, time management, neural networks, is about making it suck less. But the core loop of "generate moves, search ahead, pick the best one" never fundamentally changes.
 
 That initial version was probably playing around 800-1200 Elo. Enough to beat a complete beginner. Enough to lose to anyone who's played a few dozen games. And enough to make me want to keep going.
-
