@@ -13,6 +13,8 @@ I already wrote about [traveling with a 35L backpack](/blog/the-freedom-of-a-sma
 
 I call it glam-hiking, and I find it remarkable how few people know it's an option.
 
+![A lone walker among vineyard rows at golden hour (photo by Elodie Debard on Unsplash)](../../images/vineyard-walker.webp)
+
 ## The equipment you carry is mostly there for the equipment you carry
 
 Traditional long-distance hiking has a compounding problem. You carry a tent, so you carry stakes and a footprint. You sleep outside, so you carry a sleeping bag and a mat. You have no kitchen, so you carry a stove, fuel, a pot, and three days of food. You now weigh **twelve to fifteen kilos** heavier, so you need sturdier boots, more water, and a bigger pack with a real hip belt to hold it all. Every solution buys you a new problem.
