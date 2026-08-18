@@ -1,7 +1,7 @@
 ---
 title: Germany spent more and polluted more
 subtitle: Why the carbon intensity of the grid, not renewable capacity, decides decarbonation
-date: 2026-08-10
+date: 2026-09-01
 ---
 
 # Germany spent more and polluted more
