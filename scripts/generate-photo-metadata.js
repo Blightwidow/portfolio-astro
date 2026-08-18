@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-import { readdir, writeFile, access } from "fs/promises";
+import { readdir, readFile, writeFile, access } from "fs/promises";
 import { join, basename, extname } from "path";
 import { fileURLToPath } from "url";
 import { dirname } from "path";
@@ -9,42 +9,56 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
 const PHOTOGRAPHY_DIR = join(__dirname, "..", "src", "content", "photography");
+const ROLLS_DIR = join(__dirname, "..", "src", "content", "rolls");
 
 /**
- * Extract date from filename (assuming format YYYYMMDD.jpg)
+ * Extract the roll id and frame number from a filename shaped `rNNN-fFF.jpg`.
  * @param {string} filename
- * @returns {string} Date in YYYY-MM-DD format
+ * @returns {{ roll: string, frame: number } | undefined}
  */
-function extractDateFromFilename(filename) {
+function extractRollAndFrame(filename) {
   const baseName = basename(filename, extname(filename));
+  const match = baseName.match(/^(r\d{3})-f(\d{2})$/);
 
-  // Check if filename matches YYYYMMDD pattern
-  const dateMatch = baseName.match(/^(\d{4})(\d{2})(\d{2})$/);
-  if (dateMatch) {
-    const [, year, month, day] = dateMatch;
-    return `${year}-${month}-${day}`;
+  if (!match) {
+    return undefined;
   }
 
-  // Fallback to current date if pattern doesn't match
-  return new Date().toISOString().split("T")[0];
+  return { roll: match[1], frame: Number(match[2]) };
 }
 
 /**
- * Generate default tags based on common patterns in existing files
- * @returns {string[]} Array of default tags
+ * Read the shooting window of a roll, so a new frame can inherit a plausible date instead of
+ * inventing one. Returns undefined when the roll file has no `shotFrom`.
+ * @param {string} roll
+ * @returns {Promise<string | undefined>}
  */
-function generateDefaultTags() {
-  return ["35mm"];
+async function readRollShotFrom(roll) {
+  try {
+    const contents = await readFile(join(ROLLS_DIR, `${roll}.yaml`), "utf8");
+    return contents.match(/^shotFrom:\s*(\S+)$/m)?.[1];
+  } catch {
+    return undefined;
+  }
 }
 
 /**
- * Generate YAML content for a photo
+ * Generate YAML content for a photo. Camera, film, format and process are NOT written here:
+ * they belong to the roll (`src/content/rolls/<roll>.yaml`). Tags carry subject and location
+ * only.
  * @param {string} jpgFilename
- * @returns {string} YAML content
+ * @returns {Promise<string>} YAML content
  */
-function generateYamlContent(jpgFilename) {
-  const date = extractDateFromFilename(jpgFilename);
-  const defaultTags = generateDefaultTags();
+async function generateYamlContent(jpgFilename) {
+  const parsed = extractRollAndFrame(jpgFilename);
+
+  if (!parsed) {
+    throw new Error(
+      `${jpgFilename} does not match the rNNN-fFF naming scheme (for example r014-f07.jpg).`,
+    );
+  }
+
+  const date = (await readRollShotFrom(parsed.roll)) ?? new Date().toISOString().split("T")[0];
 
   return `title: Add your title here.
 alt: Describe the photo for screen readers here.
@@ -52,8 +66,10 @@ description: >
   Add your photo description here.
 date: ${date}
 image: ./${jpgFilename}
+roll: ${parsed.roll}
+frame: ${parsed.frame}
 tags:
-${defaultTags.map((tag) => `  - ${tag}`).join("\n")}
+  - Add subject and location tags here.
 `;
 }
 
@@ -100,7 +116,7 @@ async function generatePhotoMetadata() {
       }
 
       // Generate YAML content
-      const yamlContent = generateYamlContent(jpgFile);
+      const yamlContent = await generateYamlContent(jpgFile);
 
       // Write YAML file
       await writeFile(yamlFilePath, yamlContent, "utf8");

@@ -1,0 +1,131 @@
+---
+interface Props {
+  title: string;
+  /** One point per x position, in order. Labels are rendered rotated under the axis. */
+  points: { label: string; value: number }[];
+  /** Screen-reader summary prefix, e.g. "Frames per month". */
+  summaryLabel: string;
+  caption?: string;
+}
+
+const { title, points, summaryLabel, caption } = Astro.props;
+
+const CHART = { width: 640, height: 190, top: 14, right: 14, bottom: 52, left: 30 };
+const plotWidth = CHART.width - CHART.left - CHART.right;
+const plotHeight = CHART.height - CHART.top - CHART.bottom;
+const baseline = CHART.top + plotHeight;
+const step = points.length > 1 ? plotWidth / (points.length - 1) : 0;
+const maximum = Math.max(...points.map((point) => point.value), 1);
+
+/**
+ * Round the gridline interval to something a reader can count in: 1, 2, 5, 10, 20 and so on.
+ * Aiming for roughly five intervals keeps the lines helpful without turning into hatching.
+ */
+function getGridStep(target: number, intervals = 5): number {
+  const rough = Math.max(target / intervals, 1);
+  const magnitude = 10 ** Math.floor(Math.log10(rough));
+  return [1, 2, 5, 10].map((factor) => factor * magnitude).find((candidate) => candidate >= rough) ?? magnitude * 10;
+}
+
+const gridStep = getGridStep(maximum);
+// Scale to the top gridline rather than to the tallest point, so every point sits under a line.
+const upperBound = Math.ceil(maximum / gridStep) * gridStep;
+const gridValues = Array.from({ length: Math.floor(upperBound / gridStep) + 1 }, (_, index) => index * gridStep);
+
+const plotted = points.map((point, index) => ({
+  ...point,
+  x: CHART.left + index * step,
+  y: baseline - (point.value / upperBound) * plotHeight,
+}));
+
+const linePoints = plotted.map((point) => `${point.x},${point.y}`).join(" ");
+const summary = plotted.map((point) => `${point.label}: ${point.value}`).join(", ");
+---
+
+<section>
+  <h2>{title}</h2>
+  <svg
+    viewBox={`0 0 ${CHART.width} ${CHART.height}`}
+    role="img"
+    aria-label={`${summaryLabel}. ${summary}.`}
+    preserveAspectRatio="xMidYMid meet"
+  >
+    {
+      gridValues.map((value) => {
+        const y = baseline - (value / upperBound) * plotHeight;
+
+        return (
+          <>
+            <line class:list={["grid", { axis: value === 0 }]} x1={CHART.left} y1={y} x2={CHART.left + plotWidth} y2={y} />
+            <text class="tick" x={CHART.left - 8} y={y + 3}>
+              {value}
+            </text>
+          </>
+        );
+      })
+    }
+    <polyline class="line" points={linePoints} />
+    {plotted.map((point) => <rect class="point" x={point.x - 3.5} y={point.y - 3.5} width="7" height="7" />)}
+    {
+      plotted.map((point) => (
+        <text class="label" x={point.x} y={baseline + 14} transform={`rotate(-45 ${point.x} ${baseline + 14})`}>
+          {point.label}
+        </text>
+      ))
+    }
+  </svg>
+  {caption && <p class="caption">{caption}</p>}
+</section>
+
+<style>
+  section {
+    margin-bottom: 2rem;
+  }
+
+  h2 {
+    font-size: 1rem;
+    margin: 0 0 0.5rem;
+  }
+
+  svg {
+    width: 100%;
+    height: auto;
+    overflow: visible;
+  }
+
+  .line {
+    fill: none;
+    stroke: rgb(var(--foreground-rgb));
+    stroke-width: 1.5;
+    stroke-linejoin: miter;
+    stroke-linecap: butt;
+  }
+
+  /* Squares, not circles, to match the blocky bars. */
+  .point {
+    fill: rgba(var(--foreground-rgb), 0.85);
+  }
+
+  .grid {
+    stroke: rgba(var(--foreground-rgb), 0.2);
+    stroke-width: 1;
+  }
+
+  .grid.axis {
+    stroke: rgba(var(--foreground-rgb), 0.4);
+  }
+
+  .tick,
+  .label {
+    fill: rgba(var(--foreground-rgb), 0.6);
+    font-size: 9px;
+    font-family: inherit;
+    text-anchor: end;
+  }
+
+  .caption {
+    opacity: 0.6;
+    font-size: 0.85em;
+    margin: 0.5rem 0 0;
+  }
+</style>

@@ -1,0 +1,82 @@
+---
+import Spacer from "../../../components/Spacer.astro";
+import Layout from "../../../layouts/Layout.astro";
+import { getAllSeries } from "../../../utils/blog";
+import { formatDate, toISODate } from "../../../utils/date";
+
+export async function getStaticPaths() {
+  const allSeries = await getAllSeries();
+
+  return allSeries.map((series) => ({
+    params: { series: series.slug },
+    props: { series },
+  }));
+}
+
+const { series } = Astro.props;
+const firstPart = series.posts.at(0);
+const lastPart = series.posts.at(-1);
+---
+
+<Layout
+  title={`${series.name} - Theo Dammaretz`}
+  description={`${series.name}, a series in ${series.posts.length} parts.`}
+  backLink="/blog"
+>
+  <h1>{series.name}</h1>
+  <p class="meta">
+    {series.posts.length} parts{
+      firstPart && lastPart && (
+        <>
+          , from {formatDate(firstPart.data.date)} to {formatDate(lastPart.data.date)}
+        </>
+      )
+    }
+  </p>
+  <Spacer units={1} />
+  <ol>
+    {
+      series.posts.map((post, index) => (
+        <li>
+          <h3>
+            <span class="part">{index + 1}.</span> <a href={`/blog/${post.id}`}>{post.data.title}</a>
+          </h3>
+          {Boolean(post.data.subtitle) && <p>{post.data.subtitle}</p>}
+          <time datetime={toISODate(post.data.date)}>{formatDate(post.data.date)}</time>
+        </li>
+      ))
+    }
+  </ol>
+</Layout>
+
+<style>
+  .meta {
+    opacity: 0.6;
+  }
+
+  /* The number is rendered inline in the heading so it shares the title's line. */
+  ol {
+    list-style: none;
+    padding: 0;
+  }
+
+  li {
+    margin-bottom: 1.5rem;
+  }
+
+  .part {
+    opacity: 0.6;
+  }
+
+  li h3 {
+    margin-bottom: 0.25rem;
+  }
+
+  li p {
+    margin: 0 0 0.25rem;
+  }
+
+  time {
+    opacity: 0.6;
+  }
+</style>

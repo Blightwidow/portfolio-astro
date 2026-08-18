@@ -1,0 +1,5 @@
+camera: zenith 11
+film: 500T
+process:
+  - color
+shotMonth: 2025-11

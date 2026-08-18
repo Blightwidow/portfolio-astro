@@ -2,6 +2,9 @@
 title: Teaching a computer what a chessboard is
 subtitle: Bitboards, magic numbers, and the first 10,000 bugs
 date: 2026-03-11
+series:
+  name: "Building a chess engine in Rust"
+  order: 1
 ---
 
 # Teaching a computer what a chessboard is
@@ -86,6 +89,3 @@ But getting perft right was deeply satisfying. It's one of those rare moments in
 
 With legal move generation working, Oxide could now understand what a chessboard is and what moves are possible. It just had no idea which moves were *good*. That's what the next post is about: teaching it to play, badly.
 
----
-
-*This is part 1 of a series on building a chess engine in Rust. Next: [My first shitty playable bot](/blog/my-first-shitty-playable-bot).*

@@ -28,4 +28,7 @@ export default defineConfig({
   redirects: {
     "/blog": "/blog/1",
   },
+  experimental: {
+    incrementalBuild: true,
+  },
 });

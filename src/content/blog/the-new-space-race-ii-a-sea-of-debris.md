@@ -2,6 +2,9 @@
 title: The new Space Race II, A sea of debris
 subtitle: How our space renaissance is creating an orbital minefield
 date: 2025-09-01
+series:
+  name: "The new Space Race"
+  order: 2
 ---
 
 # The new Space Race II, A sea of debris

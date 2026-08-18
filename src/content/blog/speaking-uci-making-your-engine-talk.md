@@ -2,6 +2,9 @@
 title: "Speaking UCI: making your engine talk to the world"
 subtitle: The protocol that lets chess engines exist
 date: 2026-03-17
+series:
+  name: "Building a chess engine in Rust"
+  order: 4
 ---
 
 # Speaking UCI: making your engine talk to the world
@@ -117,6 +120,3 @@ The protocol itself is straightforward. The spec is one document, and most engin
 
 UCI is the boring part of a chess engine. It's also the part that makes everything else possible.
 
----
-
-*This is part 4 of a series on building a chess engine in Rust. Previous: [Giving it eyes: a handcrafted evaluation](/blog/giving-it-eyes-a-handcrafted-evaluation). Next: [The search for better search](/blog/the-search-for-better-search).*

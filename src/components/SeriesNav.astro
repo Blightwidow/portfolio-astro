@@ -1,0 +1,78 @@
+---
+import type { SeriesNavigation } from "../utils/blog";
+
+interface Props {
+  navigation: SeriesNavigation;
+  variant: "header" | "footer";
+}
+
+const { variant } = Astro.props;
+const { name, slug, part, posts, previous, next } = Astro.props.navigation;
+---
+
+{
+  variant === "header" ? (
+    <p class="header" data-pagefind-ignore>
+      Part {part} of {posts.length} in <a href={`/blog/series/${slug}`}>{name}</a>
+    </p>
+  ) : (
+    <nav class="footer" aria-label={`${name} series navigation`}>
+      <p>
+        Part {part} of {posts.length} in <a href={`/blog/series/${slug}`}>{name}</a>
+      </p>
+      <ul>
+        {previous && (
+          <li>
+            <span class="direction">Previous</span>
+            <a href={`/blog/${previous.id}`}>{previous.data.title}</a>
+          </li>
+        )}
+        {next && (
+          <li>
+            <span class="direction">Next</span>
+            <a href={`/blog/${next.id}`}>{next.data.title}</a>
+          </li>
+        )}
+        {!next && (
+          <li>
+            <span class="direction">Last part</span>
+            <a href={`/blog/series/${slug}`}>See the whole series</a>
+          </li>
+        )}
+      </ul>
+    </nav>
+  )
+}
+
+<style>
+  .header {
+    opacity: 0.6;
+    margin: 0 0 1.5rem;
+  }
+
+  .footer {
+    margin-top: 3rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid rgba(var(--foreground-rgb), 0.15);
+  }
+
+  .footer p {
+    opacity: 0.6;
+    margin: 0 0 0.75rem;
+  }
+
+  ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .direction {
+    display: block;
+    opacity: 0.6;
+    font-size: 0.85em;
+  }
+</style>

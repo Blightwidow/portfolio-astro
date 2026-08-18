@@ -2,6 +2,9 @@
 title: The search for better search
 subtitle: Iterative deepening, pruning, and thinking deeper without thinking longer
 date: 2026-03-19
+series:
+  name: "Building a chess engine in Rust"
+  order: 5
 ---
 
 # The search for better search
@@ -75,6 +78,3 @@ No single technique here is dramatic on its own. Null move pruning might add 50-
 
 Going from a basic alpha-beta search to the full pruning stack took Oxide from searching depth 8-9 to depth 16-20 in the same time. That's the difference between an engine that misses tactics and one that sees them coming 8 moves out. It's the difference between 1200 Elo and 1900.
 
----
-
-*This is part 5 of a series on building a chess engine in Rust. Previous: [Speaking UCI: making your engine talk to the world](/blog/speaking-uci-making-your-engine-talk). Next: [Standing on the shoulders of PeSTO](/blog/standing-on-the-shoulders-of-pesto).*

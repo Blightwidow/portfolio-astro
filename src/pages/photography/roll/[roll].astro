@@ -1,0 +1,59 @@
+---
+import PhotoMasonry from "../../../components/PhotoMasonry.astro";
+import Layout from "../../../layouts/Layout.astro";
+import { getAllPostsByDate, getAllRolls, getProcessLabel, getRollPeriod } from "../../../utils/photography";
+
+export async function getStaticPaths() {
+  const rolls = await getAllRolls();
+  const photos = await getAllPostsByDate("asc");
+
+  return rolls.map((roll) => ({
+    params: { roll: roll.id },
+    props: {
+      roll,
+      photos: photos
+        .filter((photo) => photo.data.roll.id === roll.id)
+        .sort((a, b) => a.data.frame - b.data.frame),
+    },
+  }));
+}
+
+const { roll, photos } = Astro.props;
+
+const period = getRollPeriod(roll);
+const details = [
+  roll.cameraLabel,
+  roll.filmLabel,
+  roll.format,
+  ...roll.process.map((process) => getProcessLabel(process)),
+];
+---
+
+<Layout
+  title={`Roll ${roll.id} - Theo Dammaretz`}
+  description={`${roll.frameCount} frames shot on ${roll.cameraLabel} with ${roll.filmLabel}.`}
+  backLink="/photography/stats"
+  constrainMain={false}
+>
+  <div class="intro">
+    <h1>Roll {roll.id}</h1>
+    <p>
+      {details.join(" · ")}
+    </p>
+    <p class="meta">
+      {roll.frameCount} frames published{period !== undefined && <>, shot {period}</>}
+    </p>
+  </div>
+  <PhotoMasonry photos={photos} />
+</Layout>
+
+<style>
+  .intro {
+    max-width: 44rem;
+    margin: 0 auto;
+  }
+
+  .meta {
+    opacity: 0.6;
+  }
+</style>

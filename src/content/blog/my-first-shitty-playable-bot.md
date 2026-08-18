@@ -2,6 +2,9 @@
 title: My first shitty playable bot
 subtitle: Negamax, alpha-beta, and the joy of watching it lose
 date: 2026-03-13
+series:
+  name: "Building a chess engine in Rust"
+  order: 2
 ---
 
 # My first shitty playable bot
@@ -89,6 +92,3 @@ The shitty bot was alive. Everything after this point, evaluation, pruning, time
 
 That initial version was probably playing around 800-1200 Elo. Enough to beat a complete beginner. Enough to lose to anyone who's played a few dozen games. And enough to make me want to keep going.
 
----
-
-*This is part 2 of a series on building a chess engine in Rust. Previous: [Teaching a computer what a chessboard is](/blog/teaching-a-computer-what-a-chessboard-is). Next: [Giving it eyes: a handcrafted evaluation](/blog/giving-it-eyes-a-handcrafted-evaluation).*

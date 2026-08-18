@@ -1,9 +1,15 @@
 ---
 import { getImage, Picture } from "astro:assets";
 import Layout from "../../../layouts/PhotoLayout.astro";
-import { getAllPostsByDate } from "../../../utils/photography";
+import {
+  getAllPostsByDate,
+  getCameraLabel,
+  getFilmLabel,
+  getPhotoRoll,
+  getProcessLabel,
+} from "../../../utils/photography";
 import Modal from "../../../components/Modal.astro";
-import { formatDate, toISODate } from "../../../utils/date";
+import { formatMonth, toISOMonth } from "../../../utils/date";
 import Spacer from "../../../components/Spacer.astro";
 
 
@@ -21,6 +27,18 @@ export async function getStaticPaths() {
 }
 
 const { photo, next, prev } = Astro.props;
+
+const roll = await getPhotoRoll(photo);
+const credit =
+  roll === undefined
+    ? []
+    : [
+        getCameraLabel(roll.data.camera),
+        getFilmLabel(roll.data.film),
+        roll.data.format,
+        ...roll.data.process.map(getProcessLabel),
+      ];
+const tags = photo.data.tags ?? [];
 
 const socialImage = await getImage({
   src: photo.data.image,
@@ -107,14 +125,22 @@ const socialImage = await getImage({
     </div>
     <Spacer units={2} />
     <div class="flex spaced">
-      <time datetime={toISODate(photo.data.date)}>{formatDate(photo.data.date)}</time>
+      <time datetime={toISOMonth(photo.data.date)}>{formatMonth(photo.data.date)}</time>
       <button aria-label="Open modal" data-pagefind-ignore>Want this picture removed?</button>
     </div>
     {photo.data.description && <p>{photo.data.description}</p>}
     {
-      photo.data.tags !== undefined && (
+      roll !== undefined && (
+        <p class="credit">
+          Shot on {credit.join(" · ")} — <a href={`/photography/roll/${roll.id}`}>roll {roll.id}</a>, frame{" "}
+          {photo.data.frame}
+        </p>
+      )
+    }
+    {
+      tags.length > 0 && (
         <div class="flex">
-          {photo.data.tags.map((tag: string) => (
+          {tags.map((tag: string) => (
             <a href={`/photography/${tag}`}>#{tag}</a>
           ))}
         </div>
@@ -215,6 +241,10 @@ const socialImage = await getImage({
   }
 
   time {
+    opacity: 0.6;
+  }
+
+  .credit {
     opacity: 0.6;
   }
 

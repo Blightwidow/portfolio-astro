@@ -1,0 +1,133 @@
+---
+import LineChart from "../../components/LineChart.astro";
+import Layout from "../../layouts/Layout.astro";
+import {
+  getAllPostsByDate,
+  getAllRolls,
+  getGearInventory,
+  getRollFramesPerMonth,
+  type GearCount,
+} from "../../utils/photography";
+
+const photos = await getAllPostsByDate("asc");
+const inventory = await getGearInventory();
+const rolls = await getAllRolls();
+const { months, unknownFrames } = await getRollFramesPerMonth();
+
+const monthPoints = months.map((month) => ({ label: month.label, value: month.count }));
+const rollPoints = rolls.map((roll) => ({ label: roll.id, value: roll.frameCount }));
+
+const sections: { title: string; items: GearCount[] }[] = [
+  { title: "Cameras", items: inventory.cameras },
+  { title: "Film stocks", items: inventory.films },
+].filter((section) => section.items.length > 0);
+---
+
+<Layout
+  title="Stats - Theo Dammaretz"
+  description="The rolls, cameras and film stocks behind the photos on this site."
+  backLink="/photography"
+>
+  <h1>Stats</h1>
+  <p class="intro">
+    Every photo here belongs to a roll of film, and the roll knows which camera and stock it went
+    through, so this page counts itself: {photos.length} photos across {inventory.rollCount} rolls, {
+      inventory.cameras.length
+    } cameras and {inventory.films.length} film stocks.
+  </p>
+  <LineChart
+    title="Frames per month"
+    summaryLabel="Frames per month"
+    points={monthPoints}
+    caption={unknownFrames > 0 ? `${unknownFrames} frames sit on rolls with no known date and are not plotted.` : undefined}
+  />
+  <LineChart
+    title="Published frames per roll"
+    summaryLabel="Published frames per roll, in shooting order"
+    points={rollPoints}
+    caption="Rolls run in shooting order, so the shape is the trend in how much of a roll is worth publishing."
+  />
+  <div class="columns">
+    {
+      sections.map((section) => {
+        const sectionMaximum = Math.max(...section.items.map((item) => item.count));
+
+        return (
+          <section>
+            <h2>{section.title}</h2>
+            <ul>
+              {section.items.map((item) => (
+                <li>
+                  <span>{item.label}</span>
+                  <span class="bar" aria-hidden="true">
+                    <span class="block" style={`width: ${(item.count / sectionMaximum) * 100}%`} />
+                  </span>
+                  <span class="count">{item.count}</span>
+                </li>
+              ))}
+            </ul>
+          </section>
+        );
+      })
+    }
+  </div>
+</Layout>
+
+<style>
+  .intro {
+    margin-bottom: 2rem;
+  }
+
+  h2 {
+    font-size: 1rem;
+    margin: 0 0 0.5rem;
+  }
+
+  ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .columns {
+    display: grid;
+    gap: 1.5rem 2.5rem;
+    margin-bottom: 2rem;
+  }
+
+  .columns li {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: center;
+    column-gap: 0.75rem;
+    line-height: 1.5;
+  }
+
+  .bar {
+    display: none;
+  }
+
+  .count {
+    opacity: 0.6;
+    font-size: 0.85em;
+    font-variant-numeric: tabular-nums;
+  }
+
+  @media (min-width: 550px) {
+    .columns li {
+      grid-template-columns: 9.5rem minmax(0, 1fr) auto;
+    }
+
+    .bar {
+      display: block;
+      height: 0.3rem;
+      background: rgba(var(--foreground-rgb), 0.08);
+    }
+
+    .block {
+      display: block;
+      height: 100%;
+      background: rgba(var(--foreground-rgb), 0.35);
+    }
+  }
+</style>
