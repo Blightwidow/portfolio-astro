@@ -1,7 +1,7 @@
 ---
 title: Every trail you can reach by train
 subtitle: Building TrainRando from OpenStreetMap, an SNCF station list, and a longest-path solver
-date: 2026-08-17
+date: 2026-08-18
 series:
   name: "Hiking by train"
   order: 2
@@ -19,7 +19,7 @@ So I built the tool. It is called [**TrainRando**](https://rando.dammaretz.fr/),
 
 "Which trails can I reach by train" is too vague to compute. The question I actually wanted answered was this:
 
-> Given France's long-distance trails and its passenger rail network, enumerate every walkable section of **8 to 18 km** that both starts and ends at a train station.
+> Given France's long-distance trails and its passenger rail network, enumerate every walkable section of **8 to 25 km** that both starts and ends at a train station.
 
 That framing does a lot of work. It rules out trails that merely pass near a line. It produces sections you can actually walk in a day. And it makes the output a finite, checkable list rather than a vibe.
 
@@ -50,7 +50,12 @@ With a clean trail and a set of valid stations along it, you need to cut the tra
 
 It produced bad hikes. DFS commits early, so it would take a greedy 9 km section and leave a 26 km monster behind it with nowhere to stop, or chain a run of short hops that no one would walk as separate days.
 
-The right framing is that this is an optimization over a path, not a traversal. Order the valid stations along the trail's linear geometry, then run **longest-path dynamic programming** over them: for each station, the best decomposition of the trail up to that point, given that every section must land in the 8 to 18 km window. It runs in linear time over the station list, and it produces the decomposition a human would have drawn.
+The right framing is that this is an optimization over a path, not a traversal. Order the valid stations along the trail's linear geometry, then run **longest-path dynamic programming** over them: for each station, the best decomposition of the trail up to that point, given that every section must land in the 8 to 25 km window. It runs in linear time over the station list, and it produces the decomposition a human would have drawn.
+
+Two constraints go into the same graph, and they are the ones that turn a list of segments into hikes I would actually walk:
+
+- **Every intermediate station needs a hotel.** A three-day chain whose middle stop has nowhere to sleep is not a three-day chain.
+- **Every step must be skippable.** An edge only exists if both of its endpoints are connected by the same mode: two train stations, or two bus stops on the same line. That is the bail-out rule from my [glam-hiking piece](/blog/glam-hiking-a-week-on-foot-with-a-fanny-pack/), written as a graph constraint. If you cannot leave a section the way you arrived at it, the algorithm will not offer it to you.
 
 Two extensions I did not anticipate needing:
 
@@ -65,7 +70,39 @@ The part I am most pleased with is boring: **offline maps**. The site serves a v
 
 ## What the answer turned out to be
 
-The thing I wanted from all of this was the list, and the list is longer than I expected. Once you stop requiring a car, a surprising share of France's long-distance network decomposes into day-length, station-to-station sections. Not everywhere, and the geography is uneven in ways worth their own article. **TODO: pull the final numbers from the pipeline (total GR/GRP km covered, number of generated sections, share of sections with rail at both ends, best and worst regions).**
+The catalog covers **73 GR and GRP routes, about 41,000 km of trail**, with **1,082 passenger stations** sitting within 5 km of one of them. Plenty of rail, plenty of trail.
+
+Run the decomposition and you get **436 station-to-station sections**, chaining into **157 multi-day hikes**. That is the good news. Here is the number that reframed the project for me: those sections account for **roughly 6,200 km, about 15% of the network**. Eighty-five percent of France's long-distance trail network cannot be walked in day-length pieces between two stations you can actually leave from.
+
+**57 of the 73 routes** yield at least one walkable section. The other sixteen have stations near them and still produce nothing, because two stations 60 km apart are not a hike, they are a hitchhiking problem.
+
+And the geography is brutally uneven:
+
+| Region | Trail km | Sections | Sections per 1,000 km | Trail km inside a section |
+| --- | --- | --- | --- | --- |
+| Hauts-de-France | 1,939 | 50 | 25.8 | 37% |
+| Île-de-France | 3,104 | 79 | 25.4 | 36% |
+| Centre-Val de Loire | 1,614 | 26 | 16.1 | 25% |
+| Provence-Alpes-Côte d'Azur | 2,635 | 31 | 11.8 | 15% |
+| Grand Est | 4,918 | 49 | 10.0 | 14% |
+| Nouvelle-Aquitaine | 5,195 | 27 | 5.2 | 8% |
+| Occitanie | 3,920 | 17 | 4.3 | 7% |
+| Bretagne | 4,252 | 16 | 3.8 | 5% |
+
+The Paris basin is six times better served than Brittany. Brittany has **4,252 km of GR trail and 41 stations near it**, which produces sixteen sections: less than one walkable day per 250 km of trail. Occitanie, with the Pyrenees and some of the best walking in the country, manages seventeen.
+
+What strikes me is which routes come out on top. The winners are not the famous mountain traverses, they are the pilgrimage and river routes: the Via Turonensis (33 sections), the Loire (32), the Grand Tour de Paris (25), the Tour de l'Île-de-France (24). Medieval walking corridors followed rivers and linked towns, and eighteen centuries later the railways did exactly the same thing. The trails that share a logic with the rail network are the ones you can still reach without a car.
+
+The losers are the trails built to avoid all of that. La Routo, 399 km of transhumance route, has three stations near it and zero valid sections. The GR38 across Brittany: 357 km, two stations, nothing.
+
+<!-- Methodology: figures recomputed from the live catalog (generated 2026-05-26) plus per-route geojson,
+replicating processors/slice.py: 5 km station radius, 8-25 km steps, longest-path DP per component.
+My reimplementation omits two pipeline constraints (intermediate hotel, transport-connected endpoints),
+both of which only remove edges, so 436 sections is an upper bound. Stations projected to nearest trail
+vertex and deduplicated within 200 m along the trail. One 190 km route has no region tag and is excluded
+from the table. Rerun: scratchpad/analyze.py. -->
+
+So the honest answer to "which trails can I reach by train" is: a real, usable 436 of them, and far fewer than the map led me to expect.
 
 The whole thing lives at [rando.dammaretz.fr](https://rando.dammaretz.fr/): a static Astro site on GitHub Pages, licensed CC BY-NC-SA, with the data pipeline in the open. It cost me a few weekends and nothing to run.
 
