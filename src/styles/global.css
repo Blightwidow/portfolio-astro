@@ -96,6 +96,17 @@ li {
   margin-bottom: 1rem;
 }
 
+/* Blockquote
+–––––––––––––––––––––––––––––––––––––––––––––––––– */
+blockquote {
+  /* Outdented so the rule sits in the gutter and the quote text stays flush with
+     the surrounding paragraphs. The outdent stays under the 1rem container
+     padding so nothing touches the viewport edge on mobile. */
+  margin: 1.5rem 0 1.5rem 0.25rem;
+  padding-left: calc(0.75rem - 2px);
+  border-left: 2px solid rgba(var(--foreground-rgb), 0.3);
+}
+
 /* Code
 –––––––––––––––––––––––––––––––––––––––––––––––––– */
 code {
