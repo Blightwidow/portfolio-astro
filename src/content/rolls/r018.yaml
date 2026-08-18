@@ -1,0 +1,5 @@
+camera: spotmatic sp1000
+film: 500T
+process:
+  - color
+shotMonth: 2026-04

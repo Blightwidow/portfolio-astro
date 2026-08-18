@@ -2,11 +2,11 @@
 import PhotoMasonry from "../../components/PhotoMasonry.astro";
 import TagList from "../../components/TagList.astro";
 import Layout from "../../layouts/Layout.astro";
-import { getAllPostsByDate, getAllTagsWithCounts } from "../../utils/photography";
+import { getAllPostsByDate, getAllTagsWithCounts, shuffle } from "../../utils/photography";
 
 const MINIMUM_PHOTOS_PER_TAG = 5;
 
-const photos = (await getAllPostsByDate("desc")).filter((photo) => !photo.data.hideFromGallery);
+const photos = shuffle((await getAllPostsByDate("desc")).filter((photo) => !photo.data.hideFromGallery));
 const tags = (await getAllTagsWithCounts()).filter(({ count }) => count >= MINIMUM_PHOTOS_PER_TAG);
 ---
 
@@ -17,7 +17,8 @@ const tags = (await getAllTagsWithCounts()).filter(({ count }) => count >= MINIM
       This page was created to share some of my photos during a challenge I set for myself to take a photo every day for a year.
     </p>
     <p>
-      The experiment is now over, but I will continue to share photos here as I take them.
+      The experiment is now over, but I will continue to share photos here as I take them. Curious about the cameras and
+      stocks behind them? See the <a href="/photography/stats">stats page</a>.
     </p>
     <TagList tags={tags} />
   </div>

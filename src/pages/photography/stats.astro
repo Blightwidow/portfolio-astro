@@ -1,0 +1,204 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import {
+  getAllPostsByDate,
+  getGearInventory,
+  getRollFramesPerMonth,
+  type GearCount,
+} from "../../utils/photography";
+
+const photos = await getAllPostsByDate("asc");
+const inventory = await getGearInventory();
+const { months, unknownFrames } = await getRollFramesPerMonth();
+const monthlyMaximum = Math.max(...months.map((month) => month.count), 1);
+
+// Plotted as inline SVG in a viewBox, so the chart scales with the page and ships no JS.
+const CHART = { width: 640, height: 190, top: 14, right: 14, bottom: 52, left: 30 };
+const plotWidth = CHART.width - CHART.left - CHART.right;
+const plotHeight = CHART.height - CHART.top - CHART.bottom;
+const baseline = CHART.top + plotHeight;
+const step = months.length > 1 ? plotWidth / (months.length - 1) : 0;
+
+const points = months.map((month, index) => ({
+  ...month,
+  x: CHART.left + index * step,
+  y: baseline - (month.count / monthlyMaximum) * plotHeight,
+}));
+
+const linePoints = points.map((point) => `${point.x},${point.y}`).join(" ");
+const chartSummary = points.map((point) => `${point.label}: ${point.count}`).join(", ");
+
+const sections: { title: string; items: GearCount[] }[] = [
+  { title: "Cameras", items: inventory.cameras },
+  { title: "Film stocks", items: inventory.films },
+].filter((section) => section.items.length > 0);
+---
+
+<Layout
+  title="Stats - Theo Dammaretz"
+  description="The rolls, cameras and film stocks behind the photos on this site."
+  backLink="/photography"
+>
+  <h1>Stats</h1>
+  <p class="intro">
+    Every photo here belongs to a roll of film, and the roll knows which camera and stock it went
+    through, so this page counts itself: {photos.length} photos across {inventory.rollCount} rolls, {
+      inventory.cameras.length
+    } cameras and {inventory.films.length} film stocks.
+  </p>
+  <section class="chart">
+    <h2>Frames per month</h2>
+    <svg
+      viewBox={`0 0 ${CHART.width} ${CHART.height}`}
+      role="img"
+      aria-label={`Frames per month. ${chartSummary}.`}
+      preserveAspectRatio="xMidYMid meet"
+    >
+      <line class="axis" x1={CHART.left} y1={baseline} x2={CHART.left + plotWidth} y2={baseline} />
+      <text class="tick" x={CHART.left - 8} y={CHART.top + 4}>{monthlyMaximum}</text>
+      <text class="tick" x={CHART.left - 8} y={baseline + 4}>0</text>
+      <polyline class="line" points={linePoints} />
+      {points.map((point) => <rect class="point" x={point.x - 3.5} y={point.y - 3.5} width="7" height="7" />)}
+      {
+        points.map((point) => (
+          <text class="label" x={point.x} y={baseline + 14} transform={`rotate(-45 ${point.x} ${baseline + 14})`}>
+            {point.label}
+          </text>
+        ))
+      }
+    </svg>
+    {
+      unknownFrames > 0 && (
+        <p class="caption">
+          {unknownFrames} frames sit on rolls with no known date and are not plotted.
+        </p>
+      )
+    }
+  </section>
+  <div class="columns">
+    {
+      sections.map((section) => {
+        const sectionMaximum = Math.max(...section.items.map((item) => item.count));
+
+        return (
+          <section>
+            <h2>{section.title}</h2>
+            <ul>
+              {section.items.map((item) => (
+                <li>
+                  <span>{item.label}</span>
+                  <span class="bar" aria-hidden="true">
+                    <span class="block" style={`width: ${(item.count / sectionMaximum) * 100}%`} />
+                  </span>
+                  <span class="count">{item.count}</span>
+                </li>
+              ))}
+            </ul>
+          </section>
+        );
+      })
+    }
+  </div>
+</Layout>
+
+<style>
+  .intro {
+    margin-bottom: 2rem;
+  }
+
+  .chart {
+    margin-bottom: 2rem;
+  }
+
+  svg {
+    width: 100%;
+    height: auto;
+    overflow: visible;
+  }
+
+  .line {
+    fill: none;
+    stroke: rgb(var(--foreground-rgb));
+    stroke-width: 1.5;
+    stroke-linejoin: miter;
+    stroke-linecap: butt;
+  }
+
+  /* Squares, not circles, to match the blocky bars. */
+  .point {
+    fill: rgba(var(--foreground-rgb), 0.85);
+  }
+
+  .axis {
+    stroke: rgba(var(--foreground-rgb), 0.15);
+    stroke-width: 1;
+  }
+
+  .tick,
+  .label {
+    fill: rgba(var(--foreground-rgb), 0.6);
+    font-size: 9px;
+    font-family: inherit;
+    text-anchor: end;
+  }
+
+  h2 {
+    font-size: 1rem;
+    margin: 0 0 0.5rem;
+  }
+
+  ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .columns {
+    display: grid;
+    gap: 1.5rem 2.5rem;
+    margin-bottom: 2rem;
+  }
+
+  .columns li {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: center;
+    column-gap: 0.75rem;
+    line-height: 1.5;
+  }
+
+  .bar {
+    display: none;
+  }
+
+  .count {
+    opacity: 0.6;
+    font-size: 0.85em;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .caption {
+    opacity: 0.6;
+    font-size: 0.85em;
+    margin: 0.5rem 0 0;
+  }
+
+  @media (min-width: 550px) {
+    .columns li {
+      grid-template-columns: 9.5rem minmax(0, 1fr) auto;
+    }
+
+    .bar {
+      display: block;
+      height: 0.3rem;
+      background: rgba(var(--foreground-rgb), 0.08);
+    }
+
+    .block {
+      display: block;
+      height: 100%;
+      background: rgba(var(--foreground-rgb), 0.35);
+    }
+
+  }
+</style>
