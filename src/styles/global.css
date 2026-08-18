@@ -107,6 +107,14 @@ blockquote {
   border-left: 2px solid rgba(var(--foreground-rgb), 0.3);
 }
 
+/* Tables
+–––––––––––––––––––––––––––––––––––––––––––––––––– */
+thead th {
+  /* Browsers center header cells by default, which breaks the column alignment
+     against the left-aligned body cells below them. */
+  text-align: left;
+}
+
 /* Code
 –––––––––––––––––––––––––––––––––––––––––––––––––– */
 code {
