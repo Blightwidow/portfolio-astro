@@ -1,0 +1,77 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import { getGuideGroups } from "../../utils/travel";
+
+const groups = await getGuideGroups();
+---
+
+<Layout
+  title="Travel - Theo Dammaretz"
+  description="Destination guides, written for the friends who keep asking where to eat."
+  backLink="/"
+>
+  <h1>Travel</h1>
+  <p class="intro">
+    Friends keep asking where to eat in Paris or how to get to Japan without paying for it twice,
+    and I keep exporting the same notes to PDF and sending them the file. These are those notes,
+    rewritten as guides. Every page prints to a clean PDF if you still want the file.
+  </p>
+  {
+    groups.map((group) => (
+      <section>
+        <h2>{group.heading}</h2>
+        <ul>
+          {group.guides.map((guide) => (
+            <li>
+              <h3>
+                <a href={`/travel/${guide.id}`}>{guide.data.title}</a>
+              </h3>
+              <p class="subtitle">{guide.data.subtitle}</p>
+              <p class="meta">{guide.data.country}</p>
+            </li>
+          ))}
+        </ul>
+      </section>
+    ))
+  }
+</Layout>
+
+<style>
+  .intro {
+    opacity: 0.8;
+  }
+
+  section {
+    margin-top: 2.5rem;
+  }
+
+  h2 {
+    font-size: 1rem;
+    opacity: 0.6;
+    margin: 0 0 1rem;
+  }
+
+  ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  li {
+    margin-bottom: 1.75rem;
+  }
+
+  h3 {
+    margin: 0 0 0.2rem;
+  }
+
+  .subtitle {
+    margin: 0;
+  }
+
+  .meta {
+    margin: 0.2rem 0 0;
+    opacity: 0.6;
+    font-size: 0.85em;
+  }
+</style>

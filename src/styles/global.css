@@ -206,3 +206,156 @@ a:focus-visible {
     transform: rotate(360deg);
   }
 }
+
+/* Print
+––––––––––––––––––––––––––––––––––––––––––––––––––
+   Tuned for travel guides saved as PDF and sent to a friend: A4, a justified measure, a warm
+   accent for links and list lead-ins, and no site chrome. Colours are fixed here rather than
+   taken from the custom properties, because paper has no dark mode. */
+@page {
+  size: A4;
+  margin: 19mm 18mm 24mm;
+}
+
+@media print {
+  :root {
+    --print-ink: #111111;
+    --print-muted: #6c664b;
+    --print-accent: #cb3a2a;
+    --print-panel: #ede9da;
+    --print-rule: #d8d3c2;
+
+    /* Anything still reading the site palette lands on the paper one. */
+    --foreground-rgb: 17, 17, 17;
+    --background-rgb: 255, 255, 255;
+  }
+
+  #header,
+  footer,
+  .skip-link {
+    display: none !important;
+  }
+
+  body {
+    padding: 0;
+    color: var(--print-ink);
+    background: #ffffff;
+    font-size: 11pt;
+    line-height: 1.5;
+    letter-spacing: 0;
+  }
+
+  main.constrained {
+    max-width: none;
+  }
+
+  /* A justified measure is what makes a printed guide read as a document rather than a web page
+     that happened to be printed. Hyphenation keeps the word spacing from opening up.
+     List items stay ragged-right on purpose: the guides are full of short one-line entries, and
+     justifying those opens rivers instead of tidying them. */
+  article p {
+    text-align: justify;
+    hyphens: auto;
+  }
+
+  article li {
+    hyphens: auto;
+  }
+
+  h1,
+  h2,
+  h3 {
+    color: var(--print-ink);
+    break-after: avoid;
+    page-break-after: avoid;
+  }
+
+  article h1 {
+    font-size: 19pt;
+    margin-block: 0 0.35em;
+  }
+
+  article h2 {
+    font-size: 14pt;
+    margin-block: 1.5em 0.5em;
+  }
+
+  article h3 {
+    font-size: 11.5pt;
+    margin-block: 1.2em 0.4em;
+  }
+
+  article a {
+    color: var(--print-accent);
+    text-decoration: underline;
+    text-decoration-color: var(--print-accent);
+  }
+
+  /* The bold names inside an entry, matching how the guides are written: a name, a colon, then the
+     opinion. Every bold in a list item is coloured, not just the first, because "Sanary and
+     La Ciotat" would otherwise come out half red and half black and read as a bug. Bold inside a
+     paragraph stays black, so the accent marks entries rather than emphasis. */
+  article li strong {
+    color: var(--print-accent);
+  }
+
+  article ul,
+  article ol {
+    padding-left: 1.1em;
+  }
+
+  article ul {
+    list-style: disc outside;
+  }
+
+  article ol {
+    list-style: decimal outside;
+  }
+
+  article li {
+    margin-bottom: 0.3rem;
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+
+  article li::marker {
+    color: #b8b4a6;
+  }
+
+  /* A shared PDF is read away from the browser, so links have to carry their target. Muted and
+     small, so the page still reads as prose rather than as a list of URLs. */
+  article a[href^="http"]::after {
+    content: " (" attr(href) ")";
+    font-size: 0.72em;
+    color: var(--print-muted);
+    text-decoration: none;
+    word-break: break-all;
+  }
+
+  /* Except map links: the real Google Maps URLs run to 300 characters and would wreck the
+     justified measure. */
+  article a[href*="google."]::after,
+  article a[href*="goo.gl"]::after,
+  article a[href*="openstreetmap.org"]::after {
+    content: " (map)";
+    word-break: normal;
+  }
+
+  blockquote {
+    background: var(--print-panel);
+    border: 0;
+    padding: 0.6rem 0.9rem;
+    margin-inline: 0;
+  }
+
+  blockquote,
+  img {
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+
+  article img {
+    margin: 1rem auto;
+    max-width: 100%;
+  }
+}

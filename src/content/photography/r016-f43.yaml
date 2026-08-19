@@ -8,5 +8,6 @@ image: ./r016-f43.jpg
 roll: r016
 frame: 43
 tags:
+  - bandol
   - france
 hideFromGallery: true

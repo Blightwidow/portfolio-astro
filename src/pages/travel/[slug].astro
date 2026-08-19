@@ -1,0 +1,153 @@
+---
+import { render } from "astro:content";
+import PhotoMasonry from "../../components/PhotoMasonry.astro";
+import Layout from "../../layouts/Layout.astro";
+import { formatDate, toISODate } from "../../utils/date";
+import { getAllGuides, getGuidePhotos } from "../../utils/travel";
+
+export async function getStaticPaths() {
+  const guides = await getAllGuides();
+
+  return Promise.all(
+    guides.map(async (guide) => ({
+      params: { slug: guide.id },
+      props: { guide, photos: await getGuidePhotos(guide) },
+    })),
+  );
+}
+
+const { guide, photos } = Astro.props;
+const { Content } = await render(guide);
+const updated = guide.data.updated ?? guide.data.date;
+
+// "Iceland \u00b7 Iceland" reads like a bug, so the country is only added when it says something new.
+const printTitle =
+  guide.data.title === guide.data.country
+    ? guide.data.title
+    : `${guide.data.title} \u00b7 ${guide.data.country}`;
+---
+
+<Layout
+  title={`${guide.data.title} - Theo Dammaretz`}
+  description={guide.data.subtitle}
+  ogType="article"
+  articleDate={guide.data.date}
+  backLink="/travel"
+>
+  {/* Only shown on paper, so a shared PDF says what it is and where it came from. */}
+  <div class="print-header" aria-hidden="true">
+    <p class="print-title">{printTitle}</p>
+    <p class="print-source">{`dammaretz.fr/travel/${guide.id} \u00b7 updated ${formatDate(updated)}`}</p>
+  </div>
+
+  <article data-pagefind-body>
+    <h1>{guide.data.title}</h1>
+    <p class="subtitle">{guide.data.subtitle}</p>
+    <p class="meta" data-pagefind-ignore>
+      {`${guide.data.country} \u00b7 updated `}<time datetime={toISODate(updated)}>{formatDate(updated)}</time>
+    </p>
+
+    <button type="button" class="print-button" data-print-guide>Print or save as PDF</button>
+
+    <Content />
+  </article>
+
+  {
+    photos.length > 0 && (
+      <section class="photos" data-pagefind-ignore>
+        <h2>Photographed there</h2>
+        <PhotoMasonry photos={photos} />
+      </section>
+    )
+  }
+</Layout>
+
+<script>
+  document.querySelector("[data-print-guide]")?.addEventListener("click", () => window.print());
+</script>
+
+<style>
+  .subtitle {
+    margin: 0 0 0.25rem;
+  }
+
+  .meta {
+    opacity: 0.6;
+    font-size: 0.9em;
+    margin: 0 0 1.5rem;
+  }
+
+  h1 {
+    margin-bottom: 0.25rem;
+  }
+
+  .print-button {
+    font: inherit;
+    font-size: 0.85em;
+    color: inherit;
+    background: none;
+    border: 1px solid rgba(var(--foreground-rgb), 0.3);
+    border-radius: 0.35rem;
+    padding: 0.35rem 0.75rem;
+    cursor: pointer;
+    margin-bottom: 1rem;
+  }
+
+  .print-button:hover,
+  .print-button:focus-visible {
+    border-color: rgba(var(--foreground-rgb), 0.8);
+  }
+
+  .photos {
+    margin-top: 3rem;
+  }
+
+  .photos h2 {
+    font-size: 1rem;
+    opacity: 0.6;
+    margin-bottom: 0.5rem;
+  }
+
+  .print-header {
+    display: none;
+  }
+
+  @media print {
+    /* A warm panel rather than a rule: it reads as a masthead, and it is the one place on the
+       page that says which guide this is and where it came from. */
+    .print-header {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: 0.25rem 1rem;
+      background: var(--print-panel);
+      padding: 0.5rem 0.75rem;
+      margin-bottom: 1.75rem;
+    }
+
+    .print-title {
+      margin: 0;
+      font-weight: 700;
+      font-size: 0.85rem;
+    }
+
+    .print-source {
+      margin: 0;
+      font-size: 0.75rem;
+      color: var(--print-muted);
+    }
+
+    .subtitle {
+      color: var(--print-muted);
+      font-size: 1rem;
+      margin-bottom: 1.5rem;
+    }
+
+    /* The print header already carries the country and the date. */
+    .print-button,
+    .photos,
+    .meta {
+      display: none;
+    }
+  }
+</style>

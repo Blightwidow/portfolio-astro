@@ -62,8 +62,32 @@ const photography = defineCollection({
     }),
 });
 
+/**
+ * Destination guides. Every entry is the public rewrite of a private Obsidian note, curated by
+ * hand. Nothing here is synced from the vault, which also holds notes that must never reach a
+ * build.
+ */
+const travel = defineCollection({
+  loader: glob({ pattern: "**/*.md", base: "./src/content/travel" }),
+  schema: z.object({
+    title: z.string(),
+    subtitle: z.string(),
+    country: z.string(),
+    /** Where the marker sits on the world map. */
+    coordinates: z.object({
+      latitude: z.number().min(-90).max(90),
+      longitude: z.number().min(-180).max(180),
+    }),
+    date: z.date(),
+    updated: z.date().optional(),
+    /** Photography tags to pull matching film frames onto the guide. */
+    photoTags: z.array(z.string()).optional(),
+  }),
+});
+
 export const collections = {
   blog,
   photography,
   rolls,
+  travel,
 };

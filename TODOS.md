@@ -138,9 +138,52 @@ Follow-ups:
 - The two Cyprus rolls (r019, r020) sit in May 2026 per their folders, while `Cyprus.md` puts the trip at April 21 - May 10, 2026. Folder months may be development dates rather than shooting dates; worth confirming before treating them as capture months.
 - Once most rolls carry true windows, drive the photos-per-month chart off roll windows rather than per-photo `date`.
 
-## Travel & hiking guides, with print/PDF sharing
+## Travel guides, with print/PDF sharing
 
-**Status**: Not Started
+**Status**: Complete (2026-08-18)
+
+Shipped as `/travel`: ten destination guides (Bandol, Cologne, Crete, Cyprus, Iceland, Japan,
+Paris, South Korea, Spain, Uriage), each the hand-curated public rewrite of an Obsidian note,
+grouped by continent and alphabetical within a group, printable to a clean PDF from the page
+itself.
+
+Guides pull matching film frames through `photoTags`: Cyprus 14, South Korea 13, Paris 11, Cologne
+7, Bandol 3, Uriage 3. Bandol works because roll **r016** was shot on that coast, so its four
+frames picked up a `bandol` location tag. The Spain guide has none on purpose: the only
+`spain`-tagged frame is a Barcelona alley, and the guide covers Andalusia, Madrid and Toledo.
+
+**Hikes were cut.** The section was originally scoped as destinations plus hikes sharing one
+collection with a `kind` discriminator. With hikes gone the discriminator had no second value, so
+`kind`, `trail`, `days`, `startStation` and `endStation` came out with them and the schema is
+destinations only. The hiking material is already covered by the two blog posts.
+
+**The map was cut too.** It was meant to reuse `world-low.pmtiles` from TrainRando's Cloudflare R2
+bucket, and the wiring worked: a vendored 8KB world-only style stripped from `open-rando`'s
+`style-light`/`style-dark`, MapLibre code-split into a lazy chunk behind an `IntersectionObserver`
+so `/travel` shipped under 5KB of JS until the map scrolled into view, six markers rendering in a
+real browser. Two things killed it:
+
+- **R2 serves no `Access-Control-Allow-Origin` header** on `pub-8869314668be498091e185b1a6fe798d.r2.dev`, for any origin. Every browser fetch of the tiles is blocked by CORS. Fixable only on the Cloudflare side, or by proxying the bucket through a Netlify redirect so it looks same-origin.
+- MapLibre 6 emits a separate `maplibre-gl-worker.mjs` that Vite did not bundle, so the worker 404s.
+
+Worth retrying once the bucket has a CORS policy. The index reads fine as a grouped list without it.
+
+### Curation
+
+The vault turned out to be much more private than this plan assumed. `Barcelona Trip.md`,
+`Next Travels.md` and `Asian Odyssey 2026.md` were dropped whole: they are named colleagues,
+booking references, hotel prices, a private NAS link and someone else's work trip. `Cyprus.md` lost
+its entire itinerary, hotel bookings and contacts, keeping only the Limassol, Troodos and Paphos
+recommendations. `Korea.md` lost the trip-by-trip framing. Long Google Maps URLs were kept verbatim
+rather than shortened, since inventing short links would have meant inventing destinations, and the
+print stylesheet collapses them to `(map link)` instead.
+
+Resolved: `/travel` is the root and there is no hikes sibling; no map; planned destinations are not
+published, because nothing in those notes was publishable; and print-to-PDF from the page is the
+whole PDF story, with no build-time generator and no stable `.pdf` URL.
+
+<details>
+<summary>Original plan</summary>
 
 Combines the travel-map and hiking-log ideas into one section, because the vault already treats them as one thing: both live under `area/personal/travel` in `~/workspace/second-brain`, and the hikes are travel reports that happen to have a GPX track.
 
@@ -188,3 +231,5 @@ Open questions:
 - Static SVG map or Leaflet on the index page?
 - Do planned destinations (`Next Travels.md`, `Asian Odyssey 2026.md`) get published at all, or is the map visited-only?
 - Should a guide expose a stable "download" URL for the PDF, or is print-to-PDF from the page enough?
+
+</details>
