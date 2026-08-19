@@ -10,6 +10,7 @@ const parent = backLink || asPath.split("/").slice(0, -1).join("/") || "/";
 
 const isPhotography = asPath.startsWith("/photography");
 const isBlog = asPath.startsWith("/blog");
+const isTravel = asPath.startsWith("/travel");
 const isSearch = asPath.startsWith("/search");
 ---
 
@@ -22,6 +23,9 @@ const isSearch = asPath.startsWith("/search");
       </li>
       <li>
         <a href="/blog" class:list={[{ active: isBlog }]} style={{ textDecoration: "none" }}>blog</a>
+      </li>
+      <li>
+        <a href="/travel" class:list={[{ active: isTravel }]} style={{ textDecoration: "none" }}>travel</a>
       </li>
       <li>
         <a href="/search" class:list={[{ active: isSearch }]} style={{ textDecoration: "none" }}>search</a>
