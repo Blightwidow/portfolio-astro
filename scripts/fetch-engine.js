@@ -12,7 +12,7 @@
 
 import { createHash } from "crypto";
 import { execFileSync } from "child_process";
-import { mkdir, readdir, readFile, rm, writeFile } from "fs/promises";
+import { mkdir, readdir, readFile, rm, stat, writeFile } from "fs/promises";
 import { tmpdir } from "os";
 import { dirname, join } from "path";
 import { fileURLToPath } from "url";
@@ -183,10 +183,15 @@ async function verifyExtractedFiles() {
  * The net is named after a hash of its weights, so its filename changes every
  * time the engine promotes a new one. The page reads this manifest instead of
  * hardcoding a name that a version bump would silently invalidate.
+ *
+ * `netBytes` is the size on disk. Netlify serves the net compressed, so a
+ * progress bar built from `Content-Length` would measure compressed bytes
+ * against decompressed ones and finish at roughly half a download.
  * @param {string} net
  */
 async function writeManifest(net) {
-  const manifest = { version: ENGINE_VERSION, net: `nets/${net}` };
+  const { size } = await stat(join(OUTPUT_DIRECTORY, "nets", net));
+  const manifest = { version: ENGINE_VERSION, net: `nets/${net}`, netBytes: size };
 
   await writeFile(MANIFEST_PATH, `${JSON.stringify(manifest, undefined, 2)}\n`);
 }
