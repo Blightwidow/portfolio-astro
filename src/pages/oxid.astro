@@ -1,0 +1,260 @@
+---
+import ChessBoard from "../components/ChessBoard.astro";
+import Layout from "../layouts/Layout.astro";
+import Spacer from "../components/Spacer.astro";
+
+const STRENGTHS = [
+  { label: "Fast (0.3s a move)", value: 300 },
+  { label: "Normal (1s a move)", value: 1000 },
+  { label: "Slow (3s a move)", value: 3000 },
+];
+---
+
+<Layout
+  title="Play Oxid'"
+  description="Play a game against Oxid', my 2700 Elo chess engine written in Rust, compiled to WebAssembly and running in your browser."
+>
+  <h1>Play Oxid'</h1>
+  <p>
+    Oxid&apos; is the chess engine I have been writing in Rust from near scratch, and this is it running in your
+    browser: the same search and the same neural network as the native build, compiled to WebAssembly. Nothing is sent
+    to a server, so the engine is thinking on your machine, in a background thread, at whatever speed your laptop
+    manages.
+  </p>
+  <p>
+    The engine and its network weigh about 2.4MB, so nothing downloads until you pick a colour below. I wrote the
+    story of building it in <a href="/blog/series/building-a-chess-engine-in-rust">a series of posts</a>, and the
+    source lives on <a href="https://github.com/Blightwidow/oxide-chess-engine" rel="noopener noreferrer">GitHub</a>.
+  </p>
+  <Spacer units={1} />
+  <div class="game" data-chess>
+    <div class="panel">
+      <p class="status" data-status role="status" aria-live="polite">
+        Choose a colour to start.
+      </p>
+      <div
+        class="progress"
+        data-progress
+        role="progressbar"
+        aria-label="Loading the engine"
+        aria-valuemin="0"
+        aria-valuemax="100"
+        hidden
+      >
+        <span class="progress-bar" data-progress-bar></span>
+        <span class="progress-text" data-progress-text></span>
+      </div>
+      <div class="controls">
+        <button type="button" data-start="white">Play as white</button>
+        <button type="button" data-start="black">Play as black</button>
+      </div>
+      <label class="strength">
+        Thinking time
+        <select data-strength>
+          {
+            STRENGTHS.map((strength) => (
+              <option value={strength.value} selected={strength.value === 1000}>
+                {strength.label}
+              </option>
+            ))
+          }
+        </select>
+      </label>
+      <button type="button" data-takeback disabled>Take back a move</button>
+    </div>
+    <div class="board-column">
+      <ChessBoard />
+      <div class="promotion" data-promotion hidden>
+        <span class="promotion-label">Promote to</span>
+        {
+          ["q", "r", "b", "n"].map((piece) => (
+            <button type="button" class="promotion-choice" data-promote={piece} />
+          ))
+        }
+      </div>
+    </div>
+    <ol class="moves" data-moves aria-label="Moves played"></ol>
+  </div>
+  <Spacer units={1} />
+  <p class="footnote">
+    Moves are shown the way the engine speaks them, from square to square. The browser build is single-threaded and
+    has no opening book or endgame tablebases, so it plays a little below the 2700 Elo the native build is rated at.
+  </p>
+</Layout>
+
+<script>
+  import { startChessGame } from "../scripts/chess-game";
+
+  const root = document.querySelector<HTMLElement>("[data-chess]");
+
+  if (root !== null) {
+    startChessGame(root);
+  }
+</script>
+
+<style>
+  .game {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .board-column {
+    position: relative;
+    width: 100%;
+  }
+
+  .panel {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .status {
+    margin: 0;
+    flex: 1 1 100%;
+    min-height: 1.6rem;
+    font-weight: 700;
+  }
+
+  .controls {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  button,
+  select {
+    font-family: inherit;
+    font-size: 0.9rem;
+    color: inherit;
+    background: transparent;
+    border: 1px solid rgba(var(--foreground-rgb), 0.4);
+    border-radius: 4px;
+    padding: 0.4rem 0.7rem;
+    cursor: pointer;
+  }
+
+  button:hover:not(:disabled),
+  select:hover {
+    border-color: rgba(var(--foreground-rgb), 0.9);
+  }
+
+  button:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+  }
+
+  .strength {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.9rem;
+  }
+
+  .progress {
+    flex: 1 1 100%;
+    position: relative;
+    height: 1.25rem;
+    border: 1px solid rgba(var(--foreground-rgb), 0.4);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+
+  .progress-bar {
+    display: block;
+    height: 100%;
+    width: 0;
+    background: rgba(var(--foreground-rgb), 0.25);
+    transition: width 0.2s linear;
+  }
+
+  .progress-text {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    font-size: 0.75rem;
+  }
+
+  .moves {
+    list-style: decimal inside;
+    margin: 0;
+    padding: 0.5rem;
+    max-height: 8rem;
+    overflow-y: auto;
+    border: 1px solid rgba(var(--foreground-rgb), 0.2);
+    border-radius: 4px;
+    font-variant-numeric: tabular-nums;
+    font-size: 0.9rem;
+  }
+
+  .moves:empty {
+    display: none;
+  }
+
+  /* Sits over the board, where the promoting pawn is about to land. */
+  .promotion {
+    position: absolute;
+    inset-inline-start: 50%;
+    inset-block-start: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 0.5rem 0.75rem;
+    background: rgb(var(--background-rgb));
+    border: 1px solid rgba(var(--foreground-rgb), 0.5);
+    border-radius: 6px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+  }
+
+  .promotion[hidden] {
+    display: none;
+  }
+
+  .promotion-label {
+    font-size: 0.85rem;
+  }
+
+  .promotion-choice {
+    display: flex;
+    width: 2.4rem;
+    height: 2.4rem;
+    padding: 0.15rem;
+    text-decoration: none;
+  }
+
+  .promotion-choice :global(svg) {
+    width: 100%;
+    height: 100%;
+  }
+
+  .promotion-choice :global(svg) {
+    stroke-width: 1.4;
+    stroke-linejoin: round;
+    paint-order: stroke fill;
+  }
+
+  .promotion-choice[data-color="white"] :global(svg) {
+    fill: #f4f4ef;
+    stroke: #14161a;
+  }
+
+  .promotion-choice[data-color="black"] :global(svg) {
+    fill: #16181c;
+    stroke: #e8e8e2;
+  }
+
+  .footnote {
+    font-size: 0.85rem;
+    opacity: 0.8;
+  }
+
+  @media (min-width: 700px) {
+    .moves {
+      columns: 2;
+    }
+  }
+</style>

@@ -29,3 +29,4 @@ Lightroom/
 
 # chess engine browser build, downloaded from a release by scripts/fetch-engine.js
 public/chess/
+src/generated/

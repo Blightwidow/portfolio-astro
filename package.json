@@ -4,7 +4,9 @@
   "private": true,
   "type": "module",
   "scripts": {
+    "predev": "node scripts/fetch-engine.js",
     "dev": "astro dev",
+    "prestart": "node scripts/fetch-engine.js",
     "start": "astro dev",
     "prebuild": "node scripts/fetch-engine.js",
     "build": "astro check & bun lint & wait && astro build && pagefind --site dist",

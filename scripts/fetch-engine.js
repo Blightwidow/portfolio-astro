@@ -12,7 +12,7 @@
 
 import { createHash } from "crypto";
 import { execFileSync } from "child_process";
-import { mkdir, readdir, readFile, rm, stat, writeFile } from "fs/promises";
+import { copyFile, mkdir, readdir, readFile, rm, stat, writeFile } from "fs/promises";
 import { tmpdir } from "os";
 import { dirname, join } from "path";
 import { fileURLToPath } from "url";
@@ -33,11 +33,21 @@ const ASSET_NAME = "oxide-wasm.tar.gz";
 const ASSET_SHA256 = "8aa0f7e9a2f77a2a912273001a49a00cd7224efed3f5e4807c38c842060bd9f0";
 
 const OUTPUT_DIRECTORY = join(__dirname, "..", "public", "chess");
+/**
+ * The JS glue is imported by the worker rather than fetched, so it has to sit
+ * somewhere the bundler will follow. Importing it from `public/` by URL works
+ * in a production build but breaks `astro dev`, where Vite appends `?import` to
+ * public-directory files and then fails to serve them.
+ */
+const GLUE_DIRECTORY = join(__dirname, "..", "src", "generated", "chess");
 const RELEASE_MARKER_PATH = join(OUTPUT_DIRECTORY, ".engine-release");
 const MANIFEST_PATH = join(OUTPUT_DIRECTORY, "manifest.json");
 
 /** Files the page needs; a release missing any of them is not usable. */
 const REQUIRED_FILES = ["oxid.js", "oxid_bg.wasm"];
+
+/** Of those, the one that is bundled rather than fetched. */
+const GLUE_FILE = "oxid.js";
 
 const DOWNLOAD_URL = `https://github.com/${ENGINE_REPOSITORY}/releases/download/${ENGINE_VERSION}/${ASSET_NAME}`;
 
@@ -68,8 +78,13 @@ async function alreadyDownloaded() {
   }
 
   const presentFiles = await readdir(OUTPUT_DIRECTORY);
+  const glueFiles = await readdir(GLUE_DIRECTORY).catch(() => []);
 
-  return REQUIRED_FILES.every((requiredFile) => presentFiles.includes(requiredFile));
+  return (
+    presentFiles.includes("oxid_bg.wasm") &&
+    presentFiles.includes("manifest.json") &&
+    glueFiles.includes(GLUE_FILE)
+  );
 }
 
 /**
@@ -196,6 +211,17 @@ async function writeManifest(net) {
   await writeFile(MANIFEST_PATH, `${JSON.stringify(manifest, undefined, 2)}\n`);
 }
 
+/**
+ * Puts the JS glue where the worker imports it from. The wasm module and the
+ * net stay under `public/`: those are fetched at runtime, and the net is large
+ * enough that bundling it would be actively wrong.
+ */
+async function installGlue() {
+  await mkdir(GLUE_DIRECTORY, { recursive: true });
+  await copyFile(join(OUTPUT_DIRECTORY, GLUE_FILE), join(GLUE_DIRECTORY, GLUE_FILE));
+  await rm(join(OUTPUT_DIRECTORY, GLUE_FILE));
+}
+
 async function fetchEngine() {
   if (await alreadyDownloaded()) {
     console.log(`Engine ${ENGINE_VERSION} already in public/chess/`);
@@ -213,6 +239,7 @@ async function fetchEngine() {
   const net = await verifyExtractedFiles();
 
   await writeManifest(net);
+  await installGlue();
   await writeFile(RELEASE_MARKER_PATH, releaseMarker());
 
   console.log(`Engine ${ENGINE_VERSION} extracted to public/chess/`);

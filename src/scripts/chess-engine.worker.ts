@@ -7,6 +7,10 @@
  * calls the engine and posts the answer back.
  */
 
+// Written by scripts/fetch-engine.js from the pinned release, which is why it
+// is imported from a generated directory rather than committed.
+import initWasm, { init } from "../generated/chess/oxid.js";
+
 import type { EngineRequest, EngineResponse } from "./chess-engine";
 
 /** Where `scripts/fetch-engine.js` unpacks the release. */
@@ -25,11 +29,6 @@ interface EngineManifest {
 interface OxidEngine {
   legal_moves(fen: string): string[];
   best_move(fen: string, movetimeMs: number): string;
-}
-
-interface OxidModule {
-  default(options: { module_or_path: string }): Promise<unknown>;
-  init(netBytes: Uint8Array): OxidEngine;
 }
 
 const workerScope = self as unknown as DedicatedWorkerGlobalScope;
@@ -89,17 +88,11 @@ async function loadEngine(): Promise<OxidEngine> {
 
   const manifest = (await manifestResponse.json()) as EngineManifest;
 
-  // The glue is a build artifact rather than a source file, so it is imported
-  // by URL at runtime. @vite-ignore keeps the bundler from trying to resolve a
-  // path that only exists after scripts/fetch-engine.js has run.
-  const glueUrl = `${ENGINE_DIRECTORY}/oxid.js`;
-  const oxid = (await import(/* @vite-ignore */ glueUrl)) as OxidModule;
-
-  await oxid.default({ module_or_path: `${ENGINE_DIRECTORY}/oxid_bg.wasm` });
+  await initWasm({ module_or_path: `${ENGINE_DIRECTORY}/oxid_bg.wasm` });
 
   // An incompatible net falls back to zero weights engine-side: the engine
   // still plays legal moves, just badly. Nothing to handle here.
-  return oxid.init(await fetchNet(manifest));
+  return init(await fetchNet(manifest)) as OxidEngine;
 }
 
 /**

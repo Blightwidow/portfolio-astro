@@ -1,0 +1,219 @@
+---
+import { pieceSvg } from "../scripts/chess-pieces";
+
+/**
+ * The board itself: an 8x8 grid of buttons, rendered server-side in the
+ * starting position so the page shows a board before any JavaScript runs and
+ * before the 4.7MB engine is anywhere near being fetched.
+ *
+ * `chess-game.ts` owns everything that moves. This file owns the shape.
+ */
+
+const FILES = ["a", "b", "c", "d", "e", "f", "g", "h"] as const;
+const RANKS = [8, 7, 6, 5, 4, 3, 2, 1] as const;
+
+/** The starting position, as the piece letter on each square. */
+const BACK_RANK = ["r", "n", "b", "q", "k", "b", "n", "r"] as const;
+
+function startingPiece(file: number, rank: number): string | undefined {
+  if (rank === 8) return BACK_RANK[file];
+  if (rank === 7) return "p";
+  if (rank === 2) return "P";
+  if (rank === 1) return BACK_RANK[file]?.toUpperCase();
+
+  return undefined;
+}
+---
+
+<div class="board" role="grid" aria-label="Chessboard" data-board>
+  {
+    RANKS.map((rank, rankIndex) => (
+      <div role="row" class="row">
+        {FILES.map((file, fileIndex) => {
+          const square = `${file}${rank}`;
+          const piece = startingPiece(fileIndex, rank);
+
+          return (
+            <button
+              type="button"
+              role="gridcell"
+              class:list={["square", (fileIndex + rankIndex) % 2 === 0 ? "light" : "dark"]}
+              data-square={square}
+              tabindex={square === "a8" ? 0 : -1}
+            >
+              <span
+                class="piece"
+                data-color={piece === undefined ? undefined : piece === piece.toUpperCase() ? "white" : "black"}
+                aria-hidden="true"
+                set:html={piece === undefined ? "" : pieceSvg(piece)}
+              />
+              {fileIndex === 0 && <span class="coordinate rank">{rank}</span>}
+              {rank === 1 && <span class="coordinate file">{file}</span>}
+            </button>
+          );
+        })}
+      </div>
+    ))
+  }
+</div>
+
+<style>
+  .board {
+    display: grid;
+    grid-template-rows: repeat(8, 1fr);
+    width: 100%;
+    aspect-ratio: 1;
+    border: 1px solid rgba(var(--foreground-rgb), 0.35);
+    border-radius: 4px;
+    overflow: hidden;
+    /* Squares are tints of the text colour, so the board follows the theme
+       instead of carrying its own light and dark palettes. */
+    --square-light: rgba(var(--foreground-rgb), 0.06);
+    --square-dark: rgba(var(--foreground-rgb), 0.2);
+    --square-selected: rgba(120, 160, 90, 0.55);
+    --square-target: rgba(120, 160, 90, 0.3);
+    --square-last-move: rgba(190, 160, 70, 0.32);
+    --square-check: rgba(190, 70, 60, 0.5);
+  }
+
+  /* A near-black board would swallow the black pieces, so the squares sit
+     higher up the scale in dark mode than the same tints would give. */
+  @media (prefers-color-scheme: dark) {
+    .board {
+      --square-light: rgba(var(--foreground-rgb), 0.18);
+      --square-dark: rgba(var(--foreground-rgb), 0.36);
+    }
+  }
+
+  .row {
+    display: grid;
+    grid-template-columns: repeat(8, 1fr);
+  }
+
+  .square {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    border: none;
+    background: var(--square-light);
+    font-family: inherit;
+    cursor: default;
+    /* global.css underlines every button, which draws a bar under each glyph. */
+    text-decoration: none;
+    line-height: 1;
+  }
+
+  .square.dark {
+    background: var(--square-dark);
+  }
+
+  .square[data-selected] {
+    background: var(--square-selected);
+  }
+
+  .square[data-last-move] {
+    background: var(--square-last-move);
+  }
+
+  .square[data-in-check] {
+    background: var(--square-check);
+  }
+
+  .square[data-playable] {
+    cursor: pointer;
+  }
+
+  .square:focus-visible {
+    outline: 2px solid rgb(var(--foreground-rgb));
+    outline-offset: -3px;
+  }
+
+  /* A dot on empty targets, a ring around capturable pieces: the usual
+     vocabulary, and it survives the board being rotated for black. */
+  .square[data-target]::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    margin: auto;
+    width: 28%;
+    height: 28%;
+    border-radius: 50%;
+    background: var(--square-target);
+  }
+
+  .square[data-target][data-occupied]::after {
+    width: 84%;
+    height: 84%;
+    background: none;
+    border: 0.22em solid var(--square-target);
+  }
+
+  .piece {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    width: 88%;
+    height: 88%;
+    pointer-events: none;
+  }
+
+  .piece :global(svg) {
+    width: 100%;
+    height: 100%;
+  }
+
+  /* Fixed fills rather than theme colours: a white piece has to look white in
+     both themes. The outline keeps each side visible on either square. */
+  .piece :global(svg) {
+    stroke-width: 1.4;
+    stroke-linejoin: round;
+    paint-order: stroke fill;
+  }
+
+  .piece[data-color="white"] :global(svg) {
+    fill: #f4f4ef;
+    stroke: #14161a;
+  }
+
+  .piece[data-color="black"] :global(svg) {
+    fill: #16181c;
+    stroke: #e8e8e2;
+  }
+
+  .coordinate {
+    position: absolute;
+    font-size: 0.65rem;
+    line-height: 1;
+    opacity: 0.65;
+    pointer-events: none;
+  }
+
+  .coordinate.rank {
+    top: 2px;
+    left: 3px;
+  }
+
+  .coordinate.file {
+    bottom: 2px;
+    right: 3px;
+  }
+
+  /* Playing black turns the board around. The pieces and the coordinates turn
+     back, so only the seating changes. */
+  .board[data-orientation="black"] {
+    transform: rotate(180deg);
+  }
+
+  .board[data-orientation="black"] .piece,
+  .board[data-orientation="black"] .coordinate {
+    transform: rotate(180deg);
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .square {
+      transition: background-color 0.15s ease-in-out;
+    }
+  }
+</style>
