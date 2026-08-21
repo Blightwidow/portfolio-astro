@@ -5,7 +5,7 @@ command = "bun run build"
 [[plugins]]
 package = "netlify-plugin-cache"
   [plugins.inputs]
-  paths = ["node_modules/.astro"]
+  paths = ["node_modules/.astro", "public/chess"]
 
 [[redirects]]
 from = "https://dammaretz.netlify.app/*"
@@ -24,5 +24,12 @@ cache-control = "max-age=604800"
 
 [[headers]]
 for = "/*.woff2"
+[headers.values]
+cache-control = "public, max-age=31536000, immutable"
+
+# NNUE nets are named after a hash of their weights, so a given file never changes.
+# Worth pinning: the net is ~4.5MB, by far the largest thing the chess page loads.
+[[headers]]
+for = "/chess/nets/*"
 [headers.values]
 cache-control = "public, max-age=31536000, immutable"

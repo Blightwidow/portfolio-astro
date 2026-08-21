@@ -26,3 +26,6 @@ pnpm-debug.log*
 
 # local roll exports (2.5GB of scans, source of truth for roll membership)
 Lightroom/
+
+# chess engine browser build, downloaded from a release by scripts/fetch-engine.js
+public/chess/
