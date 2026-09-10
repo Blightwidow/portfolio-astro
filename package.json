@@ -26,7 +26,7 @@
     "@fontsource/metropolis": "5.2.5",
     "@playform/compress": "0.2.5",
     "@unpic/astro": "1.0.2",
-    "astro": "7.2.0",
+    "astro": "7.2.8",
     "mdast-util-to-string": "^4.0.0",
     "reading-time": "^1.5.0",
     "typescript": "5.8.3",
