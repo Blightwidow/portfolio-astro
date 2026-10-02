@@ -17,11 +17,11 @@ interface Props {
 
 const { title, series, startDate, annotation, caption } = Astro.props;
 
-const CHART = { width: 640, height: 260, top: 16, right: 96, bottom: 28, left: 36 };
+const CHART = { width: 800, height: 312, top: 16, right: 110, bottom: 24, left: 48 };
 const plotWidth = CHART.width - CHART.left - CHART.right;
 const plotHeight = CHART.height - CHART.top - CHART.bottom;
 const baseline = CHART.top + plotHeight;
-const LABEL_SPACING = 12;
+const LABEL_SPACING = 14;
 const GRID_VALUES = [0, 0.25, 0.5, 0.75, 1];
 
 const dates = series[0]?.points.map((point) => point.date) ?? [];
@@ -37,7 +37,7 @@ const monthTicks: { x: number; label: string }[] = [];
 for (let month = new Date(startTime); month.getTime() <= endTime; month.setUTCMonth(month.getUTCMonth() + 1, 1)) {
   if (month.getUTCDate() !== 1) continue;
   const iso = month.toISOString().slice(0, 10);
-  monthTicks.push({ x: toX(iso), label: month.toLocaleDateString("en-GB", { month: "short", timeZone: "UTC" }) });
+  monthTicks.push({ x: toX(iso), label: month.toLocaleDateString("en-US", { month: "short", timeZone: "UTC" }) });
 }
 // The first tick sits on the start date even when that is mid-month.
 if (monthTicks[0]?.x !== CHART.left) monthTicks.unshift({ x: CHART.left, label: formatDay(startDate) });
@@ -82,17 +82,19 @@ const latest = plotted.map((entry) => `${entry.label} ${formatPercent(entry.last
 ---
 
 <figure class="chart" data-chart={hoverData}>
-  <figcaption class="title">{title}</figcaption>
-  <ul class="legend">
-    {
-      plotted.map((entry) => (
-        <li>
-          <span class:list={["swatch", entry.colorClass]} aria-hidden="true" />
-          {entry.label}
-        </li>
-      ))
-    }
-  </ul>
+  <div class="chart-header">
+    <figcaption class="title">{title}</figcaption>
+    <ul class="legend">
+      {
+        plotted.map((entry) => (
+          <li>
+            <span class:list={["swatch", entry.colorClass]} aria-hidden="true" />
+            {entry.label}
+          </li>
+        ))
+      }
+    </ul>
+  </div>
   <div class="plot">
     <svg
       viewBox={`0 0 ${CHART.width} ${CHART.height}`}
@@ -121,7 +123,7 @@ const latest = plotted.map((entry) => `${entry.label} ${formatPercent(entry.last
         annotation && (
           <>
             <line class="annotation" x1={toX(annotation.date)} y1={CHART.top} x2={toX(annotation.date)} y2={baseline} />
-            <text class="annotation-label" x={toX(annotation.date) + 4} y={CHART.top + 8}>
+            <text class="annotation-label" x={toX(annotation.date) + 6} y={CHART.top + plotHeight / 2}>
               {annotation.label}
             </text>
           </>
@@ -129,6 +131,15 @@ const latest = plotted.map((entry) => `${entry.label} ${formatPercent(entry.last
       }
       {plotted.map((entry) => entry.band && <polygon class:list={["band", entry.colorClass]} points={entry.band} />)}
       {plotted.map((entry) => <polyline class:list={["line", entry.colorClass]} points={entry.path} />)}
+      {
+        plotted.map(
+          (entry) =>
+            entry.last &&
+            entry.colorClass !== "series-other" && (
+              <circle class:list={["end-dot", entry.colorClass]} cx={toX(entry.last.date)} cy={toY(entry.last.value)} r="4.5" />
+            ),
+        )
+      }
       {
         endLabels.map((entry) => (
           <text class="end-label" x={CHART.left + plotWidth + 6} y={entry.y + 3}>
@@ -208,9 +219,22 @@ const latest = plotted.map((entry) => `${entry.label} ${formatPercent(entry.last
     }
   }
 
+  .chart-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    flex-wrap: wrap;
+    gap: 0.5rem 1.5rem;
+    padding-bottom: 0.5rem;
+    margin-bottom: 1.25rem;
+    border-bottom: 1px solid rgba(var(--foreground-rgb), 0.18);
+  }
+
   .title {
-    font-weight: bold;
-    margin-bottom: 0.5rem;
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
   }
 
   .legend {
@@ -219,7 +243,7 @@ const latest = plotted.map((entry) => `${entry.label} ${formatPercent(entry.last
     gap: 0.25rem 1rem;
     list-style: none;
     padding: 0;
-    margin: 0 0 0.5rem;
+    margin: 0;
     font-size: 0.85em;
   }
 
@@ -230,8 +254,8 @@ const latest = plotted.map((entry) => `${entry.label} ${formatPercent(entry.last
   }
 
   .swatch {
-    width: 0.9rem;
-    height: 2px;
+    width: 1.1rem;
+    height: 3px;
     background: currentColor;
   }
 
@@ -264,7 +288,7 @@ const latest = plotted.map((entry) => `${entry.label} ${formatPercent(entry.last
 
   .line {
     fill: none;
-    stroke-width: 2;
+    stroke-width: 2.5;
     stroke-linejoin: round;
     stroke-linecap: round;
   }
@@ -283,7 +307,25 @@ const latest = plotted.map((entry) => `${entry.label} ${formatPercent(entry.last
 
   .band {
     stroke: none;
-    fill-opacity: 0.15;
+    fill-opacity: 0.16;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    .band {
+      fill-opacity: 0.22;
+    }
+  }
+
+  .end-dot.series-1 {
+    fill: var(--series-1);
+  }
+
+  .end-dot.series-2 {
+    fill: var(--series-2);
+  }
+
+  .end-dot.series-3 {
+    fill: var(--series-3);
   }
 
   .band.series-1 {
@@ -316,8 +358,12 @@ const latest = plotted.map((entry) => `${entry.label} ${formatPercent(entry.last
   .end-label,
   .annotation-label {
     fill: rgba(var(--foreground-rgb), 0.7);
-    font-size: 10px;
+    font-size: 11px;
     font-family: inherit;
+  }
+
+  .annotation-label {
+    font-style: italic;
   }
 
   .tick {
@@ -330,6 +376,7 @@ const latest = plotted.map((entry) => `${entry.label} ${formatPercent(entry.last
 
   .end-label {
     fill: rgb(var(--foreground-rgb));
+    font-size: 12px;
   }
 
   .annotation,
@@ -364,6 +411,7 @@ const latest = plotted.map((entry) => `${entry.label} ${formatPercent(entry.last
   .caption {
     opacity: 0.7;
     font-size: 0.85em;
-    margin: 0.5rem 0 0;
+    max-width: 72ch;
+    margin: 1rem 0 0;
   }
 </style>

@@ -1,4 +1,10 @@
 ---
+import "@fontsource/newsreader/400.css";
+import "@fontsource/newsreader/400-italic.css";
+import "@fontsource/newsreader/600.css";
+import "@fontsource/public-sans/400.css";
+import "@fontsource/public-sans/600.css";
+
 import { Picture } from "astro:assets";
 import lePenPortrait from "../images/election-2027/le-pen.jpg";
 import MultiLineChart from "../components/MultiLineChart.astro";
@@ -17,8 +23,9 @@ import { formatDate } from "../utils/date";
 import { forecast, formatProbability, getFavourite, getHistorySeries, getSensitivityRange } from "../utils/election";
 
 /** Shown beside the current favourite; a favourite without a portrait gets the text alone. */
-const PORTRAITS: Record<string, { image: ImageMetadata; credit: string; sourceUrl: string }> = {
+const PORTRAITS: Record<string, { fullName: string; image: ImageMetadata; credit: string; sourceUrl: string }> = {
   "Le Pen": {
+    fullName: "Marine Le Pen",
     image: lePenPortrait,
     credit: "Vox España, CC0",
     sourceUrl: "https://commons.wikimedia.org/wiki/File:Marine_Le_Pen_2025_(3x4_cropped).jpg",
@@ -29,9 +36,16 @@ const PORTRAITS: Record<string, { image: ImageMetadata; credit: string; sourceUr
 const FIRST_ROUND_MONTH = "2027-04-01";
 const asOf = new Date(forecast.asOf);
 const monthsToGo = Math.round((Date.parse(FIRST_ROUND_MONTH) - asOf.getTime()) / (30.44 * 86_400_000));
+const updatedLabel = asOf.toLocaleDateString("en-GB", {
+  day: "numeric",
+  month: "long",
+  year: "numeric",
+  timeZone: "UTC",
+});
 
 const favourite = getFavourite();
 const portrait = PORTRAITS[favourite.candidate];
+const favouriteName = portrait?.fullName ?? favourite.candidate;
 const challenger = forecast.candidates[1];
 const likeliestDuel = forecast.duels[0];
 const likeliestOpponent = likeliestDuel?.candidates.find((candidate) => candidate !== favourite.candidate);
@@ -53,186 +67,495 @@ const exampleShare = favourite.firstRoundMean / 100;
 const exampleRange = Math.round(
   STUDENT_T_90_HALF_WIDTH * CENTRAL_ERROR_SCALE * Math.sqrt(exampleShare * (1 - exampleShare)) * 100,
 );
+const toPercent = (probability: number) => `${(probability * 100).toFixed(1)}%`;
 ---
 
 <Layout
   title="2027 election forecast - Theo Dammaretz"
   description={`A poll-based simulation of the 2027 French presidential election: ${favourite.candidate} wins in ${formatProbability(favourite.winProbability)} of runs.`}
   backLink="/"
+  constrainMain={false}
 >
-  <article data-pagefind-body>
-    <h1>2027 election forecast</h1>
-    <p class="meta">Updated {formatDate(asOf)}</p>
+  <article class="bulletin" data-pagefind-body>
+    <header class="masthead">
+      <div class="dateline">
+        <span class="dateline-name">Forecast</span>
+        <span class="muted">Updated {updatedLabel} · {forecast.waveCount} poll waves</span>
+      </div>
+      <h1>The 2027 election, as the polls see it today</h1>
+      <div class="standfirst">
+        <p class="lede">
+          Every new poll comes with a headline, and I kept wondering what all of them, taken together, actually say
+          about who wins. So I wrote a small model that takes the polls listed on{" "}
+          <a href="https://fr.wikipedia.org/wiki/Liste_de_sondages_sur_l%27%C3%A9lection_pr%C3%A9sidentielle_fran%C3%A7aise_de_2027"
+            >French Wikipedia</a
+          >, simulates the election {simulationCount} times and counts who comes out on top. It moves whenever a new
+          poll lands.
+        </p>
+        <aside class="note">
+          <strong class="label">With a grain of salt</strong>
+          <span>
+            I am not a pollster, the model is a few hundred lines of TypeScript, and the first round is about {
+              monthsToGo
+            } months away. Polls this early have a poor record (ask François Fillon in 2017, or Éric Zemmour and Valérie
+            Pécresse in 2022). This measures what the polls imply today, not what happens in April.
+          </span>
+        </aside>
+      </div>
+    </header>
 
-    <h2>Why this page exists</h2>
-    <p>
-      Every new poll for 2027 comes with a headline, and I kept wondering what all of them, taken together, actually
-      say about who wins. So I wrote a small model that takes the polls listed on{" "}
-      <a href="https://fr.wikipedia.org/wiki/Liste_de_sondages_sur_l%27%C3%A9lection_pr%C3%A9sidentielle_fran%C3%A7aise_de_2027"
-        >French Wikipedia</a
-      >, simulates the election {simulationCount} times and counts who comes out on top. This page is where the result
-      lives, and it moves whenever a new poll lands.
-    </p>
-    <p>
-      Please take it with a generous grain of salt. I am not a pollster, the model is a few hundred lines of
-      TypeScript, and the first round is still about {monthsToGo} months away. Polls this early have a poor track
-      record (ask François Fillon in 2017, or Éric Zemmour and Valérie Pécresse in 2022). What this page measures is
-      what the polls imply <em>today</em>, not what will happen in April.
-    </p>
+    <section>
+      <h2 class="label section-title">Where things stand</h2>
+      <div class:list={["split", { "with-portrait": portrait }]}>
+        {
+          portrait && (
+            <figure class="portrait">
+              <Picture
+                src={portrait.image}
+                formats={["webp"]}
+                widths={[360, 720]}
+                sizes="(min-width: 760px) 22rem, 100vw"
+                alt={`Portrait of ${portrait.fullName}`}
+              />
+              <figcaption class="muted">
+                Photo: <a href={portrait.sourceUrl}>{portrait.credit}</a>
+              </figcaption>
+            </figure>
+          )
+        }
+        <div class="standing">
+          <p class="headline-number">
+            <span class="big-number">{formatProbability(favourite.winProbability)}</span>
+            <span class="big-number-label">chance that {favouriteName} wins</span>
+          </p>
+          <div class="range">
+            <div
+              class="range-track"
+              role="img"
+              aria-label={`Confidence band from ${formatProbability(range.low)} to ${formatProbability(range.high)}, central estimate ${formatProbability(favourite.winProbability)}`}
+            >
+              <span class="range-band" style={`left: ${toPercent(range.low)}; width: ${toPercent(range.high - range.low)}`}
+              ></span>
+              <span class="range-marker" style={`left: ${toPercent(favourite.winProbability)}`}></span>
+            </div>
+            <div class="range-scale muted" aria-hidden="true">
+              <span>0%</span>
+              <span>Confidence band {formatProbability(range.low)} to {formatProbability(range.high)}</span>
+              <span>100%</span>
+            </div>
+          </div>
+          <p>
+            Her first-round score is centred on <strong>{favourite.firstRoundMean}%</strong> and lands between {
+              favourite.firstRoundLow
+            }% and {favourite.firstRoundHigh}% in nine runs out of ten, and she reaches the runoff in {
+              formatProbability(favourite.qualifyProbability)
+            } of them.{" "}
+            {opponentSentence}{" "}
+            {challengerSentence}
+          </p>
+          <p>
+            That {formatProbability(favourite.winProbability)} rests on my central assumptions. With a wider polling error
+            in the runoff, and polls overstating her by up to {largestOverstatement} points (as they did in 2017 and 2022),
+            it falls to {formatProbability(range.low)}: a clear favourite, but nowhere near a done deal.
+          </p>
+        </div>
+      </div>
+    </section>
 
-    <h2>Where things stand</h2>
-    <div class:list={["standing", { "with-portrait": portrait }]}>
-    {
-      portrait && (
-        <figure class="portrait">
-          <Picture
-            src={portrait.image}
-            formats={["webp"]}
-            widths={[240, 480]}
-            sizes="(min-width: 550px) 14rem, 100vw"
-            alt={`Portrait of ${favourite.candidate}`}
-          />
-          <figcaption>
-            Photo: <a href={portrait.sourceUrl}>{portrait.credit}</a>
-          </figcaption>
-        </figure>
-      )
-    }
-    <div class="standing-text">
-    <p>
-      {favourite.candidate} wins in <strong>{formatProbability(favourite.winProbability)}</strong> of the simulated
-      elections. Her first-round score is centred on {favourite.firstRoundMean}% and lands between {
-        favourite.firstRoundLow
-      }% and {favourite.firstRoundHigh}% in nine runs out of ten, and she reaches the runoff in {
-        formatProbability(favourite.qualifyProbability)
-      } of them.{" "}
-      {opponentSentence}{" "}
-      {challengerSentence}
-    </p>
-    <p>
-      That {formatProbability(favourite.winProbability)} rests on my central assumptions. With a wider polling error in
-      the runoff, and polls overstating {favourite.candidate} by up to {largestOverstatement} points (as they did in 2017 and 2022), it
-      falls to {formatProbability(range.low)}. So the honest confidence band is <strong
-        >{formatProbability(range.low)} to {formatProbability(range.high)}</strong
-      >: a clear favourite, but nowhere near a done deal.
-    </p>
-    </div>
-    </div>
+    <section>
+      <MultiLineChart
+        title="Chance of winning, by date"
+        series={series}
+        startDate={ELIGIBILITY_DATE}
+        annotation={{ date: ELIGIBILITY_DATE, label: "Le Pen confirmed" }}
+        caption={`Each point reruns the model with only the polls published by that day; the line starts on ${
+          firstPoint ? formatDate(new Date(firstPoint.date)) : "the first usable day"
+        }, once enough runoff polls existed to model her likely duels. Shaded areas span the same alternative assumptions as the ${formatProbability(
+          range.low,
+        )} to ${formatProbability(range.high)} band. Others adds up every remaining candidate.`}
+      />
+    </section>
 
-    <MultiLineChart
-      title="Chance of winning, by date"
-      series={series}
-      startDate={ELIGIBILITY_DATE}
-      annotation={{ date: ELIGIBILITY_DATE, label: "Le Pen confirmed" }}
-      caption={`Each point reruns the model with only the polls published by that day. The line starts on ${
-        firstPoint ? formatDate(new Date(firstPoint.date)) : "the first usable day"
-      }, once enough runoff polls existed to model her likely duels. The shaded areas span the same alternative assumptions as the confidence band above. "Others" adds up every remaining candidate.`}
-    />
-
-    <h2>Methodology and math</h2>
-    <p>
-      The model is a Monte Carlo simulation: rather than solving the election on paper, it plays it out {
-        simulationCount
-      } times with a different random draw each time, and the share of runs a candidate wins is their probability. Only
-      polls from {formatDate(new Date(ELIGIBILITY_DATE))} onwards count, the day {favourite.candidate}'s candidacy was
-      confirmed on appeal; that is {forecast.waveCount} poll waves and {forecast.scenarioCount} first-round scenarios so
-      far. Each run goes through four steps.
-    </p>
-    <ol>
-      <li>
-        <strong>Who runs.</strong> Pollsters test several lists of candidates in each survey, because nobody knows yet who
-        will stand. Each run picks one of those scenarios at random. A survey's weight halves every {HALF_LIFE_DAYS} days,
-        and is split evenly between its scenarios, so a firm testing six lists does not count six times.
-      </li>
-      <li>
-        <strong>First-round error.</strong> Each candidate's share <var>p</var> gets a random error with a standard deviation
-        of <var>k</var>·√(<var>p</var>(1 − <var>p</var>)), with <var>k</var> = {CENTRAL_ERROR_SCALE}. For a candidate
-        polling {favourite.firstRoundMean}% that is roughly ±{exampleRange} points nine times out of ten. The error follows a Student-t distribution with {
-          DEGREES_OF_FREEDOM
-        } degrees of freedom rather than a bell curve, so big misses are rarer than small ones but far from impossible.
-        Shares are then rescaled to add up to 100%.
-      </li>
-      <li>
-        <strong>Runoff.</strong> The top two meet in the second round. Their starting point is the recency-weighted average
-        of their head-to-head polls, plus an error of {RUNOFF_ERROR_STANDARD_DEVIATION} points (standard deviation). That
-        error is {RUNOFF_CORRELATION_WITH_LE_PEN * 100}% correlated with how far {favourite.candidate} beat or missed her first-round
-        polls in the same run: if the polls underestimate her once, they probably do it twice.
-      </li>
-      <li>
-        <strong>Untested duels.</strong> A pairing with fewer than {MINIMUM_RUNOFF_POLLS} runoff polls has no reliable starting
-        point, so runs that reach it are dropped and the probabilities are computed on the rest ({
-          formatProbability(forecast.droppedShare)
-        } of runs today).
-      </li>
-    </ol>
-    <p>A few things the model does not do, and that you should keep in mind:</p>
-    <ul>
-      <li>
-        French polls use quota samples, so their published margins of error have no strict statistical basis. The error
-        sizes above are my assumptions, not values computed from sample sizes.
-      </li>
-      <li>
-        Dropping untested duels slightly favours {favourite.candidate}: the runs that disappear are mostly ones where she
-        misses the runoff.
-      </li>
-      <li>There is no correction for pollster house effects, and the model assumes she will be on the ballot.</li>
-    </ul>
+    <section>
+      <h2 class="label section-title">Methodology and math</h2>
+      <p class="lede method-lede">
+        Rather than solving the election on paper, the model plays it out {simulationCount} times with a different random
+        draw each time. The share of runs a candidate wins is their probability. Only polls from {
+          formatDate(new Date(ELIGIBILITY_DATE))
+        } onwards count, the day {favourite.candidate}'s candidacy was confirmed on appeal: {forecast.waveCount} poll waves
+        and {forecast.scenarioCount} first-round scenarios so far.
+      </p>
+      <ol class="steps">
+        <li>
+          <span class="step-number" aria-hidden="true">1</span>
+          <div>
+            <strong>Who runs</strong>
+            <p>
+              Pollsters test several candidate lists in each survey, because nobody knows yet who will stand. Each run
+              picks one scenario. A survey's weight halves every {HALF_LIFE_DAYS} days and is split evenly between its scenarios,
+              so a firm testing six lists does not count six times.
+            </p>
+          </div>
+        </li>
+        <li>
+          <span class="step-number" aria-hidden="true">2</span>
+          <div>
+            <strong>First-round error</strong>
+            <p>
+              Each candidate's share <var>p</var> gets a random error following a Student-t distribution with {
+                DEGREES_OF_FREEDOM
+              } degrees of freedom, so big misses are rare but far from impossible. For a candidate polling {
+                favourite.firstRoundMean
+              }% that is roughly ±{exampleRange} points nine times out of ten. Shares are then rescaled to 100%.
+            </p>
+            <p class="formula">σ = <var>k</var> · √(<var>p</var>(1 − <var>p</var>)), <var>k</var> = {CENTRAL_ERROR_SCALE}</p>
+          </div>
+        </li>
+        <li>
+          <span class="step-number" aria-hidden="true">3</span>
+          <div>
+            <strong>Runoff</strong>
+            <p>
+              The top two start from their recency-weighted head-to-head average, plus a {RUNOFF_ERROR_STANDARD_DEVIATION}-point
+              error that is {RUNOFF_CORRELATION_WITH_LE_PEN * 100}% correlated with how far {favourite.candidate} beat or missed
+              her first-round polls: if the polls miss her once, they probably miss twice.
+            </p>
+          </div>
+        </li>
+        <li>
+          <span class="step-number" aria-hidden="true">4</span>
+          <div>
+            <strong>Untested duels</strong>
+            <p>
+              A pairing with fewer than {MINIMUM_RUNOFF_POLLS} runoff polls has no reliable starting point, so runs that reach
+              it are dropped and the probabilities are computed on the rest ({formatProbability(forecast.droppedShare)} of runs
+              today).
+            </p>
+          </div>
+        </li>
+      </ol>
+      <div class="limits">
+        <strong class="label">What the model does not do</strong>
+        <ul>
+          <li>
+            French polls use quota samples, so their published margins of error have no strict statistical basis. The error
+            sizes above are my assumptions, not values computed from sample sizes.
+          </li>
+          <li>
+            Dropping untested duels slightly favours {favourite.candidate}: the runs that disappear are mostly ones where she
+            misses the runoff.
+          </li>
+          <li>There is no correction for pollster house effects, and the model assumes she will be on the ballot.</li>
+        </ul>
+      </div>
+    </section>
   </article>
 </Layout>
 
+<style is:global>
+  /* This page carries its own palette and a wider measure; the site header and footer follow it. */
+  :root:has(.bulletin) {
+    --foreground-rgb: 27, 26, 23;
+    --background-rgb: 244, 241, 234;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root:has(.bulletin) {
+      --foreground-rgb: 236, 235, 228;
+      --background-rgb: 20, 20, 18;
+    }
+  }
+
+  :root:has(.bulletin) #header,
+  :root:has(.bulletin) footer {
+    max-width: 70rem;
+  }
+</style>
+
 <style>
-  .meta {
-    opacity: 0.6;
-    margin-top: -0.5rem;
+  .bulletin {
+    --muted: rgba(var(--foreground-rgb), 0.68);
+    --rule: rgba(var(--foreground-rgb), 0.18);
+    --accent: #2a78d6;
+    --accent-soft: rgba(42, 120, 214, 0.28);
+    --serif: "Newsreader", Georgia, serif;
+    max-width: 70rem;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 4.5rem;
+    font-family: "Public Sans", "Helvetica Neue", sans-serif;
+    font-size: 1.0625rem;
+    letter-spacing: normal;
   }
 
-  h2 {
-    margin-top: 2.5rem;
+  @media (prefers-color-scheme: dark) {
+    .bulletin {
+      --accent: #3987e5;
+      --accent-soft: rgba(57, 135, 229, 0.35);
+    }
   }
 
-  li {
-    margin-bottom: 0.5rem;
+  .muted {
+    color: var(--muted);
   }
 
-  .standing {
-    margin-bottom: 2rem;
+  .label {
+    font-family: "Public Sans", sans-serif;
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .section-title {
+    margin: 0 0 1.5rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid var(--rule);
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  /* Masthead */
+  .masthead {
+    display: flex;
+    flex-direction: column;
+    gap: 1.75rem;
+  }
+
+  .dateline {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    flex-wrap: wrap;
+    gap: 1rem;
+    padding: 0.6rem 0;
+    border-top: 3px solid rgb(var(--foreground-rgb));
+    border-bottom: 1px solid var(--rule);
+    font-size: 0.8rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .dateline-name {
+    font-weight: 600;
+  }
+
+  h1 {
+    margin: 0;
+    font-family: var(--serif);
+    font-weight: 600;
+    font-size: clamp(2.6rem, 7vw, 4.75rem);
+    line-height: 1;
+    letter-spacing: -0.02em;
+    text-wrap: balance;
+  }
+
+  .standfirst {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(21rem, 100%), 1fr));
+    gap: 1.5rem 3rem;
+  }
+
+  .lede {
+    margin: 0;
+    font-family: var(--serif);
+    font-size: clamp(1.25rem, 2.2vw, 1.45rem);
+    line-height: 1.45;
+  }
+
+  .note {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    padding-top: 0.9rem;
+    border-top: 1px solid var(--rule);
+    font-size: 0.95rem;
+    color: var(--muted);
+  }
+
+  .note .label {
+    color: rgb(var(--foreground-rgb));
+  }
+
+  /* Where things stand */
+  .split {
+    display: grid;
+    gap: 2.5rem;
+  }
+
+  @media (min-width: 760px) {
+    .split.with-portrait {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
+    }
   }
 
   .portrait {
-    margin: 0 0 1rem;
-    max-width: 14rem;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    max-width: 22rem;
   }
 
-  /* Overrides the 3rem margin global.css gives article images. */
+  /* Overrides the margin global.css gives article images. */
   .portrait img {
-    margin: 0;
     display: block;
     width: 100%;
     height: auto;
+    margin: 0;
     aspect-ratio: 3 / 4;
     object-fit: cover;
   }
 
   .portrait figcaption {
-    opacity: 0.6;
-    font-size: 0.75em;
-    margin-top: 0.35rem;
+    font-size: 0.75rem;
   }
 
-  .standing-text > p:first-child {
-    margin-top: 0;
+  .standing {
+    display: flex;
+    flex-direction: column;
+    gap: 1.75rem;
   }
 
-  @media (min-width: 550px) {
-    .standing.with-portrait {
-      display: grid;
-      grid-template-columns: 1fr 2fr;
-      gap: 1.5rem;
-      align-items: start;
-    }
+  .standing p {
+    margin: 0;
+  }
 
-    .portrait {
-      max-width: none;
+  .headline-number {
+    display: flex;
+    align-items: flex-end;
+    flex-wrap: wrap;
+    gap: 0.5rem 1.5rem;
+  }
+
+  .big-number {
+    font-family: var(--serif);
+    font-weight: 600;
+    font-size: clamp(6rem, 16vw, 10.5rem);
+    line-height: 0.82;
+    letter-spacing: -0.04em;
+    color: var(--accent);
+  }
+
+  .big-number-label {
+    font-family: var(--serif);
+    font-size: clamp(1.4rem, 2.6vw, 1.9rem);
+    line-height: 1.2;
+    max-width: 11em;
+    text-wrap: balance;
+    padding-bottom: 0.4rem;
+  }
+
+  .range {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .range-track {
+    position: relative;
+    height: 0.875rem;
+    background: rgba(var(--foreground-rgb), 0.08);
+  }
+
+  .range-band {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    background: var(--accent-soft);
+  }
+
+  .range-marker {
+    position: absolute;
+    top: -0.375rem;
+    bottom: -0.375rem;
+    width: 3px;
+    background: var(--accent);
+  }
+
+  .range-scale {
+    display: flex;
+    justify-content: space-between;
+    gap: 0.5rem;
+    font-size: 0.8rem;
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* Methodology */
+  .method-lede {
+    max-width: 46ch;
+    margin-bottom: 2rem;
+  }
+
+  .steps {
+    list-style: none;
+    margin: 0 0 2.5rem;
+    padding: 0;
+    display: grid;
+    gap: 2rem 3rem;
+  }
+
+  @media (min-width: 760px) {
+    .steps {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
     }
+  }
+
+  .steps li {
+    display: flex;
+    gap: 1.25rem;
+    margin: 0;
+  }
+
+  .steps p {
+    margin: 0.35rem 0 0;
+  }
+
+  .step-number {
+    font-family: var(--serif);
+    font-size: 3rem;
+    line-height: 1;
+    color: var(--muted);
+  }
+
+  .steps .formula {
+    margin-top: 0.75rem;
+    padding: 0.6rem 0;
+    border-top: 1px solid var(--rule);
+    border-bottom: 1px solid var(--rule);
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: 1.35rem;
+  }
+
+  .limits {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+    max-width: 80ch;
+    padding-top: 0.9rem;
+    border-top: 3px solid rgb(var(--foreground-rgb));
+    font-size: 0.95rem;
+    color: var(--muted);
+  }
+
+  .limits .label {
+    color: rgb(var(--foreground-rgb));
+  }
+
+  .limits ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .limits li {
+    margin: 0;
   }
 </style>
