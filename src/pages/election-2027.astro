@@ -1,0 +1,164 @@
+---
+import MultiLineChart from "../components/MultiLineChart.astro";
+import Layout from "../layouts/Layout.astro";
+import {
+  CENTRAL_ERROR_SCALE,
+  DEGREES_OF_FREEDOM,
+  ELIGIBILITY_DATE,
+  HALF_LIFE_DAYS,
+  MINIMUM_RUNOFF_POLLS,
+  RUNOFF_CORRELATION_WITH_LE_PEN,
+  RUNOFF_ERROR_STANDARD_DEVIATION,
+  SIMULATIONS,
+} from "../../scripts/election-2027/simulate";
+import { formatDate } from "../utils/date";
+import { forecast, formatProbability, getFavourite, getHistorySeries, getSensitivityRange } from "../utils/election";
+
+/** The first round has no official date yet; April is all that is known. */
+const FIRST_ROUND_MONTH = "2027-04-01";
+const asOf = new Date(forecast.asOf);
+const monthsToGo = Math.round((Date.parse(FIRST_ROUND_MONTH) - asOf.getTime()) / (30.44 * 86_400_000));
+
+const favourite = getFavourite();
+const challenger = forecast.candidates[1];
+const likeliestDuel = forecast.duels[0];
+const likeliestOpponent = likeliestDuel?.candidates.find((candidate) => candidate !== favourite.candidate);
+const range = getSensitivityRange();
+const series = getHistorySeries();
+const firstPoint = forecast.history[0];
+const opponentSentence =
+  likeliestDuel && likeliestOpponent
+    ? `Her most likely opponent is ${likeliestOpponent} (${formatProbability(likeliestDuel.probability)} of runs).`
+    : "";
+const challengerSentence = challenger
+  ? `The strongest challenger is ${challenger.candidate}, who reaches the runoff in ${formatProbability(challenger.qualifyProbability)} of runs and wins in ${formatProbability(challenger.winProbability)}.`
+  : "";
+const simulationCount = SIMULATIONS.toLocaleString("en-US");
+const largestOverstatement = Math.max(...forecast.sensitivity.map((cell) => cell.lePenPollOverstatement));
+/** 95th percentile of a unit-variance Student-t with 5 degrees of freedom: half of a 90% range. */
+const STUDENT_T_90_HALF_WIDTH = 1.56;
+const exampleShare = favourite.firstRoundMean / 100;
+const exampleRange = Math.round(
+  STUDENT_T_90_HALF_WIDTH * CENTRAL_ERROR_SCALE * Math.sqrt(exampleShare * (1 - exampleShare)) * 100,
+);
+---
+
+<Layout
+  title="2027 election forecast - Theo Dammaretz"
+  description={`A poll-based simulation of the 2027 French presidential election: ${favourite.candidate} wins in ${formatProbability(favourite.winProbability)} of runs.`}
+  backLink="/"
+>
+  <article data-pagefind-body>
+    <h1>2027 election forecast</h1>
+    <p class="meta">Updated {formatDate(asOf)}</p>
+
+    <h2>Why this page exists</h2>
+    <p>
+      Every new poll for 2027 comes with a headline, and I kept wondering what all of them, taken together, actually
+      say about who wins. So I wrote a small model that takes the polls listed on{" "}
+      <a href="https://fr.wikipedia.org/wiki/Liste_de_sondages_sur_l%27%C3%A9lection_pr%C3%A9sidentielle_fran%C3%A7aise_de_2027"
+        >French Wikipedia</a
+      >, simulates the election {simulationCount} times and counts who comes out on top. This page is where the result
+      lives, and it moves whenever a new poll lands.
+    </p>
+    <p>
+      Please take it with a generous grain of salt. I am not a pollster, the model is a few hundred lines of
+      TypeScript, and the first round is still about {monthsToGo} months away. Polls this early have a poor track
+      record (ask François Fillon in 2017, or Éric Zemmour and Valérie Pécresse in 2022). What this page measures is
+      what the polls imply <em>today</em>, not what will happen in April.
+    </p>
+
+    <h2>Where things stand</h2>
+    <p>
+      {favourite.candidate} wins in <strong>{formatProbability(favourite.winProbability)}</strong> of the simulated
+      elections. Her first-round score is centred on {favourite.firstRoundMean}% and lands between {
+        favourite.firstRoundLow
+      }% and {favourite.firstRoundHigh}% in nine runs out of ten, and she reaches the runoff in {
+        formatProbability(favourite.qualifyProbability)
+      } of them.{" "}
+      {opponentSentence}{" "}
+      {challengerSentence}
+    </p>
+    <p>
+      That {formatProbability(favourite.winProbability)} rests on my central assumptions. With a wider polling error in
+      the runoff, and polls overstating {favourite.candidate} by up to {largestOverstatement} points (as they did in 2017 and 2022), it
+      falls to {formatProbability(range.low)}. So the honest confidence band is <strong
+        >{formatProbability(range.low)} to {formatProbability(range.high)}</strong
+      >: a clear favourite, but nowhere near a done deal.
+    </p>
+
+    <MultiLineChart
+      title="Chance of winning, by date"
+      series={series}
+      startDate={ELIGIBILITY_DATE}
+      annotation={{ date: ELIGIBILITY_DATE, label: "Le Pen confirmed" }}
+      caption={`Each point reruns the model with only the polls published by that day. The line starts on ${
+        firstPoint ? formatDate(new Date(firstPoint.date)) : "the first usable day"
+      }, once enough runoff polls existed to model her likely duels. "Others" adds up every remaining candidate.`}
+    />
+
+    <h2>Methodology and math</h2>
+    <p>
+      The model is a Monte Carlo simulation: rather than solving the election on paper, it plays it out {
+        simulationCount
+      } times with a different random draw each time, and the share of runs a candidate wins is their probability. Only
+      polls from {formatDate(new Date(ELIGIBILITY_DATE))} onwards count, the day {favourite.candidate}'s candidacy was
+      confirmed on appeal; that is {forecast.waveCount} poll waves and {forecast.scenarioCount} first-round scenarios so
+      far. Each run goes through four steps.
+    </p>
+    <ol>
+      <li>
+        <strong>Who runs.</strong> Pollsters test several lists of candidates in each survey, because nobody knows yet who
+        will stand. Each run picks one of those scenarios at random. A survey's weight halves every {HALF_LIFE_DAYS} days,
+        and is split evenly between its scenarios, so a firm testing six lists does not count six times.
+      </li>
+      <li>
+        <strong>First-round error.</strong> Each candidate's share <var>p</var> gets a random error with a standard deviation
+        of <var>k</var>·√(<var>p</var>(1 − <var>p</var>)), with <var>k</var> = {CENTRAL_ERROR_SCALE}. For a candidate
+        polling {favourite.firstRoundMean}% that is roughly ±{exampleRange} points nine times out of ten. The error follows a Student-t distribution with {
+          DEGREES_OF_FREEDOM
+        } degrees of freedom rather than a bell curve, so big misses are rarer than small ones but far from impossible.
+        Shares are then rescaled to add up to 100%.
+      </li>
+      <li>
+        <strong>Runoff.</strong> The top two meet in the second round. Their starting point is the recency-weighted average
+        of their head-to-head polls, plus an error of {RUNOFF_ERROR_STANDARD_DEVIATION} points (standard deviation). That
+        error is {RUNOFF_CORRELATION_WITH_LE_PEN * 100}% correlated with how far {favourite.candidate} beat or missed her first-round
+        polls in the same run: if the polls underestimate her once, they probably do it twice.
+      </li>
+      <li>
+        <strong>Untested duels.</strong> A pairing with fewer than {MINIMUM_RUNOFF_POLLS} runoff polls has no reliable starting
+        point, so runs that reach it are dropped and the probabilities are computed on the rest ({
+          formatProbability(forecast.droppedShare)
+        } of runs today).
+      </li>
+    </ol>
+    <p>A few things the model does not do, and that you should keep in mind:</p>
+    <ul>
+      <li>
+        French polls use quota samples, so their published margins of error have no strict statistical basis. The error
+        sizes above are my assumptions, not values computed from sample sizes.
+      </li>
+      <li>
+        Dropping untested duels slightly favours {favourite.candidate}: the runs that disappear are mostly ones where she
+        misses the runoff.
+      </li>
+      <li>There is no correction for pollster house effects, and the model assumes she will be on the ballot.</li>
+    </ul>
+  </article>
+</Layout>
+
+<style>
+  .meta {
+    opacity: 0.6;
+    margin-top: -0.5rem;
+  }
+
+  h2 {
+    margin-top: 2.5rem;
+  }
+
+  li {
+    margin-bottom: 0.5rem;
+  }
+</style>
