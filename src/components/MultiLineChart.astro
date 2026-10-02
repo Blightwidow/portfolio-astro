@@ -1,8 +1,8 @@
 ---
 interface Series {
   label: string;
-  /** Values in 0-1, one per date. Every series shares the same dates. */
-  points: { date: string; value: number }[];
+  /** Values in 0-1, one per date. Every series shares the same dates. `low`/`high` draw a shaded band. */
+  points: { date: string; value: number; low?: number; high?: number }[];
 }
 
 interface Props {
@@ -46,6 +46,13 @@ const plotted = series.map((entry, index) => ({
   ...entry,
   colorClass: entry.label === "Others" ? "series-other" : `series-${index + 1}`,
   path: entry.points.map((point) => `${toX(point.date)},${toY(point.value)}`).join(" "),
+  // Upper edge left to right, then lower edge back, closing into one band.
+  band: entry.points.every((point) => point.low !== undefined && point.high !== undefined)
+    ? [
+        ...entry.points.map((point) => `${toX(point.date)},${toY(point.high ?? point.value)}`),
+        ...entry.points.toReversed().map((point) => `${toX(point.date)},${toY(point.low ?? point.value)}`),
+      ].join(" ")
+    : undefined,
   last: entry.points.at(-1),
 }));
 
@@ -62,7 +69,14 @@ endLabels.forEach((entry, index) => {
 const hoverData = JSON.stringify({
   dates: dates.map(formatDay),
   xs: dates.map(toX),
-  series: plotted.map((entry) => ({ label: entry.label, values: entry.points.map((point) => formatPercent(point.value)) })),
+  series: plotted.map((entry) => ({
+    label: entry.label,
+    values: entry.points.map((point) =>
+      point.low !== undefined && point.high !== undefined
+        ? `${formatPercent(point.value)} (${formatPercent(point.low)} to ${formatPercent(point.high)})`
+        : formatPercent(point.value),
+    ),
+  })),
 });
 const latest = plotted.map((entry) => `${entry.label} ${formatPercent(entry.last?.value ?? 0)}`).join(", ");
 ---
@@ -113,6 +127,7 @@ const latest = plotted.map((entry) => `${entry.label} ${formatPercent(entry.last
           </>
         )
       }
+      {plotted.map((entry) => entry.band && <polygon class:list={["band", entry.colorClass]} points={entry.band} />)}
       {plotted.map((entry) => <polyline class:list={["line", entry.colorClass]} points={entry.path} />)}
       {
         endLabels.map((entry) => (
@@ -126,29 +141,6 @@ const latest = plotted.map((entry) => `${entry.label} ${formatPercent(entry.last
     <div class="tooltip" hidden></div>
   </div>
   {caption && <p class="caption">{caption}</p>}
-  <details>
-    <summary>Show the numbers</summary>
-    <table>
-      <thead>
-        <tr>
-          <th scope="col">Date</th>
-          {plotted.map((entry) => <th scope="col">{entry.label}</th>)}
-        </tr>
-      </thead>
-      <tbody>
-        {
-          dates.map((date, dateIndex) => (
-            <tr>
-              <th scope="row">{formatDay(date)}</th>
-              {plotted.map((entry) => (
-                <td>{formatPercent(entry.points[dateIndex]?.value ?? 0)}</td>
-              ))}
-            </tr>
-          ))
-        }
-      </tbody>
-    </table>
-  </details>
 </figure>
 
 <script>
@@ -289,6 +281,23 @@ const latest = plotted.map((entry) => `${entry.label} ${formatPercent(entry.last
     stroke: var(--series-3);
   }
 
+  .band {
+    stroke: none;
+    fill-opacity: 0.15;
+  }
+
+  .band.series-1 {
+    fill: var(--series-1);
+  }
+
+  .band.series-2 {
+    fill: var(--series-2);
+  }
+
+  .band.series-3 {
+    fill: var(--series-3);
+  }
+
   .line.series-other {
     stroke: var(--series-other);
     stroke-dasharray: 4 3;
@@ -356,31 +365,5 @@ const latest = plotted.map((entry) => `${entry.label} ${formatPercent(entry.last
     opacity: 0.7;
     font-size: 0.85em;
     margin: 0.5rem 0 0;
-  }
-
-  details {
-    margin-top: 0.75rem;
-    font-size: 0.85em;
-  }
-
-  summary {
-    cursor: pointer;
-  }
-
-  table {
-    border-collapse: collapse;
-    margin-top: 0.5rem;
-    font-variant-numeric: tabular-nums;
-  }
-
-  th,
-  td {
-    padding: 0.15rem 0.75rem 0.15rem 0;
-    text-align: right;
-  }
-
-  th[scope="row"],
-  thead th:first-child {
-    text-align: left;
   }
 </style>

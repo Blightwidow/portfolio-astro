@@ -73,6 +73,19 @@ async function fetchPolls() {
   );
 }
 
+const SENSITIVITY_GRID = SENSITIVITY_RUNOFF_ERRORS.flatMap((runoffErrorStandardDeviation) =>
+  SENSITIVITY_OVERSTATEMENTS.map((lePenRunoffBias) => ({
+    runoffErrorStandardDeviation,
+    lePenRunoffBias,
+  })),
+);
+/** The band only needs to be about right, so its eleven extra runs per day use fewer simulations. */
+const BAND_SIMULATIONS = 50_000;
+
+/**
+ * Win probability per candidate on every poll date, with a low-high band spanning the same
+ * sensitivity grid as the headline range, so the chart and the text agree on what "uncertain" means.
+ */
 function buildHistory(
   firstRound: FirstRoundRow[],
   secondRound: SecondRoundRow[],
@@ -84,14 +97,27 @@ function buildHistory(
   const dates = [...new Set([...pollDates, asOf])].sort();
   const history: HistoryPoint[] = [];
   for (const date of dates) {
-    const result = simulate(firstRound, secondRound, { asOf: date });
-    if (result.droppedShare > MAXIMUM_DROPPED_SHARE) continue;
-    const winProbabilities = Object.fromEntries(
-      result.candidates
-        .filter((candidate) => candidate.winProbability > 0)
-        .map((candidate) => [candidate.candidate, roundProbability(candidate.winProbability)]),
+    const central = simulate(firstRound, secondRound, { asOf: date });
+    if (central.droppedShare > MAXIMUM_DROPPED_SHARE) continue;
+    const alternatives = SENSITIVITY_GRID.map((settings) =>
+      simulate(firstRound, secondRound, { asOf: date, ...settings, simulations: BAND_SIMULATIONS }),
     );
-    history.push({ date, winProbabilities });
+    const candidates: HistoryPoint["candidates"] = {};
+    for (const candidate of central.candidates) {
+      const probabilities = [
+        candidate,
+        ...alternatives.map((result) =>
+          result.candidates.find((entry) => entry.candidate === candidate.candidate),
+        ),
+      ].map((entry) => entry?.winProbability ?? 0);
+      if (Math.max(...probabilities) === 0) continue;
+      candidates[candidate.candidate] = {
+        winProbability: roundProbability(candidate.winProbability),
+        low: roundProbability(Math.min(...probabilities)),
+        high: roundProbability(Math.max(...probabilities)),
+      };
+    }
+    history.push({ date, candidates });
   }
   return history;
 }

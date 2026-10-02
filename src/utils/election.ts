@@ -42,7 +42,8 @@ export interface SensitivityCell {
 
 export interface HistoryPoint {
   date: string;
-  winProbabilities: Record<string, number>;
+  /** Central win probability, and its lowest and highest value across the sensitivity grid. */
+  candidates: Record<string, { winProbability: number; low: number; high: number }>;
 }
 
 export const forecast = forecastData as ElectionForecast;
@@ -67,7 +68,8 @@ export function getSensitivityRange(): { low: number; high: number } {
 
 export interface HistorySeries {
   label: string;
-  points: { date: string; value: number }[];
+  /** `low` and `high` bound the uncertainty band; "Others" has none, since summed bounds would overstate it. */
+  points: { date: string; value: number; low?: number; high?: number }[];
 }
 
 /**
@@ -77,8 +79,8 @@ export interface HistorySeries {
 export function getHistorySeries(namedCount = 3): HistorySeries[] {
   const peaks = new Map<string, number>();
   for (const point of forecast.history) {
-    for (const [candidate, probability] of Object.entries(point.winProbabilities)) {
-      peaks.set(candidate, Math.max(peaks.get(candidate) ?? 0, probability));
+    for (const [candidate, entry] of Object.entries(point.candidates)) {
+      peaks.set(candidate, Math.max(peaks.get(candidate) ?? 0, entry.winProbability));
     }
   }
   const named = [...peaks.entries()]
@@ -88,16 +90,21 @@ export function getHistorySeries(namedCount = 3): HistorySeries[] {
 
   const series = named.map((candidate) => ({
     label: candidate,
-    points: forecast.history.map((point) => ({
-      date: point.date,
-      value: point.winProbabilities[candidate] ?? 0,
-    })),
+    points: forecast.history.map((point) => {
+      const entry = point.candidates[candidate];
+      return {
+        date: point.date,
+        value: entry?.winProbability ?? 0,
+        low: entry?.low ?? 0,
+        high: entry?.high ?? 0,
+      };
+    }),
   }));
   const others = forecast.history.map((point) => ({
     date: point.date,
-    value: Object.entries(point.winProbabilities)
+    value: Object.entries(point.candidates)
       .filter(([candidate]) => !named.includes(candidate))
-      .reduce((sum, [, probability]) => sum + probability, 0),
+      .reduce((sum, [, entry]) => sum + entry.winProbability, 0),
   }));
   return others.some((point) => point.value > 0)
     ? [...series, { label: "Others", points: others }]
