@@ -7,11 +7,13 @@
     "start": "astro dev",
     "build": "astro check & bun lint & wait && astro build && pagefind --site dist",
     "preview": "serve dist/",
-    "lint": "oxlint --type-aware src/**/*.{js,mjs,cjs,ts,mts,cts,jsx,tsx,astro}",
-    "format": "oxfmt --check src/**/*.{js,mjs,cjs,ts,mts,cts,jsx,tsx,astro}",
+    "lint": "oxlint --type-aware src/**/*.{js,mjs,cjs,ts,mts,cts,jsx,tsx,astro} scripts/election-2027/*.ts",
+    "format": "oxfmt --check src/**/*.{js,mjs,cjs,ts,mts,cts,jsx,tsx,astro} scripts/election-2027/*.ts",
     "astro": "astro",
     "generate-photo-metadata": "node scripts/generate-photo-metadata.js",
-    "rename-photos-sequential": "node scripts/rename-photos-sequential.js"
+    "rename-photos-sequential": "node scripts/rename-photos-sequential.js",
+    "test": "bun test scripts",
+    "election:update": "bun scripts/election-2027/update.ts"
   },
   "dependencies": {
     "@astrojs/check": "0.9.10",
@@ -29,6 +31,7 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.39.2",
+    "@types/bun": "^1.4.2",
     "@types/eslint-plugin-jsx-a11y": "^6",
     "@typescript-eslint/parser": "^8.35.0",
     "eslint-plugin-astro": "^1.5.0",
@@ -37,6 +40,7 @@
     "globals": "^17.0.0",
     "jiti": "^2.6.1",
     "netlify-plugin-cache": "^1.0.3",
+    "node-html-parser": "^9.0.4",
     "oxfmt": "^0.24.0",
     "oxlint": "^1.39.0",
     "oxlint-tsgolint": "^0.11.1",
