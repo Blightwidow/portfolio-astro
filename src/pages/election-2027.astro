@@ -1,4 +1,6 @@
 ---
+import { Picture } from "astro:assets";
+import lePenPortrait from "../images/election-2027/le-pen.jpg";
 import MultiLineChart from "../components/MultiLineChart.astro";
 import Layout from "../layouts/Layout.astro";
 import {
@@ -14,12 +16,22 @@ import {
 import { formatDate } from "../utils/date";
 import { forecast, formatProbability, getFavourite, getHistorySeries, getSensitivityRange } from "../utils/election";
 
+/** Shown beside the current favourite; a favourite without a portrait gets the text alone. */
+const PORTRAITS: Record<string, { image: ImageMetadata; credit: string; sourceUrl: string }> = {
+  "Le Pen": {
+    image: lePenPortrait,
+    credit: "Vox España, CC0",
+    sourceUrl: "https://commons.wikimedia.org/wiki/File:Marine_Le_Pen_2025_(3x4_cropped).jpg",
+  },
+};
+
 /** The first round has no official date yet; April is all that is known. */
 const FIRST_ROUND_MONTH = "2027-04-01";
 const asOf = new Date(forecast.asOf);
 const monthsToGo = Math.round((Date.parse(FIRST_ROUND_MONTH) - asOf.getTime()) / (30.44 * 86_400_000));
 
 const favourite = getFavourite();
+const portrait = PORTRAITS[favourite.candidate];
 const challenger = forecast.candidates[1];
 const likeliestDuel = forecast.duels[0];
 const likeliestOpponent = likeliestDuel?.candidates.find((candidate) => candidate !== favourite.candidate);
@@ -69,6 +81,24 @@ const exampleRange = Math.round(
     </p>
 
     <h2>Where things stand</h2>
+    <div class:list={["standing", { "with-portrait": portrait }]}>
+    {
+      portrait && (
+        <figure class="portrait">
+          <Picture
+            src={portrait.image}
+            formats={["webp"]}
+            widths={[240, 480]}
+            sizes="(min-width: 550px) 14rem, 100vw"
+            alt={`Portrait of ${favourite.candidate}`}
+          />
+          <figcaption>
+            Photo: <a href={portrait.sourceUrl}>{portrait.credit}</a>
+          </figcaption>
+        </figure>
+      )
+    }
+    <div class="standing-text">
     <p>
       {favourite.candidate} wins in <strong>{formatProbability(favourite.winProbability)}</strong> of the simulated
       elections. Her first-round score is centred on {favourite.firstRoundMean}% and lands between {
@@ -86,6 +116,8 @@ const exampleRange = Math.round(
         >{formatProbability(range.low)} to {formatProbability(range.high)}</strong
       >: a clear favourite, but nowhere near a done deal.
     </p>
+    </div>
+    </div>
 
     <MultiLineChart
       title="Chance of winning, by date"
@@ -94,7 +126,7 @@ const exampleRange = Math.round(
       annotation={{ date: ELIGIBILITY_DATE, label: "Le Pen confirmed" }}
       caption={`Each point reruns the model with only the polls published by that day. The line starts on ${
         firstPoint ? formatDate(new Date(firstPoint.date)) : "the first usable day"
-      }, once enough runoff polls existed to model her likely duels. "Others" adds up every remaining candidate.`}
+      }, once enough runoff polls existed to model her likely duels. The shaded areas span the same alternative assumptions as the confidence band above. "Others" adds up every remaining candidate.`}
     />
 
     <h2>Methodology and math</h2>
@@ -160,5 +192,47 @@ const exampleRange = Math.round(
 
   li {
     margin-bottom: 0.5rem;
+  }
+
+  .standing {
+    margin-bottom: 2rem;
+  }
+
+  .portrait {
+    margin: 0 0 1rem;
+    max-width: 14rem;
+  }
+
+  /* Overrides the 3rem margin global.css gives article images. */
+  .portrait img {
+    margin: 0;
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 3 / 4;
+    object-fit: cover;
+  }
+
+  .portrait figcaption {
+    opacity: 0.6;
+    font-size: 0.75em;
+    margin-top: 0.35rem;
+  }
+
+  .standing-text > p:first-child {
+    margin-top: 0;
+  }
+
+  @media (min-width: 550px) {
+    .standing.with-portrait {
+      display: grid;
+      grid-template-columns: 1fr 2fr;
+      gap: 1.5rem;
+      align-items: start;
+    }
+
+    .portrait {
+      max-width: none;
+    }
   }
 </style>
