@@ -12,7 +12,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - **Generate photo metadata**: `bun run generate-photo-metadata` (expects `rNNN-fFF.jpg` filenames; seeds `date` from the roll's `shotFrom`)
 - **Rename photos sequentially**: `bun run rename-photos-sequential`
 - **Tests**: `bun test scripts`
-- **Refresh election forecast**: `bun run election:update` (fetches Wikipedia polls, reruns the model, ~20s; `--offline` reuses stored polls, `--as-of YYYY-MM-DD` pins the run date)
+- **Refresh election forecast**: `bun run election:update` (fetches Wikipedia polls, reruns the model, ~50s; `--offline` reuses stored polls, `--as-of YYYY-MM-DD` pins the run date)
 
 Always run `bun run lint` and `bun run build` to verify changes.
 
@@ -63,7 +63,7 @@ Redirects: `/blog` -> `/blog/1` (in `astro.config.mjs`). `public/_redirects` map
 
 ### 2027 election forecast
 
-`scripts/election-2027/` is a TypeScript port of a Monte Carlo model (keep it TypeScript, no Python): `parse-polls.ts` reads the Wikipedia poll tables (rowspan/colspan grid, French dates) with `node-html-parser`, `simulate.ts` runs the model with a seeded generator (`random.ts`, seed 2027) so output is reproducible, and `update.ts` writes `src/data/election-2027/`. Raw polls (`polls-*.json`) are committed so the model reruns offline; `forecast.json` is all the page reads. Its `history` reruns the model as of every poll date since 2026-07-08 (Le Pen's candidacy confirmed), skipping days where over 25% of runs hit an untested runoff pairing. Nothing runs at build time: refresh, review the diff, commit. Page text derives every number from the data.
+`scripts/election-2027/` is a TypeScript port of a Monte Carlo model (keep it TypeScript, no Python): `parse-polls.ts` reads the Wikipedia poll tables (rowspan/colspan grid, French dates) with `node-html-parser`, `simulate.ts` runs the model with a seeded generator (`random.ts`, seed 2027) so output is reproducible, and `update.ts` writes `src/data/election-2027/`. Raw polls (`polls-*.json`) are committed so the model reruns offline; `forecast.json` is all the page reads. Its `history` reruns the model as of every poll date since 2026-07-08 (Le Pen's candidacy confirmed), skipping days where over 25% of runs hit an untested runoff pairing; each day also carries a low-high band from the 12-setting sensitivity grid (the chart's shaded areas). The portrait beside the odds comes from `PORTRAITS` in the page (Wikimedia Commons, credited); a new favourite without one gets text only. Nothing runs at build time: refresh, review the diff, commit. Page text derives every number from the data.
 
 ### Print
 
