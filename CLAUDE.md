@@ -11,6 +11,8 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - **Preview built site**: `bun run preview` (serves `dist/`)
 - **Generate photo metadata**: `bun run generate-photo-metadata` (expects `rNNN-fFF.jpg` filenames; seeds `date` from the roll's `shotFrom`)
 - **Rename photos sequentially**: `bun run rename-photos-sequential`
+- **Tests**: `bun test scripts`
+- **Refresh election forecast**: `bun run election:update` (fetches Wikipedia polls, reruns the model, ~50s; `--offline` reuses stored polls, `--as-of YYYY-MM-DD` pins the run date)
 
 Always run `bun run lint` and `bun run build` to verify changes.
 
@@ -49,6 +51,7 @@ Defined in `src/content.config.ts` using Astro's glob loader:
 - `src/pages/photography/photo/[id].astro` - Individual photo page
 - `src/pages/photography/stats.astro` - Frames-per-month line chart plus camera and film stock counts, all derived from the `rolls` collection. The chart buckets a roll by `shotMonth` (or the month of `shotFrom`) and states how many frames sit on undated rolls instead of hiding them.
 - `src/pages/photography/roll/[roll].astro` - Every published frame of one roll, in frame order
+- `src/pages/election-2027.astro` - Poll-based forecast of the 2027 French presidential election (see below)
 - `src/pages/rss.xml.js` - RSS feed
 
 Redirects: `/blog` -> `/blog/1` (in `astro.config.mjs`). `public/_redirects` maps the 102 pre-roll photo URLs (`/photography/photo/20250822`) onto their `rNNN-fFF` equivalents.
@@ -57,6 +60,10 @@ Redirects: `/blog` -> `/blog/1` (in `astro.config.mjs`). `public/_redirects` map
 
 - **Search**: Pagefind indexes blog posts and photo pages at build time (`data-pagefind-body` marks indexable regions, `data-pagefind-ignore` excludes noise). UI on `/search` via the Pagefind Default UI, loaded from `/pagefind/` (built site only).
 - **OG images**: photo pages emit the photo itself (resized via `getImage`) through the `ogImage` prop on `Layout`/`PhotoLayout` into `BaseHead`. Blog posts have no OG image (text-only `summary` card).
+
+### 2027 election forecast
+
+`scripts/election-2027/` is a TypeScript port of a Monte Carlo model (keep it TypeScript, no Python): `parse-polls.ts` reads the Wikipedia poll tables (rowspan/colspan grid, French dates) with `node-html-parser`, `simulate.ts` runs the model with a seeded generator (`random.ts`, seed 2027) so output is reproducible, and `update.ts` writes `src/data/election-2027/`. Raw polls (`polls-*.json`) are committed so the model reruns offline; `forecast.json` is all the page reads. Its `history` reruns the model as of every poll date since 2026-07-08 (Le Pen's candidacy confirmed), skipping days where over 25% of runs hit an untested runoff pairing; each day also carries a low-high band from the 12-setting sensitivity grid (the chart's shaded areas). The portrait beside the odds comes from `PORTRAITS` in the page (Wikimedia Commons, credited); a new favourite without one gets text only. Nothing runs at build time: refresh, review the diff, commit. Page text derives every number from the data. The page deliberately departs from the site look (editorial "Bulletin" layout: Newsreader + Public Sans, warm newsprint palette, 70rem measure); it overrides `--foreground-rgb`/`--background-rgb` and the header/footer width via `:root:has(.bulletin)`, so it only applies there.
 
 ### Print
 

@@ -1,0 +1,417 @@
+---
+interface Series {
+  label: string;
+  /** Values in 0-1, one per date. Every series shares the same dates. `low`/`high` draw a shaded band. */
+  points: { date: string; value: number; low?: number; high?: number }[];
+}
+
+interface Props {
+  title: string;
+  /** At most three named series keep their colours apart for colour-blind readers; a series called "Others" is drawn grey. */
+  series: Series[];
+  /** ISO date the x axis starts at, which can be earlier than the first point. */
+  startDate: string;
+  annotation?: { date: string; label: string };
+  caption?: string;
+}
+
+const { title, series, startDate, annotation, caption } = Astro.props;
+
+const CHART = { width: 800, height: 312, top: 16, right: 110, bottom: 24, left: 48 };
+const plotWidth = CHART.width - CHART.left - CHART.right;
+const plotHeight = CHART.height - CHART.top - CHART.bottom;
+const baseline = CHART.top + plotHeight;
+const LABEL_SPACING = 14;
+const GRID_VALUES = [0, 0.25, 0.5, 0.75, 1];
+
+const dates = series[0]?.points.map((point) => point.date) ?? [];
+const startTime = Date.parse(startDate);
+const endTime = Date.parse(dates.at(-1) ?? startDate);
+const toX = (date: string) => CHART.left + ((Date.parse(date) - startTime) / Math.max(endTime - startTime, 1)) * plotWidth;
+const toY = (value: number) => baseline - value * plotHeight;
+const formatPercent = (value: number) => (value > 0 && value < 0.01 ? "<1%" : `${Math.round(value * 100)}%`);
+const formatDay = (date: string) =>
+  new Date(date).toLocaleDateString("en-GB", { day: "numeric", month: "short", timeZone: "UTC" });
+
+const monthTicks: { x: number; label: string }[] = [];
+for (let month = new Date(startTime); month.getTime() <= endTime; month.setUTCMonth(month.getUTCMonth() + 1, 1)) {
+  if (month.getUTCDate() !== 1) continue;
+  const iso = month.toISOString().slice(0, 10);
+  monthTicks.push({ x: toX(iso), label: month.toLocaleDateString("en-US", { month: "short", timeZone: "UTC" }) });
+}
+// The first tick sits on the start date even when that is mid-month.
+if (monthTicks[0]?.x !== CHART.left) monthTicks.unshift({ x: CHART.left, label: formatDay(startDate) });
+
+const plotted = series.map((entry, index) => ({
+  ...entry,
+  colorClass: entry.label === "Others" ? "series-other" : `series-${index + 1}`,
+  path: entry.points.map((point) => `${toX(point.date)},${toY(point.value)}`).join(" "),
+  // Upper edge left to right, then lower edge back, closing into one band.
+  band: entry.points.every((point) => point.low !== undefined && point.high !== undefined)
+    ? [
+        ...entry.points.map((point) => `${toX(point.date)},${toY(point.high ?? point.value)}`),
+        ...entry.points.toReversed().map((point) => `${toX(point.date)},${toY(point.low ?? point.value)}`),
+      ].join(" ")
+    : undefined,
+  last: entry.points.at(-1),
+}));
+
+// End labels near zero would overlap, so push each one up until it clears the label below it.
+const endLabels = plotted
+  .map((entry) => ({ label: entry.label, colorClass: entry.colorClass, value: entry.last?.value ?? 0 }))
+  .map((entry) => ({ ...entry, y: toY(entry.value) }))
+  .sort((left, right) => right.y - left.y);
+endLabels.forEach((entry, index) => {
+  const below = endLabels[index - 1];
+  if (below && below.y - entry.y < LABEL_SPACING) entry.y = below.y - LABEL_SPACING;
+});
+
+const hoverData = JSON.stringify({
+  dates: dates.map(formatDay),
+  xs: dates.map(toX),
+  series: plotted.map((entry) => ({
+    label: entry.label,
+    values: entry.points.map((point) =>
+      point.low !== undefined && point.high !== undefined
+        ? `${formatPercent(point.value)} (${formatPercent(point.low)} to ${formatPercent(point.high)})`
+        : formatPercent(point.value),
+    ),
+  })),
+});
+const latest = plotted.map((entry) => `${entry.label} ${formatPercent(entry.last?.value ?? 0)}`).join(", ");
+---
+
+<figure class="chart" data-chart={hoverData}>
+  <div class="chart-header">
+    <figcaption class="title">{title}</figcaption>
+    <ul class="legend">
+      {
+        plotted.map((entry) => (
+          <li>
+            <span class:list={["swatch", entry.colorClass]} aria-hidden="true" />
+            {entry.label}
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+  <div class="plot">
+    <svg
+      viewBox={`0 0 ${CHART.width} ${CHART.height}`}
+      role="img"
+      aria-label={`${title}, from ${formatDay(startDate)} to ${formatDay(dates.at(-1) ?? startDate)}. Latest: ${latest}.`}
+      preserveAspectRatio="xMidYMid meet"
+    >
+      {
+        GRID_VALUES.map((value) => (
+          <>
+            <line class:list={["grid", { axis: value === 0 }]} x1={CHART.left} y1={toY(value)} x2={CHART.left + plotWidth} y2={toY(value)} />
+            <text class="tick" x={CHART.left - 8} y={toY(value) + 3}>
+              {value * 100}%
+            </text>
+          </>
+        ))
+      }
+      {
+        monthTicks.map((tick) => (
+          <text class="tick month" x={tick.x} y={baseline + 16}>
+            {tick.label}
+          </text>
+        ))
+      }
+      {
+        annotation && (
+          <>
+            <line class="annotation" x1={toX(annotation.date)} y1={CHART.top} x2={toX(annotation.date)} y2={baseline} />
+            <text class="annotation-label" x={toX(annotation.date) + 6} y={CHART.top + plotHeight / 2}>
+              {annotation.label}
+            </text>
+          </>
+        )
+      }
+      {plotted.map((entry) => entry.band && <polygon class:list={["band", entry.colorClass]} points={entry.band} />)}
+      {plotted.map((entry) => <polyline class:list={["line", entry.colorClass]} points={entry.path} />)}
+      {
+        plotted.map(
+          (entry) =>
+            entry.last &&
+            entry.colorClass !== "series-other" && (
+              <circle class:list={["end-dot", entry.colorClass]} cx={toX(entry.last.date)} cy={toY(entry.last.value)} r="4.5" />
+            ),
+        )
+      }
+      {
+        endLabels.map((entry) => (
+          <text class="end-label" x={CHART.left + plotWidth + 6} y={entry.y + 3}>
+            {entry.label} {formatPercent(entry.value)}
+          </text>
+        ))
+      }
+      <line class="crosshair" x1="0" y1={CHART.top} x2="0" y2={baseline} visibility="hidden" />
+    </svg>
+    <div class="tooltip" hidden></div>
+  </div>
+  {caption && <p class="caption">{caption}</p>}
+</figure>
+
+<script>
+  interface HoverData {
+    dates: string[];
+    xs: number[];
+    series: { label: string; values: string[] }[];
+  }
+
+  document.querySelectorAll<HTMLElement>("figure[data-chart]").forEach((figure) => {
+    const data = JSON.parse(figure.dataset.chart ?? "{}") as HoverData;
+    const svg = figure.querySelector("svg");
+    const crosshair = figure.querySelector(".crosshair");
+    const tooltip = figure.querySelector<HTMLElement>(".tooltip");
+    if (!svg || !crosshair || !tooltip) return;
+
+    const hide = () => {
+      tooltip.hidden = true;
+      crosshair.setAttribute("visibility", "hidden");
+    };
+
+    svg.addEventListener("pointermove", (event) => {
+      const point = new DOMPoint(event.clientX, event.clientY).matrixTransform(svg.getScreenCTM()?.inverse());
+      let nearest = 0;
+      data.xs.forEach((x, index) => {
+        if (Math.abs(x - point.x) < Math.abs((data.xs[nearest] ?? 0) - point.x)) nearest = index;
+      });
+      const x = data.xs[nearest] ?? 0;
+      crosshair.setAttribute("x1", String(x));
+      crosshair.setAttribute("x2", String(x));
+      crosshair.setAttribute("visibility", "visible");
+
+      const heading = document.createElement("strong");
+      heading.textContent = data.dates[nearest] ?? "";
+      const rows = data.series.map((entry) => {
+        const row = document.createElement("span");
+        row.textContent = `${entry.label} ${entry.values[nearest] ?? ""}`;
+        return row;
+      });
+      tooltip.replaceChildren(heading, ...rows);
+      tooltip.hidden = false;
+      const viewBoxWidth = svg.viewBox.baseVal.width;
+      const ratio = x / viewBoxWidth;
+      tooltip.style.left = `${ratio * 100}%`;
+      tooltip.style.transform = ratio > 0.6 ? "translateX(calc(-100% - 8px))" : "translateX(8px)";
+    });
+    svg.addEventListener("pointerleave", hide);
+  });
+</script>
+
+<style>
+  .chart {
+    margin: 0 0 2rem;
+    --series-1: #2a78d6;
+    --series-2: #eb6834;
+    --series-3: #1baf7a;
+    --series-other: rgba(var(--foreground-rgb), 0.45);
+  }
+
+  @media (prefers-color-scheme: dark) {
+    .chart {
+      --series-1: #3987e5;
+      --series-2: #d95926;
+      --series-3: #199e70;
+    }
+  }
+
+  .chart-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    flex-wrap: wrap;
+    gap: 0.5rem 1.5rem;
+    padding-bottom: 0.5rem;
+    margin-bottom: 1.25rem;
+    border-bottom: 1px solid rgba(var(--foreground-rgb), 0.18);
+  }
+
+  .title {
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.25rem 1rem;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    font-size: 0.85em;
+  }
+
+  .legend li {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+  }
+
+  .swatch {
+    width: 1.1rem;
+    height: 3px;
+    background: currentColor;
+  }
+
+  .swatch.series-1 {
+    background: var(--series-1);
+  }
+
+  .swatch.series-2 {
+    background: var(--series-2);
+  }
+
+  .swatch.series-3 {
+    background: var(--series-3);
+  }
+
+  .swatch.series-other {
+    background: var(--series-other);
+  }
+
+  .plot {
+    position: relative;
+  }
+
+  svg {
+    width: 100%;
+    height: auto;
+    overflow: visible;
+    touch-action: pan-y;
+  }
+
+  .line {
+    fill: none;
+    stroke-width: 2.5;
+    stroke-linejoin: round;
+    stroke-linecap: round;
+  }
+
+  .line.series-1 {
+    stroke: var(--series-1);
+  }
+
+  .line.series-2 {
+    stroke: var(--series-2);
+  }
+
+  .line.series-3 {
+    stroke: var(--series-3);
+  }
+
+  .band {
+    stroke: none;
+    fill-opacity: 0.16;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    .band {
+      fill-opacity: 0.22;
+    }
+  }
+
+  .end-dot.series-1 {
+    fill: var(--series-1);
+  }
+
+  .end-dot.series-2 {
+    fill: var(--series-2);
+  }
+
+  .end-dot.series-3 {
+    fill: var(--series-3);
+  }
+
+  .band.series-1 {
+    fill: var(--series-1);
+  }
+
+  .band.series-2 {
+    fill: var(--series-2);
+  }
+
+  .band.series-3 {
+    fill: var(--series-3);
+  }
+
+  .line.series-other {
+    stroke: var(--series-other);
+    stroke-dasharray: 4 3;
+  }
+
+  .grid {
+    stroke: rgba(var(--foreground-rgb), 0.15);
+    stroke-width: 1;
+  }
+
+  .grid.axis {
+    stroke: rgba(var(--foreground-rgb), 0.4);
+  }
+
+  .tick,
+  .end-label,
+  .annotation-label {
+    fill: rgba(var(--foreground-rgb), 0.7);
+    font-size: 11px;
+    font-family: inherit;
+  }
+
+  .annotation-label {
+    font-style: italic;
+  }
+
+  .tick {
+    text-anchor: end;
+  }
+
+  .tick.month {
+    text-anchor: start;
+  }
+
+  .end-label {
+    fill: rgb(var(--foreground-rgb));
+    font-size: 12px;
+  }
+
+  .annotation,
+  .crosshair {
+    stroke: rgba(var(--foreground-rgb), 0.4);
+    stroke-width: 1;
+    stroke-dasharray: 2 3;
+  }
+
+  .crosshair {
+    stroke-dasharray: none;
+  }
+
+  .tooltip {
+    position: absolute;
+    top: 0;
+    display: flex;
+    flex-direction: column;
+    padding: 0.4rem 0.6rem;
+    font-size: 0.8em;
+    line-height: 1.4;
+    background: rgb(var(--background-rgb));
+    border: 1px solid rgba(var(--foreground-rgb), 0.3);
+    pointer-events: none;
+    white-space: nowrap;
+  }
+
+  .tooltip[hidden] {
+    display: none;
+  }
+
+  .caption {
+    opacity: 0.7;
+    font-size: 0.85em;
+    max-width: 72ch;
+    margin: 1rem 0 0;
+  }
+</style>
