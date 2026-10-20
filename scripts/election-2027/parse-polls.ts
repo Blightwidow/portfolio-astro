@@ -198,6 +198,8 @@ export function parseFirstRound(
       seenCells.add(cell);
       if (EMPTY_CELLS.has(text)) continue;
       const columnLabel = names?.[columnIndex] ?? `col${columnIndex}`;
+      // Blank votes are not cast for anyone and don't count in the official first-round shares.
+      if (columnLabel.toLowerCase().startsWith("vote blanc")) continue;
 
       if (columnLabel.toLowerCase().startsWith("autre")) {
         for (const [, valueText = "", candidate = ""] of text.matchAll(OTHER_CANDIDATES_PATTERN)) {

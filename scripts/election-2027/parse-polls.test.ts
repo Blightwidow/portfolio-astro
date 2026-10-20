@@ -93,6 +93,16 @@ describe("parsePolls", () => {
     expect(firstRound.map((row) => row.candidate)).toEqual(["Le Pen", "Mélenchon", "Darmanin"]);
   });
 
+  test("skips a blank-vote column", () => {
+    const withBlankVote = parsePolls(`
+      <h2>Sondages premier tour</h2><h3>2026</h3>
+      <table>
+        <tr><th>Sondeur</th><th>Date</th><th>Échantillon</th><th>Le Pen (RN)</th><th>Mélenchon (LFI)</th><th>Vote blanc</th></tr>
+        <tr><td>Ifop</td><td>11 septembre</td><td>1 548</td><td>34</td><td>16</td><td>6</td></tr>
+      </table>`);
+    expect(withBlankVote.firstRound.map((row) => row.candidate)).toEqual(["Le Pen", "Mélenchon"]);
+  });
+
   test("normalises pollster aliases", () => {
     expect(firstRound[0]?.pollster).toBe("Harris");
   });
