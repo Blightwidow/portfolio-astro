@@ -1,65 +1,65 @@
 {
-  "asOf": "2026-10-20",
-  "waveCount": 29,
-  "scenarioCount": 124,
-  "droppedShare": 0.0058,
+  "asOf": "2026-10-27",
+  "waveCount": 34,
+  "scenarioCount": 145,
+  "droppedShare": 0.0053,
   "candidates": [
     {
       "candidate": "Le Pen",
       "party": "RN",
-      "firstRoundMean": 34.5,
+      "firstRoundMean": 34.4,
       "firstRoundLow": 27.3,
-      "firstRoundHigh": 41.7,
+      "firstRoundHigh": 41.6,
       "shareOfScenariosRunning": 1,
       "qualifyProbability": 1,
-      "winProbability": 0.9435,
-      "winProbabilityLowError": 0.9489,
-      "winProbabilityHighError": 0.9413
+      "winProbability": 0.9595,
+      "winProbabilityLowError": 0.9668,
+      "winProbabilityHighError": 0.9565
     },
     {
       "candidate": "Philippe",
       "party": "HOR",
-      "firstRoundMean": 15.8,
-      "firstRoundLow": 8.7,
-      "firstRoundHigh": 23.3,
-      "shareOfScenariosRunning": 0.689,
-      "qualifyProbability": 0.2832,
-      "winProbability": 0.042,
-      "winProbabilityLowError": 0.0408,
-      "winProbabilityHighError": 0.0411
+      "firstRoundMean": 15.2,
+      "firstRoundLow": 8.4,
+      "firstRoundHigh": 22.6,
+      "shareOfScenariosRunning": 0.717,
+      "qualifyProbability": 0.2485,
+      "winProbability": 0.0294,
+      "winProbabilityLowError": 0.026,
+      "winProbabilityHighError": 0.0299
     },
     {
       "candidate": "Glucksmann",
       "party": "PP",
-      "firstRoundMean": 12.1,
-      "firstRoundLow": 6.1,
+      "firstRoundMean": 12.5,
+      "firstRoundLow": 6.6,
       "firstRoundHigh": 18.6,
-      "shareOfScenariosRunning": 0.801,
-      "qualifyProbability": 0.1132,
-      "winProbability": 0.0094,
-      "winProbabilityLowError": 0.0071,
-      "winProbabilityHighError": 0.0108
+      "shareOfScenariosRunning": 0.832,
+      "qualifyProbability": 0.1268,
+      "winProbability": 0.0077,
+      "winProbabilityLowError": 0.005,
+      "winProbabilityHighError": 0.0091
     },
     {
       "candidate": "Attal",
       "party": "RE",
-      "firstRoundMean": 9.6,
-      "firstRoundLow": 3.4,
-      "firstRoundHigh": 17.3,
-      "shareOfScenariosRunning": 0.597,
-      "qualifyProbability": 0.0473,
-      "winProbability": 0.0038,
-      "winProbabilityLowError": 0.0022,
-      "winProbabilityHighError": 0.005
+      "firstRoundMean": 8.7,
+      "firstRoundLow": 2.5,
+      "firstRoundHigh": 16.7,
+      "shareOfScenariosRunning": 0.608,
+      "qualifyProbability": 0.0356,
+      "winProbability": 0.0022,
+      "winProbabilityLowError": 0.0012,
+      "winProbabilityHighError": 0.0029
     },
     {
       "candidate": "Mélenchon",
       "party": "LFI",
-      "firstRoundMean": 16.6,
-      "firstRoundLow": 10.7,
-      "firstRoundHigh": 22.7,
+      "firstRoundMean": 16.7,
+      "firstRoundLow": 10.9,
+      "firstRoundHigh": 22.8,
       "shareOfScenariosRunning": 1,
-      "qualifyProbability": 0.5427,
+      "qualifyProbability": 0.5781,
       "winProbability": 0.0007,
       "winProbabilityLowError": 0.0008,
       "winProbabilityHighError": 0.0006
@@ -67,34 +67,34 @@
     {
       "candidate": "Retailleau",
       "party": "LR",
-      "firstRoundMean": 7.9,
-      "firstRoundLow": 3.3,
-      "firstRoundHigh": 13.2,
-      "shareOfScenariosRunning": 0.96,
-      "qualifyProbability": 0.0128,
-      "winProbability": 0.0006,
+      "firstRoundMean": 7.7,
+      "firstRoundLow": 3,
+      "firstRoundHigh": 12.9,
+      "shareOfScenariosRunning": 0.965,
+      "qualifyProbability": 0.0103,
+      "winProbability": 0.0004,
       "winProbabilityLowError": 0.0002,
-      "winProbabilityHighError": 0.0011
+      "winProbabilityHighError": 0.001
     },
     {
       "candidate": "Hollande",
       "party": "PS",
-      "firstRoundMean": 7.5,
-      "firstRoundLow": 3,
-      "firstRoundHigh": 12,
-      "shareOfScenariosRunning": 0.126,
-      "qualifyProbability": 0.0007,
-      "winProbability": 0.0001,
+      "firstRoundMean": 7.4,
+      "firstRoundLow": 3.1,
+      "firstRoundHigh": 12.1,
+      "shareOfScenariosRunning": 0.116,
+      "qualifyProbability": 0.0006,
+      "winProbability": 0,
       "winProbabilityLowError": 0,
-      "winProbabilityHighError": 0.0002
+      "winProbabilityHighError": 0.0001
     },
     {
       "candidate": "Lisnard",
       "party": "NF",
-      "firstRoundMean": 5.1,
-      "firstRoundLow": 0.6,
-      "firstRoundHigh": 14.8,
-      "shareOfScenariosRunning": 0.168,
+      "firstRoundMean": 5.9,
+      "firstRoundLow": 1.2,
+      "firstRoundHigh": 11.2,
+      "shareOfScenariosRunning": 0.249,
       "qualifyProbability": 0,
       "winProbability": 0,
       "winProbabilityLowError": 0,
@@ -103,10 +103,10 @@
     {
       "candidate": "Zemmour",
       "party": "REC",
-      "firstRoundMean": 3.9,
-      "firstRoundLow": 0.7,
-      "firstRoundHigh": 7.3,
-      "shareOfScenariosRunning": 0.989,
+      "firstRoundMean": 4,
+      "firstRoundLow": 0.8,
+      "firstRoundHigh": 7.4,
+      "shareOfScenariosRunning": 0.992,
       "qualifyProbability": 0,
       "winProbability": 0,
       "winProbabilityLowError": 0,
@@ -115,9 +115,9 @@
     {
       "candidate": "Tondelier",
       "party": "LE",
-      "firstRoundMean": 3.4,
-      "firstRoundLow": 0.3,
-      "firstRoundHigh": 7.1,
+      "firstRoundMean": 3.1,
+      "firstRoundLow": 0.1,
+      "firstRoundHigh": 6.7,
       "shareOfScenariosRunning": 0.953,
       "qualifyProbability": 0,
       "winProbability": 0,
@@ -127,10 +127,10 @@
     {
       "candidate": "Ruffin",
       "party": "D!",
-      "firstRoundMean": 2.9,
+      "firstRoundMean": 2.6,
       "firstRoundLow": 0,
-      "firstRoundHigh": 6.5,
-      "shareOfScenariosRunning": 0.069,
+      "firstRoundHigh": 6.2,
+      "shareOfScenariosRunning": 0.063,
       "qualifyProbability": 0,
       "winProbability": 0,
       "winProbabilityLowError": 0,
@@ -139,22 +139,10 @@
     {
       "candidate": "Villepin",
       "party": "LFH",
-      "firstRoundMean": 2.5,
+      "firstRoundMean": 2.3,
       "firstRoundLow": 0,
-      "firstRoundHigh": 5.5,
-      "shareOfScenariosRunning": 0.118,
-      "qualifyProbability": 0,
-      "winProbability": 0,
-      "winProbabilityLowError": 0,
-      "winProbabilityHighError": 0
-    },
-    {
-      "candidate": "Roussel",
-      "party": "PCF",
-      "firstRoundMean": 2.4,
-      "firstRoundLow": 0,
-      "firstRoundHigh": 5,
-      "shareOfScenariosRunning": 0.991,
+      "firstRoundHigh": 5.3,
+      "shareOfScenariosRunning": 0.113,
       "qualifyProbability": 0,
       "winProbability": 0,
       "winProbabilityLowError": 0,
@@ -165,8 +153,20 @@
       "party": "DLF",
       "firstRoundMean": 2.2,
       "firstRoundLow": 0,
+      "firstRoundHigh": 4.7,
+      "shareOfScenariosRunning": 0.952,
+      "qualifyProbability": 0,
+      "winProbability": 0,
+      "winProbabilityLowError": 0,
+      "winProbabilityHighError": 0
+    },
+    {
+      "candidate": "Roussel",
+      "party": "PCF",
+      "firstRoundMean": 2.2,
+      "firstRoundLow": 0,
       "firstRoundHigh": 4.8,
-      "shareOfScenariosRunning": 0.932,
+      "shareOfScenariosRunning": 0.98,
       "qualifyProbability": 0,
       "winProbability": 0,
       "winProbabilityLowError": 0,
@@ -177,8 +177,20 @@
       "party": "LO",
       "firstRoundMean": 0.9,
       "firstRoundLow": 0,
-      "firstRoundHigh": 2.4,
-      "shareOfScenariosRunning": 0.902,
+      "firstRoundHigh": 2.3,
+      "shareOfScenariosRunning": 0.925,
+      "qualifyProbability": 0,
+      "winProbability": 0,
+      "winProbabilityLowError": 0,
+      "winProbabilityHighError": 0
+    },
+    {
+      "candidate": "Bouamrane",
+      "party": "",
+      "firstRoundMean": 0.7,
+      "firstRoundLow": 0,
+      "firstRoundHigh": 1.8,
+      "shareOfScenariosRunning": 0.093,
       "qualifyProbability": 0,
       "winProbability": 0,
       "winProbabilityLowError": 0,
@@ -191,110 +203,110 @@
         "Le Pen",
         "Mélenchon"
       ],
-      "probability": 0.5427,
-      "firstCandidateWinProbability": 0.9988
+      "probability": 0.5781,
+      "firstCandidateWinProbability": 0.9989
     },
     {
       "candidates": [
         "Le Pen",
         "Philippe"
       ],
-      "probability": 0.2832,
-      "firstCandidateWinProbability": 0.8516
+      "probability": 0.2485,
+      "firstCandidateWinProbability": 0.8817
     },
     {
       "candidates": [
         "Glucksmann",
         "Le Pen"
       ],
-      "probability": 0.1132,
-      "firstCandidateWinProbability": 0.083
+      "probability": 0.1268,
+      "firstCandidateWinProbability": 0.0608
     },
     {
       "candidates": [
         "Attal",
         "Le Pen"
       ],
-      "probability": 0.0473,
-      "firstCandidateWinProbability": 0.0799
+      "probability": 0.0356,
+      "firstCandidateWinProbability": 0.0619
     },
     {
       "candidates": [
         "Le Pen",
         "Retailleau"
       ],
-      "probability": 0.0128,
-      "firstCandidateWinProbability": 0.9537
+      "probability": 0.0103,
+      "firstCandidateWinProbability": 0.9567
     },
     {
       "candidates": [
         "Hollande",
         "Le Pen"
       ],
-      "probability": 0.0007,
-      "firstCandidateWinProbability": 0.0863
+      "probability": 0.0006,
+      "firstCandidateWinProbability": 0.0769
     }
   ],
   "sensitivity": [
     {
       "runoffErrorStandardDeviation": 3,
       "lePenPollOverstatement": 0,
-      "lePenWinProbability": 0.9762
+      "lePenWinProbability": 0.9855
     },
     {
       "runoffErrorStandardDeviation": 3,
       "lePenPollOverstatement": 2,
-      "lePenWinProbability": 0.9247
+      "lePenWinProbability": 0.9525
     },
     {
       "runoffErrorStandardDeviation": 3,
       "lePenPollOverstatement": 4,
-      "lePenWinProbability": 0.8164
+      "lePenWinProbability": 0.8711
     },
     {
       "runoffErrorStandardDeviation": 4.5,
       "lePenPollOverstatement": 0,
-      "lePenWinProbability": 0.9435
+      "lePenWinProbability": 0.9595
     },
     {
       "runoffErrorStandardDeviation": 4.5,
       "lePenPollOverstatement": 2,
-      "lePenWinProbability": 0.8851
+      "lePenWinProbability": 0.9158
     },
     {
       "runoffErrorStandardDeviation": 4.5,
       "lePenPollOverstatement": 4,
-      "lePenWinProbability": 0.8013
+      "lePenWinProbability": 0.8455
     },
     {
       "runoffErrorStandardDeviation": 6,
       "lePenPollOverstatement": 0,
-      "lePenWinProbability": 0.9124
+      "lePenWinProbability": 0.9325
     },
     {
       "runoffErrorStandardDeviation": 6,
       "lePenPollOverstatement": 2,
-      "lePenWinProbability": 0.8575
+      "lePenWinProbability": 0.888
     },
     {
       "runoffErrorStandardDeviation": 6,
       "lePenPollOverstatement": 4,
-      "lePenWinProbability": 0.7891
+      "lePenWinProbability": 0.8273
     },
     {
       "runoffErrorStandardDeviation": 8,
       "lePenPollOverstatement": 0,
-      "lePenWinProbability": 0.8786
+      "lePenWinProbability": 0.9002
     },
     {
       "runoffErrorStandardDeviation": 8,
       "lePenPollOverstatement": 2,
-      "lePenWinProbability": 0.8288
+      "lePenWinProbability": 0.8571
     },
     {
       "runoffErrorStandardDeviation": 8,
       "lePenPollOverstatement": 4,
-      "lePenWinProbability": 0.7708
+      "lePenWinProbability": 0.8044
     }
   ],
   "history": [
@@ -1014,42 +1026,162 @@
       }
     },
     {
-      "date": "2026-10-20",
+      "date": "2026-10-19",
       "candidates": {
         "Attal": {
-          "winProbability": 0.0038,
-          "low": 0.001,
-          "high": 0.0183
+          "winProbability": 0.0028,
+          "low": 0.0008,
+          "high": 0.0156
         },
         "Glucksmann": {
-          "winProbability": 0.0094,
+          "winProbability": 0.0092,
           "low": 0.0029,
-          "high": 0.0456
+          "high": 0.0475
         },
         "Hollande": {
-          "winProbability": 0.0001,
+          "winProbability": 0,
           "low": 0,
-          "high": 0.0004
+          "high": 0.0003
         },
         "Le Pen": {
-          "winProbability": 0.9435,
-          "low": 0.7744,
-          "high": 0.9769
+          "winProbability": 0.9494,
+          "low": 0.7825,
+          "high": 0.9801
+        },
+        "Mélenchon": {
+          "winProbability": 0.0006,
+          "low": 0.0001,
+          "high": 0.0198
+        },
+        "Philippe": {
+          "winProbability": 0.0376,
+          "low": 0.016,
+          "high": 0.1302
+        },
+        "Retailleau": {
+          "winProbability": 0.0005,
+          "low": 0.0001,
+          "high": 0.0041
+        }
+      }
+    },
+    {
+      "date": "2026-10-21",
+      "candidates": {
+        "Attal": {
+          "winProbability": 0.0027,
+          "low": 0.0006,
+          "high": 0.0157
+        },
+        "Glucksmann": {
+          "winProbability": 0.0073,
+          "low": 0.0022,
+          "high": 0.0431
+        },
+        "Hollande": {
+          "winProbability": 0,
+          "low": 0,
+          "high": 0.0001
+        },
+        "Le Pen": {
+          "winProbability": 0.9555,
+          "low": 0.7949,
+          "high": 0.9839
+        },
+        "Mélenchon": {
+          "winProbability": 0.0006,
+          "low": 0.0001,
+          "high": 0.0184
+        },
+        "Philippe": {
+          "winProbability": 0.0334,
+          "low": 0.0131,
+          "high": 0.1244
+        },
+        "Retailleau": {
+          "winProbability": 0.0005,
+          "low": 0.0001,
+          "high": 0.0034
+        }
+      }
+    },
+    {
+      "date": "2026-10-22",
+      "candidates": {
+        "Attal": {
+          "winProbability": 0.0022,
+          "low": 0.0005,
+          "high": 0.0129
+        },
+        "Glucksmann": {
+          "winProbability": 0.0077,
+          "low": 0.0021,
+          "high": 0.0462
+        },
+        "Hollande": {
+          "winProbability": 0,
+          "low": 0,
+          "high": 0.0002
+        },
+        "Le Pen": {
+          "winProbability": 0.9595,
+          "low": 0.8059,
+          "high": 0.9863
         },
         "Mélenchon": {
           "winProbability": 0.0007,
           "low": 0.0001,
-          "high": 0.0202
+          "high": 0.0191
         },
         "Philippe": {
-          "winProbability": 0.042,
-          "low": 0.0189,
-          "high": 0.1375
+          "winProbability": 0.0294,
+          "low": 0.0108,
+          "high": 0.1122
         },
         "Retailleau": {
-          "winProbability": 0.0006,
+          "winProbability": 0.0004,
           "low": 0.0001,
-          "high": 0.0037
+          "high": 0.0035
+        }
+      }
+    },
+    {
+      "date": "2026-10-27",
+      "candidates": {
+        "Attal": {
+          "winProbability": 0.0022,
+          "low": 0.0005,
+          "high": 0.0129
+        },
+        "Glucksmann": {
+          "winProbability": 0.0077,
+          "low": 0.0021,
+          "high": 0.0462
+        },
+        "Hollande": {
+          "winProbability": 0,
+          "low": 0,
+          "high": 0.0002
+        },
+        "Le Pen": {
+          "winProbability": 0.9595,
+          "low": 0.8059,
+          "high": 0.9863
+        },
+        "Mélenchon": {
+          "winProbability": 0.0007,
+          "low": 0.0001,
+          "high": 0.0191
+        },
+        "Philippe": {
+          "winProbability": 0.0294,
+          "low": 0.0108,
+          "high": 0.1122
+        },
+        "Retailleau": {
+          "winProbability": 0.0004,
+          "low": 0.0001,
+          "high": 0.0035
         }
       }
     }
