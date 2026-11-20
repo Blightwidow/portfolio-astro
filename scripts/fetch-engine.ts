@@ -1,4 +1,4 @@
-#!/usr/bin/env node
+#!/usr/bin/env bun
 
 /**
  * Downloads the browser build of the Oxid chess engine into `public/chess/`.
@@ -10,15 +10,13 @@
  * release on every clean checkout.
  */
 
-import { createHash } from "crypto";
-import { execFileSync } from "child_process";
-import { copyFile, mkdir, readdir, readFile, rm, stat, writeFile } from "fs/promises";
-import { tmpdir } from "os";
-import { dirname, join } from "path";
-import { fileURLToPath } from "url";
+import { createHash } from "node:crypto";
+import { execFileSync } from "node:child_process";
+import { copyFile, mkdir, readdir, readFile, rm, stat, writeFile } from "node:fs/promises";
+import { tmpdir } from "node:os";
+import { join } from "node:path";
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
+const __dirname = import.meta.dirname;
 
 const ENGINE_REPOSITORY = "Blightwidow/oxide-chess-engine";
 const ENGINE_VERSION = "v2.0.0";
@@ -28,9 +26,9 @@ const ASSET_NAME = "oxide-wasm.tar.gz";
  * SHA-256 of the pinned asset, so a mutated release cannot slip into a build
  * unnoticed. Set to `undefined` only while bootstrapping a new version: the
  * script then prints the hash it saw and asks for it to be pinned here.
- * @type {string | undefined}
  */
-const ASSET_SHA256 = "8aa0f7e9a2f77a2a912273001a49a00cd7224efed3f5e4807c38c842060bd9f0";
+const ASSET_SHA256: string | undefined =
+  "8aa0f7e9a2f77a2a912273001a49a00cd7224efed3f5e4807c38c842060bd9f0";
 
 const OUTPUT_DIRECTORY = join(__dirname, "..", "public", "chess");
 /**
@@ -54,18 +52,16 @@ const DOWNLOAD_URL = `https://github.com/${ENGINE_REPOSITORY}/releases/download/
 /**
  * Identifies the artifact currently on disk. Includes the hash so that
  * re-pinning a version that was re-uploaded still triggers a fresh download.
- * @returns {string}
  */
-function releaseMarker() {
+function releaseMarker(): string {
   return `${ENGINE_VERSION} ${ASSET_SHA256 ?? "unpinned"}\n`;
 }
 
 /**
  * True when `public/chess/` already holds exactly the release we want.
- * @returns {Promise<boolean>}
  */
-async function alreadyDownloaded() {
-  let marker;
+async function alreadyDownloaded(): Promise<boolean> {
+  let marker: string;
 
   try {
     marker = await readFile(RELEASE_MARKER_PATH, "utf8");
@@ -78,7 +74,7 @@ async function alreadyDownloaded() {
   }
 
   const presentFiles = await readdir(OUTPUT_DIRECTORY);
-  const glueFiles = await readdir(GLUE_DIRECTORY).catch(() => []);
+  const glueFiles = await readdir(GLUE_DIRECTORY).catch((): string[] => []);
 
   return (
     presentFiles.includes("oxid_bg.wasm") &&
@@ -88,15 +84,16 @@ async function alreadyDownloaded() {
 }
 
 /**
- * @returns {Promise<Buffer>} the release asset
  */
-async function downloadAsset() {
-  let response;
+async function downloadAsset(): Promise<Buffer> {
+  let response: Response;
 
   try {
     response = await fetch(DOWNLOAD_URL);
   } catch (error) {
-    throw new Error(`could not reach ${DOWNLOAD_URL}: ${error.message}`);
+    throw new Error(
+      `could not reach ${DOWNLOAD_URL}: ${error instanceof Error ? error.message : String(error)}`,
+    );
   }
 
   if (!response.ok) {
@@ -111,29 +108,25 @@ async function downloadAsset() {
 }
 
 /**
- * @param {Buffer} asset
- * @returns {string} lowercase hex digest
  */
-function hashAsset(asset) {
+function hashAsset(asset: Buffer): string {
   return createHash("sha256").update(asset).digest("hex");
 }
 
-/**
- * @param {string} digest
- */
-function verifyAsset(digest) {
-  if (ASSET_SHA256 === undefined) {
+/** Throws unless `digest` equals the pin; only warns while bootstrapping an unpinned version. */
+export function verifyAsset(digest: string, pinnedDigest: string | undefined): void {
+  if (pinnedDigest === undefined) {
     console.warn(
-      `warning: ${ASSET_NAME} is not pinned. Set ASSET_SHA256 in scripts/fetch-engine.js to:\n` +
+      `warning: ${ASSET_NAME} is not pinned. Set ASSET_SHA256 in scripts/fetch-engine.ts to:\n` +
         `  ${digest}`,
     );
     return;
   }
 
-  if (digest !== ASSET_SHA256) {
+  if (digest !== pinnedDigest) {
     throw new Error(
       `${ASSET_NAME} does not match its pinned hash.\n` +
-        `  expected ${ASSET_SHA256}\n` +
+        `  expected ${pinnedDigest}\n` +
         `  received ${digest}\n` +
         `Either the release was re-uploaded, or the download was tampered with. ` +
         `Confirm the release is what you expect before updating the pin.`,
@@ -145,9 +138,8 @@ function verifyAsset(digest) {
  * Unpacks the asset into `public/chess/`, replacing whatever was there. The
  * tarball is packed from the engine's `pkg/` directory, so its entries land at
  * the root: `oxid.js`, `oxid_bg.wasm` and `nets/<promoted-net>.nnue`.
- * @param {Buffer} asset
  */
-async function extractAsset(asset) {
+async function extractAsset(asset: Buffer): Promise<void> {
   const archivePath = join(tmpdir(), `${ENGINE_VERSION}-${ASSET_NAME}`);
 
   await writeFile(archivePath, asset);
@@ -165,9 +157,8 @@ async function extractAsset(asset) {
  * The page loads three things: the JavaScript glue, the WebAssembly module and
  * the NNUE net, which is fetched separately rather than embedded. A release
  * missing any of them would only fail once someone opened the board.
- * @returns {Promise<string>} the name of the NNUE net that shipped
  */
-async function verifyExtractedFiles() {
+async function verifyExtractedFiles(): Promise<string> {
   const presentFiles = await readdir(OUTPUT_DIRECTORY);
   const missingFiles = REQUIRED_FILES.filter(
     (requiredFile) => !presentFiles.includes(requiredFile),
@@ -191,7 +182,7 @@ async function verifyExtractedFiles() {
     );
   }
 
-  return nets[0];
+  return nets[0] as string;
 }
 
 /**
@@ -202,9 +193,8 @@ async function verifyExtractedFiles() {
  * `netBytes` is the size on disk. Netlify serves the net compressed, so a
  * progress bar built from `Content-Length` would measure compressed bytes
  * against decompressed ones and finish at roughly half a download.
- * @param {string} net
  */
-async function writeManifest(net) {
+async function writeManifest(net: string): Promise<void> {
   const { size } = await stat(join(OUTPUT_DIRECTORY, "nets", net));
   const manifest = { version: ENGINE_VERSION, net: `nets/${net}`, netBytes: size };
 
@@ -216,13 +206,13 @@ async function writeManifest(net) {
  * net stay under `public/`: those are fetched at runtime, and the net is large
  * enough that bundling it would be actively wrong.
  */
-async function installGlue() {
+async function installGlue(): Promise<void> {
   await mkdir(GLUE_DIRECTORY, { recursive: true });
   await copyFile(join(OUTPUT_DIRECTORY, GLUE_FILE), join(GLUE_DIRECTORY, GLUE_FILE));
   await rm(join(OUTPUT_DIRECTORY, GLUE_FILE));
 }
 
-async function fetchEngine() {
+async function fetchEngine(): Promise<void> {
   if (await alreadyDownloaded()) {
     console.log(`Engine ${ENGINE_VERSION} already in public/chess/`);
     return;
@@ -233,7 +223,7 @@ async function fetchEngine() {
   const asset = await downloadAsset();
   const digest = hashAsset(asset);
 
-  verifyAsset(digest);
+  verifyAsset(digest, ASSET_SHA256);
   await extractAsset(asset);
 
   const net = await verifyExtractedFiles();
@@ -245,7 +235,9 @@ async function fetchEngine() {
   console.log(`Engine ${ENGINE_VERSION} extracted to public/chess/`);
 }
 
-fetchEngine().catch((error) => {
-  console.error(`fetch-engine: ${error.message}`);
-  process.exit(1);
-});
+if (import.meta.main) {
+  fetchEngine().catch((error: unknown) => {
+    console.error(`fetch-engine: ${error instanceof Error ? error.message : String(error)}`);
+    process.exit(1);
+  });
+}

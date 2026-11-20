@@ -1,0 +1,10 @@
+# oxfmt reads this file. Only code is formatted: prose, data and styles are hand-maintained.
+*.md
+*.mdx
+*.json
+*.yaml
+*.yml
+*.css
+*.html
+*.toml
+src/generated/

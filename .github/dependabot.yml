@@ -1,0 +1,16 @@
+version: 2
+updates:
+  - package-ecosystem: bun
+    directory: /
+    schedule:
+      interval: weekly
+    open-pull-requests-limit: 5
+    groups:
+      astro:
+        patterns: ["astro", "@astrojs/*"]
+      lint-and-format:
+        patterns: ["oxlint", "oxlint-tsgolint", "oxfmt"]
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
