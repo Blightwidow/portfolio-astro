@@ -1,0 +1,36 @@
+---
+// The election forecast departs from the site look on purpose: an editorial "bulletin" with
+// Newsreader and Public Sans, a warm newsprint palette and a 70rem measure. This layout owns
+// those departures, so they apply to the pages that opt in and nothing else.
+import "@fontsource/newsreader/400.css";
+import "@fontsource/newsreader/400-italic.css";
+import "@fontsource/newsreader/600.css";
+import "@fontsource/public-sans/400.css";
+import "@fontsource/public-sans/600.css";
+
+import Layout from "./Layout.astro";
+
+type Props = Omit<Parameters<typeof Layout>[0], "htmlClass" | "constrainMain">;
+
+const props = Astro.props;
+---
+
+<Layout {...props} htmlClass="bulletin-page" constrainMain={false}>
+  <slot />
+</Layout>
+
+<style is:global>
+  html.bulletin-page {
+    --foreground-rgb: 27, 26, 23;
+    --background-rgb: 244, 241, 234;
+    /* Header and footer follow the wider measure of the page. */
+    --chrome-width: 70rem;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    html.bulletin-page {
+      --foreground-rgb: 236, 235, 228;
+      --background-rgb: 20, 20, 18;
+    }
+  }
+</style>

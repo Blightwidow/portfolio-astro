@@ -9,7 +9,7 @@ import {
   getProcessLabel,
 } from "../../../utils/photography";
 import Modal from "../../../components/Modal.astro";
-import { formatMonth, toISOMonth } from "../../../utils/date";
+import { formatMonth } from "../../../utils/date";
 import Spacer from "../../../components/Spacer.astro";
 
 
@@ -125,7 +125,7 @@ const socialImage = await getImage({
     </div>
     <Spacer units={2} />
     <div class="flex spaced">
-      <time datetime={toISOMonth(photo.data.date)}>{formatMonth(photo.data.date)}</time>
+      <time datetime={photo.data.date}>{formatMonth(photo.data.date)}</time>
       <button aria-label="Open modal" data-pagefind-ignore>Want this picture removed?</button>
     </div>
     {photo.data.description && <p>{photo.data.description}</p>}

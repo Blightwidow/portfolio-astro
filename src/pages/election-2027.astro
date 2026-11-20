@@ -1,14 +1,8 @@
 ---
-import "@fontsource/newsreader/400.css";
-import "@fontsource/newsreader/400-italic.css";
-import "@fontsource/newsreader/600.css";
-import "@fontsource/public-sans/400.css";
-import "@fontsource/public-sans/600.css";
-
 import { Picture } from "astro:assets";
 import lePenPortrait from "../images/election-2027/le-pen.jpg";
 import MultiLineChart from "../components/MultiLineChart.astro";
-import Layout from "../layouts/Layout.astro";
+import BulletinLayout from "../layouts/BulletinLayout.astro";
 import {
   CENTRAL_ERROR_SCALE,
   DEGREES_OF_FREEDOM,
@@ -70,11 +64,10 @@ const exampleRange = Math.round(
 const toPercent = (probability: number) => `${(probability * 100).toFixed(1)}%`;
 ---
 
-<Layout
+<BulletinLayout
   title="2027 election forecast - Theo Dammaretz"
   description={`A poll-based simulation of the 2027 French presidential election: ${favourite.candidate} wins in ${formatProbability(favourite.winProbability)} of runs.`}
   backLink="/"
-  constrainMain={false}
 >
   <article class="bulletin" data-pagefind-body>
     <header class="masthead">
@@ -250,27 +243,7 @@ const toPercent = (probability: number) => `${(probability * 100).toFixed(1)}%`;
       </div>
     </section>
   </article>
-</Layout>
-
-<style is:global>
-  /* This page carries its own palette and a wider measure; the site header and footer follow it. */
-  :root:has(.bulletin) {
-    --foreground-rgb: 27, 26, 23;
-    --background-rgb: 244, 241, 234;
-  }
-
-  @media (prefers-color-scheme: dark) {
-    :root:has(.bulletin) {
-      --foreground-rgb: 236, 235, 228;
-      --background-rgb: 20, 20, 18;
-    }
-  }
-
-  :root:has(.bulletin) #header,
-  :root:has(.bulletin) footer {
-    max-width: 70rem;
-  }
-</style>
+</BulletinLayout>
 
 <style>
   .bulletin {
