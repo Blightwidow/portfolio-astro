@@ -7,14 +7,15 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - **Dev server**: `bun start` (or `bun dev`)
 - **Build**: `bun run build` (runs `astro check`, lint, `astro build`, then `pagefind --site dist`)
 - **Lint**: `bun run lint` (oxlint with type-aware checking)
-- **Format check**: `bun run format` (oxfmt)
-- **Preview built site**: `bun run preview` (serves `dist/`)
-- **Generate photo metadata**: `bun run generate-photo-metadata` (expects `rNNN-fFF.jpg` filenames; seeds `date` from the roll's `shotFrom`)
+- **Format check**: `bun run format` (oxfmt; `bun run format:write` fixes. Code only, see `.prettierignore`)
+- **Preview built site**: `bun run preview` (`astro preview` on `dist/`)
+- **Generate photo metadata**: `bun run generate-photo-metadata` (expects `rNNN-fFF.jpg` filenames; seeds `date` from the roll's `shotFrom` or `shotMonth`)
 - **Rename photos sequentially**: `bun run rename-photos-sequential`
-- **Tests**: `bun test scripts`
+- **Tests**: `bun test scripts` (includes `content-integrity.test.ts`: photo filename must match its `roll`, `frame` and `image` fields)
+- **Roll mapping**: `bun run roll-mapping:hash` refreshes `scripts/roll-mapping/photo-hashes.json` after adding a photo; `bun run roll-mapping:verify` checks `Lightroom/` exports against it (same frame, one roll per folder)
 - **Refresh election forecast**: `bun run election:update` (fetches Wikipedia polls, reruns the model, ~50s; `--offline` reuses stored polls, `--as-of YYYY-MM-DD` pins the run date)
 
-Always run `bun run lint` and `bun run build` to verify changes.
+Always run `bun run format`, `bun test scripts` and `bun run build` to verify changes. `build` runs its steps sequentially and stops at the first failure; the same three run in CI (`.github/workflows/ci.yml`). All scripts are TypeScript run by bun, and are linted and type-checked with `src/`. Dependencies are pinned exactly; Dependabot proposes bumps weekly.
 
 ## Architecture
 
@@ -24,14 +25,14 @@ This is an Astro 6 (beta) static site for [dammaretz.fr](https://dammaretz.fr), 
 
 `Lightroom/` (git-ignored, ~2.5GB) holds one folder per developed roll, named `YYYYMMDD`, each containing the full strip as `rawNNNN-flickr.jpg`. That folder layout is the source of truth for **which roll a photo belongs to** and **which frame it is**: the `rNNN` roll number follows folder date order, and `fFF` is the `rawNNNN` index, i.e. the real position on the strip. Only the month of the folder name is used; the day is ignored.
 
-Roll membership was established by difference-hashing every export against every published photo rather than by guessing from tags. If photos are ever re-imported and that mapping needs rebuilding, that is the approach to repeat.
+Roll membership was established by difference-hashing every export against every published photo rather than by guessing from tags. If photos are ever re-imported and that mapping needs rebuilding, that is the approach to repeat: `scripts/roll-mapping/` keeps the difference hashes of every published photo (`photo-hashes.json`) so `roll-mapping:verify` can check a fresh export without the original files.
 
 ### Content Collections
 
 Defined in `src/content.config.ts` using Astro's glob loader:
 
 - **blog**: Markdown files in `src/content/blog/`. Schema: `title`, `subtitle`, `date`, `series?` (`{ name, order }`, nested so a post cannot declare one without the other), `tags?` (**topics**, e.g. `chess`, `environment`, `trains`). Blog tags and photo tags are **separate namespaces**: blog tags name what a post is about, photo tags name a subject or a place, and no page mixes the two.
-- **photography**: YAML files in `src/content/photography/` (each paired with a `.jpg`). Files are named `rNNN-fFF` (roll number, frame position), which is also the photo's URL: `/photography/photo/r014-f07`. Schema: `title` (short display title, used for the page title and search results), `alt` (descriptive alt text for screen readers), `description?`, `date` (**month precision only**: the day is pinned to `01` and never displayed, since film scans carry no capture date; photo pages render it via `formatMonth`), `image`, `roll` (reference to a `rolls` entry), `frame` (1-based position on the strip, scan order), `tags?` (**subject and location only**), `hideFromGallery?` (defaults to `false`; hides the photo from the main gallery but keeps it on tag pages, its own page, and in search).
+- **photography**: YAML files in `src/content/photography/` (each paired with a `.jpg`). Files are named `rNNN-fFF` (roll number, frame position), which is also the photo's URL: `/photography/photo/r014-f07`. Schema: `title` (short display title, used for the page title and search results), `alt` (descriptive alt text for screen readers), `description?`, `date` (**`"YYYY-MM"` string, quoted in YAML**: film scans carry no capture date, so no day is stored; photo pages render it via `formatMonth`), `image`, `roll` (reference to a `rolls` entry), `frame` (1-based position on the strip, scan order), `tags?` (**subject and location only**), `hideFromGallery?` (defaults to `false`; hides the photo from the main gallery but keeps it on tag pages, its own page, and in search).
 - **travel**: Markdown files in `src/content/travel/`, one per destination guide. Schema: `title`, `subtitle`, `country`, `coordinates` (`{ latitude, longitude }`), `date`, `updated?`, `photoTags?` (photography tags whose frames get pulled onto the guide; `hideFromGallery` frames are excluded, since a guide is a curated showcase rather than an exhaustive tag listing). Each guide is the **public rewrite of a private Obsidian note**, curated by hand. Nothing is synced from the vault: it holds health, tax, salary, house and named-people notes, so no automation should ever walk it.
 - **rolls**: YAML files in `src/content/rolls/` named `rNNN`. Schema: `camera`, `film`, `format` (defaults to `35mm`), `process` (e.g. `color`, `black and white`, `pushed`), `shotMonth?` (`YYYY-MM`, for rolls where only the month is remembered), `shotFrom?`, `shotTo?`, `developed?`. A roll with no date at all is deliberate: it means the real dates are unknown, and `getRollPeriod` renders "date unknown" rather than guessing. Camera, stock, format and process are roll facts and must **not** be duplicated as photo tags. Display names for cameras and stocks live in `CAMERA_LABELS` / `FILM_LABELS` in `src/utils/photography.ts`.
 
@@ -39,7 +40,7 @@ Defined in `src/content.config.ts` using Astro's glob loader:
 
 - `src/pages/index.astro` - Homepage
 - `src/pages/404.astro` - Not-found page
-- `src/pages/search.astro` - Pagefind search page (index only exists on built site)
+- `src/pages/search.astro` - Pagefind search page (index only exists on built site; the dev server shows a notice instead)
 - `src/pages/blog/[page].astro` - Paginated blog listing
 - `src/pages/blog/[slug].astro` - Individual blog post
 - `src/pages/blog/series/[series].astro` - All parts of one series, in reading order
@@ -51,6 +52,7 @@ Defined in `src/content.config.ts` using Astro's glob loader:
 - `src/pages/photography/photo/[id].astro` - Individual photo page
 - `src/pages/photography/stats.astro` - Frames-per-month line chart plus camera and film stock counts, all derived from the `rolls` collection. The chart buckets a roll by `shotMonth` (or the month of `shotFrom`) and states how many frames sit on undated rolls instead of hiding them.
 - `src/pages/photography/roll/[roll].astro` - Every published frame of one roll, in frame order
+- `src/pages/oxid.astro` - Play the Oxid chess engine in the browser (WebAssembly, downloaded by `scripts/fetch-engine.ts`)
 - `src/pages/election-2027.astro` - Poll-based forecast of the 2027 French presidential election (see below)
 - `src/pages/rss.xml.js` - RSS feed
 
@@ -63,11 +65,11 @@ Redirects: `/blog` -> `/blog/1` (in `astro.config.mjs`). `public/_redirects` map
 
 ### 2027 election forecast
 
-`scripts/election-2027/` is a TypeScript port of a Monte Carlo model (keep it TypeScript, no Python): `parse-polls.ts` reads the Wikipedia poll tables (rowspan/colspan grid, French dates) with `node-html-parser`, `simulate.ts` runs the model with a seeded generator (`random.ts`, seed 2027) so output is reproducible, and `update.ts` writes `src/data/election-2027/`. Raw polls (`polls-*.json`) are committed so the model reruns offline; `forecast.json` is all the page reads. Its `history` reruns the model as of every poll date since 2026-07-08 (Le Pen's candidacy confirmed), skipping days where over 25% of runs hit an untested runoff pairing; each day also carries a low-high band from the 12-setting sensitivity grid (the chart's shaded areas). The portrait beside the odds comes from `PORTRAITS` in the page (Wikimedia Commons, credited); a new favourite without one gets text only. Nothing runs at build time: refresh, review the diff, commit. Page text derives every number from the data. The page deliberately departs from the site look (editorial "Bulletin" layout: Newsreader + Public Sans, warm newsprint palette, 70rem measure); it overrides `--foreground-rgb`/`--background-rgb` and the header/footer width via `:root:has(.bulletin)`, so it only applies there.
+`scripts/election-2027/` is a TypeScript port of a Monte Carlo model (keep it TypeScript, no Python): `parse-polls.ts` reads the Wikipedia poll tables (rowspan/colspan grid, French dates) with `node-html-parser`, `simulate.ts` runs the model with a seeded generator (`random.ts`, seed 2027) so output is reproducible, and `update.ts` writes `src/data/election-2027/`. Raw polls (`polls-*.json`) are committed so the model reruns offline; `forecast.json` is all the page reads. Its `history` reruns the model as of every poll date since 2026-07-08 (Le Pen's candidacy confirmed), skipping days where over 25% of runs hit an untested runoff pairing; each day also carries a low-high band from the 12-setting sensitivity grid (the chart's shaded areas). The portrait beside the odds comes from `PORTRAITS` in the page (Wikimedia Commons, credited); a new favourite without one gets text only. Nothing runs at build time: refresh, review the diff, commit. Page text derives every number from the data. The page deliberately departs from the site look (editorial "Bulletin" layout: Newsreader + Public Sans, warm newsprint palette, 70rem measure); it uses its own `BulletinLayout.astro`, which sets a `bulletin-page` class on `<html>` to override `--foreground-rgb`/`--background-rgb` and `--chrome-width` (the header/footer width, default 44rem), so it only applies there.
 
 ### Print
 
-`@media print` at the end of `src/styles/global.css` is what makes a travel guide printable: it
+`src/styles/print.css`, imported only by `src/pages/travel/[slug].astro`, is what makes a travel guide printable: it
 hides the header, footer and skip link, forces the light palette regardless of
 `prefers-color-scheme`, and reveals link targets with `a[href]::after`. Google Maps and OSM links
 are collapsed to `(map link)` instead, because the real URLs run to 300 characters and would wreck
@@ -77,6 +79,7 @@ PDF identifies itself.
 ### Layouts
 
 - `Layout.astro` - Main layout (header, footer, constrained content area)
+- `BulletinLayout.astro` - Election forecast: wraps `Layout`, loads its fonts, owns the palette and 70rem chrome width
 - `PhotoLayout.astro` - Photography-specific layout (wraps `Layout`, no footer, unconstrained)
 
 ### Styling
