@@ -1,37 +1,61 @@
 ---
 import Layout from "../layouts/Layout.astro";
+
+// The Pagefind index is produced by `bun run build`, so the dev server has nothing to search.
+const isDevelopment = import.meta.env.DEV;
 ---
 
 <Layout title="Search - Theo Dammaretz" backLink="/">
   <h1>Search</h1>
   <p class="hint">Search across blog posts and photos.</p>
-  <div id="search"></div>
+  {
+    isDevelopment ? (
+      <p class="notice" role="status">
+        Search is not available in the dev server: the index is built by <code>bun run build</code>. To try it, run{" "}
+        <code>bun run build && bun run preview</code>.
+      </p>
+    ) : (
+      <div id="search" />
+    )
+  }
 </Layout>
 
-<link rel="stylesheet" href="/pagefind/pagefind-ui.css" />
-<script is:inline src="/pagefind/pagefind-ui.js"></script>
-<script is:inline>
-  window.addEventListener("DOMContentLoaded", () => {
-    if (window.PagefindUI) {
-      new window.PagefindUI({
-        element: "#search",
-        showImages: true,
-        showSubResults: true,
-        autofocus: true,
-      });
-    } else {
-      const searchElement = document.getElementById("search");
-      if (searchElement) {
-        searchElement.textContent =
-          "Search index is only available on the built site (bun run build && bun run preview).";
-      }
-    }
-  });
-</script>
+{
+  !isDevelopment && (
+    <>
+      <link rel="stylesheet" href="/pagefind/pagefind-ui.css" />
+      <script is:inline src="/pagefind/pagefind-ui.js" />
+      <script is:inline>
+        window.addEventListener("DOMContentLoaded", () => {
+          if (window.PagefindUI) {
+            new window.PagefindUI({
+              element: "#search",
+              showImages: true,
+              showSubResults: true,
+              autofocus: true,
+            });
+          } else {
+            const searchElement = document.getElementById("search");
+            if (searchElement) {
+              searchElement.setAttribute("role", "status");
+              searchElement.textContent = "Search is unavailable right now. Try again later.";
+            }
+          }
+        });
+      </script>
+    </>
+  )
+}
 
 <style>
   .hint {
     opacity: 0.6;
+  }
+
+  .notice {
+    padding: 0.75rem 1rem;
+    border: 1px solid rgba(var(--foreground-rgb), 0.3);
+    border-radius: 4px;
   }
 </style>
 

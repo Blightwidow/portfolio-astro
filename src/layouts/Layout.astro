@@ -18,6 +18,8 @@ interface Props {
   backLink?: string;
   showFooter?: boolean;
   constrainMain?: boolean;
+  /** Class on `<html>`, for layouts that override the palette or `--chrome-width`. */
+  htmlClass?: string;
 }
 
 const {
@@ -29,11 +31,12 @@ const {
   backLink,
   showFooter = true,
   constrainMain = true,
+  htmlClass,
 } = Astro.props;
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang="en" class={htmlClass}>
   <BaseHead title={title} description={description} ogType={ogType} articleDate={articleDate} ogImage={ogImage} />
   <body>
     <a href="#main-content" class="skip-link">Skip to main content</a>
