@@ -40,7 +40,7 @@
     "unpic": "4.1.2"
   },
   "devDependencies": {
-    "@types/bun": "1.4.2",
+    "@types/bun": "1.4.4",
     "netlify-plugin-cache": "1.0.3",
     "node-html-parser": "9.0.4",
     "oxfmt": "0.24.0",
