@@ -52,7 +52,8 @@ const photography = defineCollection({
       title: z.string(),
       alt: z.string(),
       description: z.string().optional(),
-      date: z.date(),
+      // Month precision, `YYYY-MM`: film scans carry no capture date, so a day would be invented.
+      date: z.string().regex(/^\d{4}-\d{2}$/),
       image: image(),
       roll: reference("rolls"),
       // Position on the strip, 1-based, in scan order.

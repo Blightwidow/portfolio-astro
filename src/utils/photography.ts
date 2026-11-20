@@ -1,5 +1,5 @@
 import { getCollection, getEntry, type DataEntryMap } from "astro:content";
-import { formatDate } from "./date";
+import { formatDate, formatMonth } from "./date";
 import sharp from "sharp";
 import path from "node:path";
 
@@ -31,8 +31,8 @@ export async function getAllPostsByDate(order: "asc" | "desc") {
     .sort((a, b) => {
       const byDate =
         order === "asc"
-          ? a.data.date.getTime() - b.data.date.getTime()
-          : b.data.date.getTime() - a.data.date.getTime();
+          ? a.data.date.localeCompare(b.data.date)
+          : b.data.date.localeCompare(a.data.date);
 
       return byDate || a.data.roll.id.localeCompare(b.data.roll.id) || a.data.frame - b.data.frame;
     })
@@ -125,14 +125,7 @@ export function getRollPeriod(
   }
 
   if (roll.shotMonth !== undefined) {
-    const [year, month] = roll.shotMonth.split("-").map(Number);
-    if (year !== undefined && month !== undefined) {
-      return new Date(Date.UTC(year, month - 1, 1)).toLocaleDateString("en-US", {
-        month: "long",
-        year: "numeric",
-        timeZone: "UTC",
-      });
-    }
+    return formatMonth(roll.shotMonth);
   }
 
   return undefined;

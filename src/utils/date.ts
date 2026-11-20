@@ -18,11 +18,11 @@ export function toISODate(date: Date): string {
   return date.toISOString().split("T")[0] ?? date.toISOString();
 }
 
-/** Month precision, for photos and rolls where the exact day is not known. */
-export function formatMonth(date: Date): string {
-  return date.toLocaleDateString("en-US", { month: "long", year: "numeric", timeZone: "UTC" });
-}
-
-export function toISOMonth(date: Date): string {
-  return date.toISOString().slice(0, 7);
+/** Month precision (`YYYY-MM`), for photos and rolls where the exact day is not known. */
+export function formatMonth(month: string): string {
+  return new Date(`${month}-01T00:00:00Z`).toLocaleDateString("en-US", {
+    month: "long",
+    year: "numeric",
+    timeZone: "UTC",
+  });
 }
