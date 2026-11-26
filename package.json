@@ -43,9 +43,9 @@
     "@types/bun": "1.4.2",
     "netlify-plugin-cache": "1.0.3",
     "node-html-parser": "9.0.4",
-    "oxfmt": "0.24.0",
-    "oxlint": "1.39.0",
-    "oxlint-tsgolint": "0.11.1",
+    "oxfmt": "0.80.0",
+    "oxlint": "1.95.0",
+    "oxlint-tsgolint": "7.0.2008",
     "pagefind": "1.5.2",
     "sharp": "0.35.4"
   },
